@@ -2,19 +2,19 @@
 
 ## Build docker image
 
-```sh
+```console
     docker buildx build ./ -t 'fiverrclone'
     docker run fiverrclone
 ```
 
 ## Install dependencies
 
-```sh
+```console
     pnpm install
 ```
 
 ## Start dev server
 
-```sh
+```console
     pnpm -r -stream dev
 ```

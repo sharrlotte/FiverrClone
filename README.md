@@ -7,6 +7,12 @@
     docker run fiverrclone
 ```
 
+## Install dependencies
+
+```sh
+    pnpm install
+```
+
 ## Start dev server
 
 ```sh

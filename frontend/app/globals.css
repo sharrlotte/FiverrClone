@@ -16,18 +16,126 @@
   }
 }
 
-body {
+main {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+}
+
+.header {
+  max-height: 1070px;
+}
+
+.main-menu {
+  display: flex;
+}
+
+.main-menu li a {
+  position: relative;
+}
+
+.main-menu li a {
+  color: #f8f8f8;
+  display: block;
+  padding: 18px 20px;
+}
+
+.main-menu ul.sub-menu {
+  position: absolute;
+  padding: 15px 0px;
+  width: 400px;
+  display: none;
+}
+
+.main-menu li:hover>ul.sub-menu {
+  display: block;
+  color: black;
+}
+
+.main-menu ul.sub-menu a {
+  padding: 8px 15px;
+  border-bottom: 1px solid;
+}
+
+.main-menu ul.sub-menu li:last-child a {
+  border: none;
+}
+
+.main-menu ul.sub-menu a img {
+  height: 80px;
+  width: 80px;
+}
+
+.main-menu ul.sub-menu a .font-design {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.backgroud {
+  background-image: url(image/fiverr.png);
+}
+
+.size-design {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.icon a img {
+  height: 100px;
+  width: 100px;
+}
+
+.nav-bar {
+  position: sticky;
+  z-index: 1000;
+  top: 0;
+  animation: stickyNav linear forwards;
+}
+
+.slick-arrow {
+  @apply absolute top-1/2 transform -translate-y-1/2;
+  @apply z-50;
+  @apply bg-white rounded-full p-4 opacity-75 hover:opacity-100;
+  @apply bg-gray-300;
+}
+
+.slick-prev {
+  @apply left-12;
+}
+
+.slick-next {
+  @apply right-20;
+}
+
+.font-black h2 {
+  position: absolute;
+
+}
+
+.font-black h1 {
+  position: absolute;
+  top: 20px;
+}
+
+.font-black .text-shadow {
+  text-shadow: black 0.1rem 0.1rem 0.2rem;
+  color: white;
+}
+
+@keyframes stickyNav {
+  100% {
+    background-color: darkgreen;
+    color: white;
+    box-shadow: 0 0 0.75 hsl(0 0% 0%/0.3);
   }
 }

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import '@/app/globals.css'
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+import { link } from "fs"
 export default function Home() {
   return (
-    <main className="max-h-full">
+    <main className="flex flex-col ">
       <div className="bg-inherit backgroud">
         <div className="container nav-bar bg-green-900">
           <nav>
@@ -142,6 +142,8 @@ export default function Home() {
           <span>PayPal</span>
         </div>
       </div>
+
+
       <div className="bg-white max-h-96 mt-28">
         <div className="pl-10">
           <h1 className="text-4xl text-black">Popular Service</h1>

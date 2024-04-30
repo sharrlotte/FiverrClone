@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -138,4 +139,20 @@ nav {
     color: white;
     box-shadow: 0 0 0.75 hsl(0 0% 0%/0.3);
   }
+}
+
+.background-login {
+  background-image: url(image/login-background.jpg);
+  height: 1000px
+}
+
+.login-from {
+  background-color: white;
+  height: 300px;
+  width: 500px;
+}
+
+.border {
+  width: 300px;
+  margin-left: 100px;
 }

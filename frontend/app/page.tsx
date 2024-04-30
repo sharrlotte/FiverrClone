@@ -1,6 +1,6 @@
 import Image from "next/image";
 import '@/app/globals.css'
-import { link } from "fs"
+
 export default function Home() {
   return (
     <main className="flex flex-col ">

@@ -2,157 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+	height: 100%;
+}
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+	:root {
+		--foreground-rgb: 255, 255, 255;
+		--background-start-rgb: 0, 0, 0;
+		--background-end-rgb: 0, 0, 0;
+	}
 }
 
 main {
-  color: rgb(var(--foreground-rgb));
+	color: rgb(var(--foreground-rgb));
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 }
 
 nav {
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
+	display: flex;
+	justify-content: space-between;
+	justify-items: center;
 }
 
 .header {
-  max-height: 1070px;
+	max-height: 1070px;
 }
 
 .main-menu {
-  display: flex;
+	display: flex;
 }
 
 .main-menu li a {
-  position: relative;
+	position: relative;
 }
 
 .main-menu li a {
-  color: #f8f8f8;
-  display: block;
-  padding: 18px 20px;
+	color: #f8f8f8;
+	display: block;
+	padding: 18px 20px;
 }
 
-.main-menu ul.sub-menu {
-  position: absolute;
-  padding: 15px 0px;
-  width: 400px;
-  display: none;
-}
-
-.main-menu li:hover>ul.sub-menu {
-  display: block;
-  color: black;
+.main-menu li:hover > ul.sub-menu {
+	display: block;
+	color: black;
 }
 
 .main-menu ul.sub-menu a {
-  padding: 8px 15px;
-  border-bottom: 1px solid;
+	padding: 8px 15px;
+	border-bottom: 1px solid;
 }
 
 .main-menu ul.sub-menu li:last-child a {
-  border: none;
+	border: none;
 }
 
 .main-menu ul.sub-menu a img {
-  height: 80px;
-  width: 80px;
+	height: 80px;
+	width: 80px;
 }
 
 .main-menu ul.sub-menu a .font-design {
-  font-size: 15px;
-  line-height: 20px;
+	font-size: 15px;
+	line-height: 20px;
 }
 
 .backgroud {
-  background-image: url(image/fiverr.png);
+	background-image: url(image/fiverr.png);
 }
 
 .size-design {
-  font-size: 18px;
-  line-height: 26px;
+	font-size: 18px;
+	line-height: 26px;
 }
 
 .icon a img {
-  height: 100px;
-  width: 100px;
+	height: 100px;
+	width: 100px;
 }
 
 .nav-bar {
-  position: sticky;
-  z-index: 1000;
-  top: 0;
-  animation: stickyNav linear forwards;
+	position: sticky;
+	z-index: 1000;
+	top: 0;
+	animation: stickyNav linear forwards;
 }
 
 .slick-arrow {
-  @apply absolute top-1/2 transform -translate-y-1/2;
-  @apply z-50;
-  @apply bg-white rounded-full p-4 opacity-75 hover:opacity-100;
-  @apply bg-gray-300;
+	@apply absolute top-1/2 transform -translate-y-1/2;
+	@apply z-50;
+	@apply bg-white rounded-full p-4 opacity-75 hover:opacity-100;
+	@apply bg-gray-300;
 }
 
 .slick-prev {
-  @apply left-12;
+	@apply left-12;
 }
 
 .slick-next {
-  @apply right-20;
+	@apply right-20;
 }
 
 .font-black h2 {
-  position: absolute;
-
+	position: absolute;
 }
 
 .font-black h1 {
-  position: absolute;
-  top: 20px;
+	position: absolute;
+	top: 20px;
 }
 
 .font-black .text-shadow {
-  text-shadow: black 0.1rem 0.1rem 0.2rem;
-  color: white;
+	text-shadow: black 0.1rem 0.1rem 0.2rem;
+	color: white;
 }
 
 @keyframes stickyNav {
-  100% {
-    background-color: darkgreen;
-    color: white;
-    box-shadow: 0 0 0.75 hsl(0 0% 0%/0.3);
-  }
+	100% {
+		background-color: darkgreen;
+		color: white;
+		box-shadow: 0 0 0.75 hsl(0 0% 0%/0.3);
+	}
 }
-
-.background-login {
-  background-image: url(image/login-background.jpg);
-  height: 1000px
-}
-
 .login-from {
-  background-color: white;
-  height: 300px;
-  width: 500px;
+	background-color: white;
+	height: 300px;
+	width: 500px;
 }
 
 .border {
-  width: 300px;
-  margin-left: 100px;
+	width: 300px;
+	margin-left: 100px;
 }

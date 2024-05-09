@@ -9,8 +9,9 @@ export default function Page() {
 				<div className='mt-32 login-from relative'>
 					<h1 className='font-black mt-10 text-center'>Đăng Nhập</h1>
 					<div className='text-white flex gap-10 flex-col mt-5'>
-						<div className='flex flex-row gap-4 rounded-full border-sky-950 justify-items-center bg-sky-400'>
+						<div className='rounded-full border-sky-950 justify-items-center bg-sky-400'>
 							<Image
+								className='inline-block'
 								src='/image/facebook-icon.ico'
 								alt='icon facebook'
 								height={20}

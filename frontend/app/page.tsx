@@ -20,8 +20,8 @@ const images: Post[] = [
 
 export default function Home() {
 	return (
-		<main className='flex flex-col '>
-			<div className='bg-inherit backgroud'>
+		<main className='flex flex-col'>
+			<div className='bg-inherit'>
 				<div className='container nav-bar bg-green-900'>
 					<Nav />
 				</div>
@@ -54,7 +54,7 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className='bg-white max-h-96 mt-28'>
+			<div className='bg-green-900 max-h-96 mt-28'>
 				<div className='pl-10'>
 					<h1 className='text-4xl text-black'>Popular Service</h1>
 				</div>

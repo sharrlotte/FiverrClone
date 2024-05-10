@@ -3,7 +3,20 @@ import '@/app/globals.css';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Nav from '@/app/nav';
 
-const images = ['/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico', '/image/COC-COC.ico'];
+type Post = {
+	link: string;
+	artist: string;
+};
+
+const images: Post[] = [
+	{ link: '/image/COC-COC.ico', artist: 'Artist1' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist2' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist3' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist3' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist3' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist3' },
+	{ link: '/image/COC-COC.ico', artist: 'Artist3' },
+];
 
 export default function Home() {
 	return (
@@ -48,13 +61,13 @@ export default function Home() {
 				<div className='responsive mt-5 px-20 relative'>
 					<Carousel className='w-full'>
 						<CarouselContent>
-							{images.map((link, index) => (
+							{images.map(({ link, artist }, index) => (
 								<CarouselItem
 									key={index}
 									className='basis-1/3'
 								>
-									<h2 className='text-shadow px-2'>so 1</h2>
-									<h1 className='text-shadow px-2'>AI artists</h1>
+									<h2 className='text-shadow px-2'>so {index + 1}</h2>
+									<h1 className='text-shadow px-2'>{artist}</h1>
 									<Image
 										src={link}
 										alt='slide show'

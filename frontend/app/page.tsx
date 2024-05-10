@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import '@/app/globals.css';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+
 import Nav from '@/app/nav';
 
 type Post = {
@@ -21,8 +22,8 @@ const images: Post[] = [
 export default function Home() {
 	return (
 		<main className='flex flex-col'>
-			<div className='bg-inherit'>
-				<div className='container nav-bar bg-green-900'>
+			<div className='bg-white'>
+				<div className='container'>
 					<Nav />
 				</div>
 				<div className='mt-52 w-full pl-10 text-indigo-50'>
@@ -54,11 +55,11 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className='bg-green-900 max-h-96 mt-28'>
+			<div className='max-h-96 mt-28'>
 				<div className='pl-10'>
 					<h1 className='text-4xl text-black'>Popular Service</h1>
 				</div>
-				<div className='responsive mt-5 px-20 relative'>
+				<div className=' mt-5 px-20 relative'>
 					<Carousel className='w-full'>
 						<CarouselContent>
 							{images.map(({ link, artist }, index) => (
@@ -81,7 +82,7 @@ export default function Home() {
 				</div>
 				<div className='mt-36  bg-blue-100/50 text-black'>
 					<div className='flex flex-row max-w-full py-20'>
-						<div className='w-2/4 flex flex-col gap-4 size-design text-wrap px-32 '>
+						<div className='w-2/4 flex flex-col gap-4  text-wrap px-32 '>
 							<h1 className='font-black text-2xl'>The best part? Everything.</h1>
 							<div>
 								<h4 className='font-black'>Stick to your budget</h4>
@@ -119,7 +120,7 @@ export default function Home() {
 					</div>
 					<div className='grid grid-cols-5 px-12 relative mt-20'>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110 hover:border-l-4'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -131,11 +132,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-14'>Graphics & Design</span>
+								<span className=' pl-14'>Graphics & Design</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -147,11 +148,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-14'>Degital Marketing</span>
+								<span className=' pl-14'>Degital Marketing</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -163,11 +164,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-14'>Writting & Translation</span>
+								<span className=' pl-14'>Writting & Translation</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -179,11 +180,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-14'>Video & Animation</span>
+								<span className=' pl-14'>Video & Animation</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -195,13 +196,13 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-20'>Music & Audio</span>
+								<span className='pl-20'>Music & Audio</span>
 							</li>
 						</ul>
 					</div>
 					<div className='grid grid-cols-5 px-12 relative mt-40'>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -213,11 +214,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-14'>Program & Tech</span>
+								<span className=' pl-14'>Program & Tech</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -229,11 +230,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-24'>business</span>
+								<span className=' pl-24'>business</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -245,11 +246,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-24'>Lifestyle</span>
+								<span className=' pl-24'>Lifestyle</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -261,11 +262,11 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-24'>Data</span>
+								<span className=' pl-24'>Data</span>
 							</li>
 						</ul>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110'>
-							<li className='flex flex-col icon absolute gap-2'>
+							<li className='flex flex-col  absolute gap-2'>
 								<a
 									href=''
 									className='pl-20'
@@ -277,7 +278,7 @@ export default function Home() {
 										width={100}
 									/>
 								</a>
-								<span className='size-design pl-20'>Photography</span>
+								<span className=' pl-20'>Photography</span>
 							</li>
 						</ul>
 					</div>

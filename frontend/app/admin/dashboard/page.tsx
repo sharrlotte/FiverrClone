@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -218,8 +219,9 @@ export default function Page() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
-        <div>
-          <div>
+
+        <div className="flex w-full">
+          <div className="w-2/3">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
@@ -252,7 +254,21 @@ export default function Page() {
               </TableFooter>
             </Table>
           </div>
-          <div></div>
+          <div className="flex-col items-center space-x-4 p-6 space-y-2 ">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

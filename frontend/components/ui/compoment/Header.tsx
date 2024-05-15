@@ -11,6 +11,7 @@ import {
 } from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 function Header() {
   return (

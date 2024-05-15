@@ -18,7 +18,7 @@ function Header() {
     <div>
       <div className="flex items-center  gap-x-5 gap-y-2 p-10 ">
         <div>icons</div>
-        <form className="flex-auto w-1/2 ">
+        <div className="flex-auto w-1/2 ">
           <label
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -52,7 +52,7 @@ function Header() {
               Search
             </button>
           </div>
-        </form>
+        </div>
 
         <button>
           <svg width="23" height="19" xmlns="http://www.w3.org/2000/svg">

@@ -4,7 +4,7 @@ import '@/app/globals.css';
 
 export default function Page() {
 	return (
-		<main className='text-black bg-[url("/image/login-background.jpg")] bg-center bg-cover h-full'>
+		<main className='text-black bg-center bg-cover h-full'>
 			<div className='flex justify-center'>
 				<div className='mt-32 login-from relative'>
 					<h1 className='font-black mt-10 text-center'>Đăng Nhập</h1>

@@ -116,7 +116,7 @@ export default function Home() {
 				</div>
 				<div className='mt-36 bg-white text-black'>
 					<div>
-						<span className='text-2xl px-32 font-black'>You need it, we've got it</span>
+						<span className='text-2xl px-32 font-black'>You need it, we&aposve got it</span>
 					</div>
 					<div className='grid grid-cols-5 px-12 relative mt-20'>
 						<ul className='list-none transition ease-in-out delay-150 hover:scale-110 hover:border-l-4'>

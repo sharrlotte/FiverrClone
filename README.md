@@ -9,7 +9,7 @@ docker run fiverrclone
 
 ## Install dependencies
 
-```console
+```consolen
 pnpm install
 ```
 

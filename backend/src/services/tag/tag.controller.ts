@@ -5,7 +5,7 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
 import { ApiBody } from '@nestjs/swagger';
 
-@Controller('tag')
+@Controller('tags')
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 

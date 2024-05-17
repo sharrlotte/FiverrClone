@@ -1,21 +1,26 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
+import { UsersController } from './services/users/users.controller';
+import { UsersService } from './services/users/users.service';
 import { ConfigModule } from '@nestjs/config';
-import envSchema from 'src/config/configuration';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './services/users/users.module';
+import appConfig from './config/configuration';
+import { PrismaModule } from 'src/services/prisma/prisma.module';
+import { TagModule } from './tag/tag.module';
+import { TagModule } from './services/tag/tag.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.development.env'],
+      envFilePath: ['.env', '.development.env'],
       cache: true,
-      validationSchema: envSchema,
-      validationOptions: {
-        allowUnknown: true,
-        abortEarly: false,
-      },
+      load: [appConfig],
     }),
+    AuthModule,
+    UsersModule,
+    PrismaModule,
+    TagModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

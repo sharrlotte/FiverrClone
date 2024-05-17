@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
+<<<<<<< HEAD:frontend/app/Header.tsx
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+=======
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+>>>>>>> ca9471a674f9bf0feb27b6617f92d000d452008f:frontend/components/ui/compoment/Header.tsx
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -10,6 +14,7 @@ import {
   NavigationMenuLink,
 } from "@radix-ui/react-navigation-menu";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 function Header() {
   return (

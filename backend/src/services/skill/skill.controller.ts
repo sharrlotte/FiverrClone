@@ -3,12 +3,14 @@ import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('skill')
 export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 
   @Post()
+  @ApiBody({ type: [CreateSkillDto] })
   create(@Body() createSkillDto: CreateSkillDto) {
     return this.skillService.create(createSkillDto);
   }

@@ -3,12 +3,14 @@ import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('tag')
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Post()
+  @ApiBody({ type: [CreateTagDto] })
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagService.create(createTagDto);
   }
@@ -24,6 +26,7 @@ export class TagController {
   }
 
   @Patch(':id')
+  @ApiBody({ type: [UpdateTagDto] })
   update(@Param('id', ParseIntPipe) id: number, @Body() updateTagDto: UpdateTagDto) {
     return this.tagService.update(id, updateTagDto);
   }

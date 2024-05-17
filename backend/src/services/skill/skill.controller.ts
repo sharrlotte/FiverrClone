@@ -26,6 +26,7 @@ export class SkillController {
   }
 
   @Patch(':id')
+  @ApiBody({ type: [UpdateSkillDto] })
   update(@Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto) {
     return this.skillService.update(+id, updateSkillDto);
   }

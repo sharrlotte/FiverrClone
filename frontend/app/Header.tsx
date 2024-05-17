@@ -1,10 +1,6 @@
 "use client";
 import React from "react";
-<<<<<<< HEAD:frontend/app/Header.tsx
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-=======
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
->>>>>>> ca9471a674f9bf0feb27b6617f92d000d452008f:frontend/components/ui/compoment/Header.tsx
+
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -84,7 +80,11 @@ function Header() {
           </svg>
         </button>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage
+            className="rounded-full h-10 w-10"
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>

@@ -125,10 +125,11 @@ model Role {
 }
 
 model Tag {
-  id        Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @db.Timestamp(6)
-  PostTag   PostTag[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @db.Timestamp(6)
+  description String?
+  PostTag     PostTag[]
 }
 
 model User {

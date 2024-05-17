@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './services/users/users.module';
 import appConfig from './config/configuration';
 import { PrismaModule } from 'src/services/prisma/prisma.module';
+import { TagModule } from './tag/tag.module';
+import { TagModule } from './services/tag/tag.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { PrismaModule } from 'src/services/prisma/prisma.module';
     AuthModule,
     UsersModule,
     PrismaModule,
+    TagModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

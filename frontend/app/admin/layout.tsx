@@ -1,124 +1,65 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { link } from "fs";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { ReactNode } from "react";
 
-type Post = {
-  link: string;
+type LinkType = {
+  links: { name: string; link: string; href: string }[];
   artist: string;
   alt: string;
 };
 
-const images: Post[] = [
+const links: LinkType[] = [
   {
-    link: "/image/total.svg",
+    links: [
+      { name: "Trang chủ", link: "/image/total.svg", href: "/admin/home" },
+    ],
     alt: "home",
-    artist: "Home",
+    artist: "",
   },
   {
-    link: "/image/chart.svg",
-    alt: "chart",
-    artist: "Số Liệu",
+    links: [
+      { name: "Số Liệu", link: "/image/chart.svg", href: "/admin/chart" },
+      { name: "Người dùng", link: "/image/user.svg", href: "/admin/users" },
+    ],
+    alt: "home",
+    artist: "Quản Lý",
   },
   {
-    link: "/image/user.svg",
-    alt: "user",
-    artist: "Người dùng",
-  },
-  {
-    link: "/image/tag.svg",
-    alt: "Tag",
-    artist: "Đã Lưu",
-  },
-  {
-    link: "/image/chat.svg",
-    alt: "chat",
-    artist: "Bình luận",
+    links: [
+      { name: "Báo cáo", link: "/image/report.svg", href: "/admin/report" },
+      { name: "Bình luận", link: "/image/chat.svg", href: "/admin/comment" },
+      { name: "Bài đăng", link: "/image/post.svg", href: "/admin/post" },
+    ],
+    alt: "home",
+    artist: "Kiểm duyệt",
   },
 ];
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
-export default function Page() {
+export default function Page({ children }: { children: ReactNode }) {
   return (
     <div className="flex divide-x h-full">
       <div className="w-1/6 h-full justify-between flex flex-col space-y-20">
         <div className="">
-          <div>icons</div>
-          {images.map(({ link, alt, artist }, index) => (
-            <Button
-              variant="ghost"
-              className="w-full flex items-center justify-start gap-2 p-2"
+          <div className="items-center p-10 ">icons</div>
+          {links.map(({ links, alt, artist }, index) => (
+            <div
+              className="w-full flex justify-start gap-2 p-2 flex-col"
               key={index}
             >
-              <Image src={link} alt={alt} height={24} width={24} />
-              {artist}
-            </Button>
+              <div className="font-bold">{artist}</div>
+
+              {links.map(({ link, name, href }) => (
+                <Link href={href} className="flex gap-2 items-center">
+                  <Image src={link} alt={alt} height={24} width={24} />
+                  <div className="text-sm">{name}</div>
+                </Link>
+              ))}
+            </div>
           ))}
         </div>
         <div className="flex flex-col  gap-2 pb-4">
@@ -219,57 +160,7 @@ export default function Page() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
-
-        <div className="flex w-full">
-          <div className="w-2/3">
-            <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Invoice</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.invoice}>
-                    <TableCell className="font-medium">
-                      {invoice.invoice}
-                    </TableCell>
-                    <TableCell>{invoice.paymentStatus}</TableCell>
-                    <TableCell>{invoice.paymentMethod}</TableCell>
-                    <TableCell className="text-right">
-                      {invoice.totalAmount}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={3}>Total</TableCell>
-                  <TableCell className="text-right">$2,500.00</TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </div>
-          <div className="flex-col items-center space-x-4 p-6 space-y-2 ">
-            <Skeleton className="h-12 w-12 rounded-full" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
-            </div>
-          </div>
-        </div>
+        {children}
       </div>
     </div>
   );

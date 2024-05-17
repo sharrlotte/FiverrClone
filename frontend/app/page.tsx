@@ -1,10 +1,7 @@
 import Image from "next/image";
 import "@/app/globals.css";
-import { link } from "fs";
-import Header from "../components/ui/compoment/Header";
-import { useState } from "react";
-import Footer from "../components/ui/compoment/Footer";
-import BannerPost from "../components/ui/compoment/BannerPost";
+import Header from "./Header";
+import Footer from "./Footer";
 export default function Home() {
   return (
     <main className="flex flex-col ">

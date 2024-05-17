@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
 
 @Injectable()
 export class TagService {
@@ -11,7 +12,7 @@ export class TagService {
     return this.prisma.tag.create({ data: { ...createTagDto, createdAt: new Date() } });
   }
 
-  findAll(page: number, size: number, name: string) {
+  findAll({ name, page, size }: NamePaginationQueryDto) {
     return this.prisma.tag.findMany({ where: { name }, take: size, skip: size * page });
   }
 

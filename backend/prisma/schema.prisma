@@ -186,6 +186,8 @@ model Skill {
   id            Int           @id @default(autoincrement())
   categoryId    Int           @default(autoincrement())
   createdAt     DateTime      @db.Timestamp(6)
+  description   String
+  name          String
   SkillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

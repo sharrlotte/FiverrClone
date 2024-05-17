@@ -6,4 +6,7 @@ export class CreateSkillDto {
 
   @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  categoryId: number;
 }

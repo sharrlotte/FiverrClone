@@ -8,6 +8,7 @@ import appConfig from './config/configuration';
 import { PrismaModule } from 'src/services/prisma/prisma.module';
 import { TagModule } from './services/tag/tag.module';
 import { SkillModule } from './services/skill/skill.module';
+import { SkillCategoryModule } from './services/skill-category/skill-category.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SkillModule } from './services/skill/skill.module';
     PrismaModule,
     TagModule,
     SkillModule,
+    SkillCategoryModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

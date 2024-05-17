@@ -5,7 +5,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
 import { ApiBody } from '@nestjs/swagger';
 
-@Controller('skill')
+@Controller('skills')
 export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 

@@ -192,11 +192,11 @@ model Skill {
 }
 
 model SkillCategory {
-  id         Int      @id @default(autoincrement())
-  name       String
-  desciption String
-  createdAt  DateTime @db.Timestamp(6)
-  Skill      Skill[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @db.Timestamp(6)
+  description String
+  Skill       Skill[]
 }
 
 enum OrderStatus {

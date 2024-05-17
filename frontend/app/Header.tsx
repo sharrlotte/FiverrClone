@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -9,7 +9,6 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
 } from "@radix-ui/react-navigation-menu";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
@@ -81,7 +80,11 @@ function Header() {
           </svg>
         </button>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage
+            className="rounded-full h-10 w-10"
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>

@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { JwtPayload } from 'src/types/auth';
 
 @Injectable()
-export class AuthService {
+export class JwtAuthService {
   constructor(private jwtService: JwtService) {}
 
   login(user: User) {

@@ -1,11 +1,36 @@
-import * as Joi from 'joi';
+export interface AppConfig {
+  port: number;
 
-const envSchema = Joi.object({
-  NODE_ENV: Joi.string()
-    .valid('development', 'production', 'test')
-    .default('development'),
-  PORT: Joi.number().port().default(8000),
-  JWT_SECRET: Joi.string().required(),
+  auth: {
+    jwt: {
+      secret: string;
+      expiresInSeconds: number;
+    };
+    github: {
+      clientId: string;
+      clientSecret: string;
+      callbackURL: string;
+    };
+  };
+  'auth.jwt.secret'?: string;
+  'auth.jwt.expiresInSeconds'?: number;
+  'auth.github.clientId'?: string;
+  'auth.github.clientSecret'?: string;
+  'auth.github.callbackURL'?: string;
+}
+
+export default (): AppConfig => ({
+  port: parseInt(process.env.PORT || '8080'),
+
+  auth: {
+    jwt: {
+      secret: process.env.JWT_SECRET as string,
+      expiresInSeconds: parseInt(process.env.JWT_EXPIRATION_TIME_SECONDS ?? '900'),
+    },
+    github: {
+      clientId: process.env.GITHUB_OAUTH_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET as string,
+      callbackURL: process.env.GITHUB_OAUTH_CALLBACK_URL as string,
+    },
+  },
 });
-
-export default envSchema;

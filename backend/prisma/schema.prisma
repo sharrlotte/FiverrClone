@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,202 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Account {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @default(autoincrement())
+  provider   String
+  providerId String
+  createdAt  DateTime @db.Timestamp(6)
+  User       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Authority {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  createdAt     DateTime        @db.Timestamp(6)
+  UserAuthority UserAuthority[]
+}
+
+model Category {
+  id             Int            @id @default(autoincrement())
+  name           String         @unique
+  parentId       Int            @default(autoincrement())
+  createdAt      DateTime       @db.Timestamp(6)
+  Category       Category       @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_Category Category[]     @relation("CategoryToCategory")
+  PostCategory   PostCategory[]
+}
+
+model FavoritePost {
+  userId    Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId, postId])
+}
+
+model Package {
+  id           Int      @id @default(autoincrement())
+  postId       Int      @default(autoincrement())
+  title        String
+  desciption   String?
+  revision     Int?     @default(0)
+  deliveryTime DateTime @db.Time(6)
+  price        Decimal  @db.Money
+  special      Json?    @db.Json
+  createdAt    DateTime @db.Timestamp(6)
+  Order        Order[]
+  Post         Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Post {
+  id                  Int                   @id @default(autoincrement())
+  userId              Int                   @default(autoincrement())
+  title               String
+  content             String
+  stars               BigInt?               @default(0)
+  favorties           BigInt?               @default(0)
+  about               String
+  starCount           BigInt?               @default(0)
+  createdAt           DateTime              @db.Timestamp(6)
+  FavoritePost        FavoritePost[]
+  Order               Order[]
+  Package             Package[]
+  User                User                  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  PostBrowsingHistory PostBrowsingHistory[]
+  PostCategory        PostCategory[]
+  PostImage           PostImage[]
+  PostTag             PostTag[]
+  Preview             Preview[]
+}
+
+model PostCategory {
+  postId     Int      @default(autoincrement())
+  categoryId Int      @default(autoincrement())
+  createdAt  DateTime @db.Timestamp(6)
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Post       Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([postId, categoryId])
+}
+
+model PostImage {
+  id        Int      @id @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  link      String
+  createdAt DateTime @db.Timestamp(6)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model PostTag {
+  id        Int      @id @default(autoincrement())
+  tagId     Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Preview {
+  userId    Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  star      Int
+  comment   String
+  createdAt DateTime @db.Timestamp(6)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId, postId])
+}
+
+model Role {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  createdAt DateTime   @db.Timestamp(6)
+  UserRole  UserRole[]
+}
+
+model Tag {
+  id          Int       @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @db.Timestamp(6)
+  description String?
+  PostTag     PostTag[]
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  username      String
+  about         String
+  createdAt     DateTime        @db.Timestamp(6)
+  Account       Account[]
+  FavoritePost  FavoritePost[]
+  Post          Post[]
+  Preview       Preview[]
+  UserAuthority UserAuthority[]
+  UserRole      UserRole[]
+}
+
+model UserAuthority {
+  userId      Int       @default(autoincrement())
+  authorityId Int       @default(autoincrement())
+  createdAt   DateTime  @db.Timestamp(6)
+  Authority   Authority @relation(fields: [authorityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId, authorityId])
+}
+
+model UserRole {
+  userId    Int      @default(autoincrement())
+  roleId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  Role      Role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([userId, roleId])
+}
+
+model Order {
+  id        Int          @id @default(autoincrement())
+  postId    Int          @default(autoincrement())
+  packageId Int          @default(autoincrement())
+  status    OrderStatus? @default(Pending)
+  createdAt DateTime     @db.Timestamp(6)
+  Package   Package      @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Post      Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model PostBrowsingHistory {
+  id        Int      @id @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Skill {
+  id            Int           @id @default(autoincrement())
+  categoryId    Int           @default(autoincrement())
+  createdAt     DateTime      @db.Timestamp(6)
+  description   String
+  name          String
+  SkillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model SkillCategory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  desciption String
+  createdAt  DateTime @db.Timestamp(6)
+  Skill      Skill[]
+}
+
+enum OrderStatus {
+  Pending
+  Accepted
+  Rejected
 }

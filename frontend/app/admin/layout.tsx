@@ -24,7 +24,17 @@ const links: LinkType[] = [
   {
     links: [
       { name: "Số Liệu", link: "/image/chart.svg", href: "/admin/chart" },
-      { name: "Người dùng", link: "/image/user.svg", href: "/admin/users" },
+      { name: "Người Dùng", link: "/image/user.svg", href: "/admin/users" },
+      {
+        name: "Thể Loại",
+        link: "/image/tagcategory.svg",
+        href: "/admin/skill-category",
+      },
+      {
+        name: "Thể loại nhánh",
+        link: "/image/tagcategory.svg",
+        href: "/admin/skill-category",
+      },
     ],
     alt: "home",
     artist: "Quản Lý",

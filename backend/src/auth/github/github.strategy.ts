@@ -21,11 +21,11 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
   }
 
   async validate(_accessToken: string, _refreshToken: string, profile: Profile) {
-    const { id, displayName } = profile;
+    const { id, displayName, profileUrl } = profile;
     let user = await this.usersService.find(id, 'github');
 
     if (!user) {
-      user = await this.usersService.create(id, 'github', displayName);
+      user = await this.usersService.create(id, 'github', { username: displayName, profileUrl });
     }
 
     return user;

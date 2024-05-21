@@ -23,11 +23,12 @@ export class UsersService {
     return user;
   }
 
-  async create(providerId: string, provider: AuthProvider, username: string) {
+  async create(providerId: string, provider: AuthProvider, { username, profileUrl }: { username: string; profileUrl: string }) {
     const user = await this.prisma.user.create({
       data: {
         username,
         about: '',
+        avatar: profileUrl,
         createdAt: new Date(),
       },
     });

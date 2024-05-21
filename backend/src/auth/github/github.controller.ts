@@ -1,8 +1,7 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { config } from 'process';
+import { getUser } from 'src/auth/auth.utils';
 import { GithubOauthGuard } from 'src/auth/github/github.guard';
 import { JwtAuthService } from 'src/auth/jwt/jwt.service';
 import { AppConfig } from 'src/config/configuration';
@@ -21,10 +20,11 @@ export class GithubOauthController {
   @Get('callback')
   @UseGuards(GithubOauthGuard)
   async githubAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const user = req.user as unknown as User;
+    const user = getUser(req);
 
     const { accessToken } = this.jwtAuthService.login(user);
-    res.cookie('jwt', accessToken);
+    // TODO: Turn on secure in production env
+    res.cookie('jwt', accessToken, { httpOnly: true, secure: false });
 
     return res.redirect(`${this.configService.get('url.frontend')}`);
   }

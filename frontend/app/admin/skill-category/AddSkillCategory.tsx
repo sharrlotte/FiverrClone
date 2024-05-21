@@ -69,7 +69,7 @@ export default function AddSkillCategory() {
         </DialogTrigger>
         <DialogContent className="overflow-auto h-full">
           <FormProvider {...form}>
-            <h3 className="text-xl font-semibold">Thêm món</h3>
+            <h3 className="text-xl font-semibold">Thêm Thể Loại</h3>
             <form
               onSubmit={form.handleSubmit((data) => mutate(data))}
               className="space-y-8"

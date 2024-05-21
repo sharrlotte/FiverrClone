@@ -24,36 +24,6 @@ const images: Post[] = [
 ];
 
 export default function Carouselshow() {
-<<<<<<< HEAD
-    return (
-        <main>
-            <Carousel className='w-full'>
-                <CarouselContent className='relative'>
-                    {images.map(({ link, artist, title }, index) => (
-                        <CarouselItem
-                            key={index}
-                            className="md:basis-1/3 lg:basis-1/5 sm:basis-1/2"
-                        >
-                            <div className='absolute font-black px-2 gap-2 text-white flex flex-col '>
-                                <small className='tex-xs text-nowrap'>{title}</small>
-                                <span className='text-nowrap'>{artist}</span>
-                            </div>
-                            <Image
-                                src={link}
-                                alt='slide show'
-                                height={100}
-                                width={300}
-                            />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-        </main>
-
-    )
-=======
 	return (
 		<main>
 			<Carousel className='w-full'>
@@ -63,11 +33,10 @@ export default function Carouselshow() {
 							key={index}
 							className='md:basis-1/3 lg:basis-1/5 sm:basis-1/2'
 						>
-							<div className='absolute font-black px-2 gap-2 text-white flex flex-col'>
+							<div className='absolute font-black px-2 gap-2 text-white flex flex-col '>
 								<small className='tex-xs text-nowrap'>{title}</small>
 								<span className='text-nowrap'>{artist}</span>
 							</div>
-
 							<Image
 								src={link}
 								alt='slide show'
@@ -82,5 +51,4 @@ export default function Carouselshow() {
 			</Carousel>
 		</main>
 	);
->>>>>>> 8d887b34da067db642f9fc48ef8f702fa5a01a94
 }

@@ -8,8 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 async function Header() {
 	const user = await getSession();
 
-	console.log({ user });
-
 	return (
 		<div>
 			<div className='flex items-center  gap-x-5 gap-y-2 p-10 '>
@@ -87,14 +85,17 @@ async function Header() {
 					</svg>
 				</button>
 				{user ? (
-					<Avatar>
-						<AvatarImage
-							className='rounded-full h-10 w-10'
-							src='https://github.com/shadcn.png'
-							alt='@shadcn'
-						/>
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
+					<>
+						{user.displayName ?? 'Empty'}
+						<Avatar>
+							<AvatarImage
+								className='rounded-full h-10 w-10'
+								src='https://github.com/shadcn.png'
+								alt='@shadcn'
+							/>
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
+					</>
 				) : (
 					<Link
 						className='border rounded-md p-2'

@@ -7,7 +7,7 @@ export class NamePaginationQueryDto {
   @IsInt()
   @Type(() => Number)
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ default: 0, minimum: 0 })
   page: number;
 
   @Min(0)
@@ -15,7 +15,7 @@ export class NamePaginationQueryDto {
   @IsInt()
   @Type(() => Number)
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ default: 20, maximum: 50, minimum: 0 })
   size: number;
 
   @IsOptional()

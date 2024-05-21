@@ -1,4 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { Skill } from '@prisma/client';
+import Conflict from 'src/error/Conflict';
+import NotFound from 'src/error/NotFound';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { CreateSkillDto } from 'src/services/skill/dto/create-skill.dto';
 import { UpdateSkillDto } from 'src/services/skill/dto/update-skill.dto';
@@ -8,29 +11,55 @@ import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto
 export class SkillService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createSkillDto: CreateSkillDto) {
+  async create(createSkillDto: CreateSkillDto): Promise<Skill> {
+    const { categoryId } = createSkillDto;
+
+    const category = await this.prisma.skillCategory.findUnique({ where: { id: categoryId } });
+
+    if (!category) {
+      throw new NotFound<typeof createSkillDto>('categoryId');
+    }
+
+    const duplicateName = await this.prisma.skill.findFirst({ where: { name: createSkillDto.name } });
+
+    if (duplicateName) {
+      throw new Conflict<typeof createSkillDto>('name');
+    }
+
     return this.prisma.skill.create({ data: { ...createSkillDto, createdAt: new Date() } });
   }
 
-  findAll({ name, size, page }: NamePaginationQueryDto) {
+  findAll({ name, size, page }: NamePaginationQueryDto): Promise<Skill[]> {
     return this.prisma.skill.findMany({ where: { name }, take: size, skip: size * page });
   }
 
-  findOne(id: number) {
-    const skill = this.prisma.skill.findUnique({ where: { id } });
+  async findOne(id: number): Promise<Skill> {
+    const skill = await this.prisma.skill.findUnique({ where: { id } });
 
     if (!skill) {
-      throw new NotFoundException();
+      throw new NotFound('id');
     }
 
     return skill;
   }
 
-  update(id: number, updateSkillDto: UpdateSkillDto) {
-    return this.prisma.skill.update({ where: { id }, data: { ...updateSkillDto, createdAt: new Date() } });
+  async update(id: number, updateSkillDto: UpdateSkillDto): Promise<Skill> {
+    const duplicateName = await this.prisma.skill.findFirst({ where: { name: updateSkillDto.name } });
+
+    if (duplicateName && duplicateName.id !== id) {
+      throw new Conflict<typeof updateSkillDto>('name');
+    }
+
+    return this.prisma.skill.update({ where: { id }, data: { ...updateSkillDto, updatedAt: new Date(), createdAt: new Date() } });
   }
 
-  remove(id: number) {
-    return this.prisma.skill.delete({ where: { id } });
+  async remove(id: number): Promise<number> {
+    const result = await this.prisma.skill.deleteMany({ where: { id } });
+
+    if (result.count === 0) {
+      throw new NotFound('id');
+    }
+
+    return id;
   }
 }

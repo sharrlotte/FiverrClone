@@ -19,3 +19,9 @@ export async function getSkillCategory(request: GetSkillCategoryRequest): Promis
 
   return result.data;
 }
+
+export async function updaterSkillCategory(id: number, request: CreateSkillCategoryRequest) {
+  return api.patch(`/skill-categories/${id}`, request, {
+    data: request,
+  });
+}

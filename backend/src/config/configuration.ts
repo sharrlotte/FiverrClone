@@ -1,17 +1,6 @@
 export interface AppConfig {
   port: number;
-
-  auth: {
-    jwt: {
-      secret: string;
-      expiresInSeconds: number;
-    };
-    github: {
-      clientId: string;
-      clientSecret: string;
-      callbackURL: string;
-    };
-  };
+  'url.frontend'?: string;
   'auth.jwt.secret'?: string;
   'auth.jwt.expiresInSeconds'?: number;
   'auth.github.clientId'?: string;
@@ -19,9 +8,11 @@ export interface AppConfig {
   'auth.github.callbackURL'?: string;
 }
 
-export default (): AppConfig => ({
+export default () => ({
   port: parseInt(process.env.PORT || '8080'),
-
+  url: {
+    frontend: 'http://localhost:3000',
+  },
   auth: {
     jwt: {
       secret: process.env.JWT_SECRET as string,

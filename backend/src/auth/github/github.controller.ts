@@ -1,12 +1,18 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
+import { config } from 'process';
 import { GithubOauthGuard } from 'src/auth/github/github.guard';
 import { JwtAuthService } from 'src/auth/jwt/jwt.service';
+import { AppConfig } from 'src/config/configuration';
 
 @Controller('auth/github')
 export class GithubOauthController {
-  constructor(private jwtAuthService: JwtAuthService) {}
+  constructor(
+    private jwtAuthService: JwtAuthService,
+    private configService: ConfigService<AppConfig>,
+  ) {}
 
   @Get()
   @UseGuards(GithubOauthGuard)
@@ -19,6 +25,7 @@ export class GithubOauthController {
 
     const { accessToken } = this.jwtAuthService.login(user);
     res.cookie('jwt', accessToken);
-    return { access_token: accessToken };
+
+    return res.redirect(`${this.configService.get('url.frontend')}`);
   }
 }

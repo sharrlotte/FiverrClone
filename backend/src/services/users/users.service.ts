@@ -7,8 +7,8 @@ import { PrismaService } from 'src/services/prisma/prisma.service';
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-  async findOrCreate(providerId: string, provider: AuthProvider): Promise<User> {
-    const user = await this.prisma.account
+  async find(providerId: string, provider: AuthProvider): Promise<User | null> {
+    let user = await this.prisma.account
       .findFirst({
         where: {
           provider,
@@ -20,7 +20,26 @@ export class UsersService {
       })
       .User();
 
-    if (!user) throw new NotFoundException();
+    return user;
+  }
+
+  async create(providerId: string, provider: AuthProvider, username: string) {
+    const user = await this.prisma.user.create({
+      data: {
+        username,
+        about: '',
+        createdAt: new Date(),
+      },
+    });
+
+    await this.prisma.account.create({
+      data: {
+        provider,
+        providerId,
+        userId: user.id,
+        createdAt: new Date(),
+      },
+    });
 
     return user;
   }

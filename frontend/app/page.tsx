@@ -2,6 +2,7 @@ import Image from "next/image";
 import "@/app/globals.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import Carouselshow from "@/components/ui/carouselshow";
 export default function Home() {
   return (
     <main className="flex flex-col ">
@@ -12,14 +13,7 @@ export default function Home() {
         </div>
         <div className="mt-5 px-20">
           <div className="font-black hover:opacity-80">
-            <h2 className="text-shadow px-2">so 1</h2>
-            <h1 className="text-shadow px-2">AI artists</h1>
-            <Image
-              src="/image/COC-COC.ico"
-              alt="slide show"
-              height={100}
-              width={100}
-            />
+            <Carouselshow />
           </div>
         </div>
         <Footer />

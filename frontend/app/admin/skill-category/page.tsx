@@ -13,20 +13,18 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -35,17 +33,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { date } from "zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import {
   Pagination,
   PaginationContent,
@@ -56,22 +43,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import AddSkillCategory from "./AddSkillCategory";
-
-const data: SkillCategory[] = [
-  {
-    id: 1,
-    name: "dev",
-    description: "fbdfblif",
-    createdAt: new Date(),
-  },
-];
-
-export type SkillCategory = {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: Date;
-};
+import { useQuery } from "@tanstack/react-query";
+import { SkillCategory, getSkillCategory } from "@/api/skill-category.api";
+import { useSearchParams } from "next/navigation";
+import { searchParamsSchema } from "@/schema/pagination.schema";
 
 export const columns: ColumnDef<SkillCategory>[] = [
   {
@@ -156,17 +131,26 @@ export const columns: ColumnDef<SkillCategory>[] = [
   },
 ];
 
-export default function DataTableDemo() {
+export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const params = useSearchParams();
+  const searchParams = searchParamsSchema.parse(params);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const { data } = useQuery({
+    queryKey: [""],
+    queryFn: () => getSkillCategory({ size: 20, page: searchParams.page }),
+  });
+
+  console.log(data);
+
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -253,10 +237,10 @@ export default function DataTableDemo() {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
+                <PaginationLink href="?page=1">1</PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink href="#" isActive>
@@ -270,7 +254,7 @@ export default function DataTableDemo() {
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

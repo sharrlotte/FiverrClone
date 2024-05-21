@@ -8,29 +8,42 @@ datasource db {
 }
 
 model Account {
-  id         Int      @id @default(autoincrement())
-  userId     Int      @default(autoincrement())
+  id         Int       @id @default(autoincrement())
+  userId     Int       @default(autoincrement())
   provider   String
   providerId String
-  createdAt  DateTime @db.Timestamp(6)
-  User       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  updatedAt  DateTime? @db.Timestamp(6)
+  createdAt  DateTime  @db.Timestamp(6)
+  User       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([providerId])
+  @@index([provider])
+  @@index([userId])
 }
 
 model Authority {
   id            Int             @id @default(autoincrement())
   name          String          @unique
+  description   String
+  updatedAt     DateTime?       @db.Timestamp(6)
   createdAt     DateTime        @db.Timestamp(6)
   UserAuthority UserAuthority[]
+
+  @@index([name])
 }
 
 model Category {
   id             Int            @id @default(autoincrement())
   name           String         @unique
   parentId       Int            @default(autoincrement())
+  updatedAt      DateTime?      @db.Timestamp(6)
   createdAt      DateTime       @db.Timestamp(6)
   Category       Category       @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_Category Category[]     @relation("CategoryToCategory")
   PostCategory   PostCategory[]
+
+  @@index([name])
+  @@index([parentId])
 }
 
 model FavoritePost {
@@ -41,20 +54,24 @@ model FavoritePost {
   User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model Package {
-  id           Int      @id @default(autoincrement())
-  postId       Int      @default(autoincrement())
+  id           Int       @id @default(autoincrement())
+  postId       Int       @default(autoincrement())
   title        String
-  desciption   String?
-  revision     Int?     @default(0)
-  deliveryTime DateTime @db.Time(6)
-  price        Decimal  @db.Money
-  special      Json?    @db.Json
-  createdAt    DateTime @db.Timestamp(6)
-  Order        Order[]
-  Post         Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  description  String?
+  revision     Int?      @default(0)
+  deliveryTime DateTime  @db.Time(6)
+  price        Decimal   @db.Money
+  special      Json?     @db.Json
+  updatedAt    DateTime? @db.Timestamp(6)
+  createdAt    DateTime  @db.Timestamp(6)
+  Post         Post      @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([postId, title])
 }
 
 model Post {
@@ -66,6 +83,7 @@ model Post {
   favorties           BigInt?               @default(0)
   about               String
   starCount           BigInt?               @default(0)
+  updatedAt           DateTime?             @db.Timestamp(6)
   createdAt           DateTime              @db.Timestamp(6)
   FavoritePost        FavoritePost[]
   Order               Order[]
@@ -86,6 +104,8 @@ model PostCategory {
   Post       Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([postId, categoryId])
+  @@index([categoryId])
+  @@index([postId])
 }
 
 model PostImage {
@@ -94,15 +114,20 @@ model PostImage {
   link      String
   createdAt DateTime @db.Timestamp(6)
   Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([postId])
 }
 
 model PostTag {
-  id        Int      @id @default(autoincrement())
   tagId     Int      @default(autoincrement())
   postId    Int      @default(autoincrement())
   createdAt DateTime @db.Timestamp(6)
   Post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([tagId, postId])
+  @@index([postId])
+  @@index([tagId])
 }
 
 model Preview {
@@ -115,27 +140,37 @@ model Preview {
   User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model Role {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  createdAt DateTime   @db.Timestamp(6)
-  UserRole  UserRole[]
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String
+  updatedAt   DateTime?  @db.Timestamp(6)
+  createdAt   DateTime   @db.Timestamp(6)
+  UserRole    UserRole[]
+
+  @@index([name])
 }
 
 model Tag {
   id          Int       @id @default(autoincrement())
   name        String
+  description String
+  updatedAt   DateTime? @db.Timestamp(6)
   createdAt   DateTime  @db.Timestamp(6)
-  description String?
   PostTag     PostTag[]
+
+  @@index([name])
 }
 
 model User {
   id            Int             @id @default(autoincrement())
   username      String
   about         String
+  updatedAt     DateTime?       @db.Timestamp(6)
   createdAt     DateTime        @db.Timestamp(6)
   Account       Account[]
   FavoritePost  FavoritePost[]
@@ -153,6 +188,8 @@ model UserAuthority {
   User        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, authorityId])
+  @@index([authorityId])
+  @@index([userId])
 }
 
 model UserRole {
@@ -163,16 +200,25 @@ model UserRole {
   User      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, roleId])
+  @@index([roleId])
+  @@index([userId])
 }
 
 model Order {
-  id        Int          @id @default(autoincrement())
-  postId    Int          @default(autoincrement())
-  packageId Int          @default(autoincrement())
-  status    OrderStatus? @default(Pending)
-  createdAt DateTime     @db.Timestamp(6)
-  Package   Package      @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Post      Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           Int          @id @default(autoincrement())
+  postId       Int          @default(autoincrement())
+  title        String
+  description  String?
+  revision     Int?         @default(0)
+  deliveryTime DateTime     @db.Time(6)
+  price        Decimal      @db.Money
+  special      Json?        @db.Json
+  status       OrderStatus? @default(Pending)
+  createdAt    DateTime     @db.Timestamp(6)
+  Post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([postId])
+  @@index([status])
 }
 
 model PostBrowsingHistory {
@@ -185,18 +231,25 @@ model PostBrowsingHistory {
 model Skill {
   id            Int           @id @default(autoincrement())
   categoryId    Int           @default(autoincrement())
-  createdAt     DateTime      @db.Timestamp(6)
-  description   String
   name          String
+  description   String
+  updatedAt     DateTime?     @db.Timestamp(6)
+  createdAt     DateTime      @db.Timestamp(6)
   SkillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([categoryId])
+  @@index([name])
 }
 
 model SkillCategory {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  createdAt   DateTime @db.Timestamp(6)
   description String
+  updatedAt   DateTime? @db.Timestamp(6)
+  createdAt   DateTime  @db.Timestamp(6)
   Skill       Skill[]
+
+  @@index([name])
 }
 
 enum OrderStatus {

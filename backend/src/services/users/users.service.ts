@@ -14,7 +14,7 @@ export class UsersService {
           provider,
           providerId,
         },
-        include: {
+        select: {
           User: true,
         },
       })

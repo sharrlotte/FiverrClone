@@ -8,12 +8,11 @@ export class JwtAuthService {
   constructor(private jwtService: JwtService) {}
 
   login(user: User) {
-    const { id, username } = user;
+    const { id, username, avatar } = user;
     const payload: JwtPayload = {
       sub: id,
       displayName: username,
-      //TODO: User avatar
-      photo: '',
+      avatar: avatar ?? '',
     };
 
     return {

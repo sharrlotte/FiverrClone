@@ -5,5 +5,5 @@ export type JwtPayload = {
   iat?: number;
   exp?: number;
   displayName: string;
-  photo?: string;
+  avatar?: string;
 };

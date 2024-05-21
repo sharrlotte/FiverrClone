@@ -35,25 +35,34 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { date } from "zod";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
-const data: SkillCategory[] = [
+const data: Payment[] = [
     {
         id: 1,
         name: "dev",
-        description: "fbdfblif",
-        createdAt: new Date(),
+        description: "thiết kế và lập trình ứng dụng",
+        createAt: new Date(),
+        uppdateAt: new Date(),
+    },
+    {
+        id: 2,
+        name: "mobile",
+        description: "thiết kế và lắp ráp điện thoại",
+        createAt: new Date(),
+        uppdateAt: new Date(),
     },
 ];
 
-export type SkillCategory = {
+export type Payment = {
     id: number;
     name: string;
     description: string;
-    createdAt: Date;
+    uppdateAt: Date;
+    createAt: Date;
 };
 
-export const columns: ColumnDef<SkillCategory>[] = [
+export const columns: ColumnDef<Payment>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -78,32 +87,24 @@ export const columns: ColumnDef<SkillCategory>[] = [
     },
     {
         accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    className="p-0"
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    skill category
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+        header: "Skill Category",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("name")}</div>
+        ),
     },
+
     {
         accessorKey: "description",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            return <div className="text-right font-medium px-0">{row.getValue("description")}</div>;
-        },
+        header: "description",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("description")}</div>
+        ),
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const skillCategory = row.original;
+            const payment = row.original;
 
             return (
                 <DropdownMenu>
@@ -116,13 +117,12 @@ export const columns: ColumnDef<SkillCategory>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText('' + skillCategory.id)}
+                            onClick={() => navigator.clipboard.writeText("" + payment.id)}
                         >
-                            Copy payment ID
+                            Edit
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -162,7 +162,7 @@ export default function DataTableDemo() {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <div className="font-bold">
-                    <h2>Báo cáo</h2>
+                    <h2>Danh Mục Thể Loại</h2>
                 </div>
             </div>
             <div className="rounded-md border">
@@ -172,7 +172,7 @@ export default function DataTableDemo() {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="px-4">
+                                        <TableHead key={header.id} className="p-4">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -193,7 +193,7 @@ export default function DataTableDemo() {
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-4">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -215,29 +215,31 @@ export default function DataTableDemo() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
-                <div className="space-x-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Next
-                    </Button>
-                </div>
+            <div>
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#" isActive>1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="http://localhost:3000/admin/skillcategory/trang2">
+                                2
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="http://localhost:3000/admin/skillcategory/trang3">3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="http://localhost:3000/admin/skillcategory/trang2" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
         </div>
     );

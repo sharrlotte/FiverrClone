@@ -31,11 +31,10 @@ export default function Carouselshow() {
                             key={index}
                             className="md:basis-1/3 lg:basis-1/5 sm:basis-1/2"
                         >
-                            <div className='absolute font-black px-2 gap-2 text-white flex flex-col'>
+                            <div className='absolute font-black px-2 gap-2 text-white flex flex-col '>
                                 <small className='tex-xs text-nowrap'>{title}</small>
                                 <span className='text-nowrap'>{artist}</span>
                             </div>
-
                             <Image
                                 src={link}
                                 alt='slide show'

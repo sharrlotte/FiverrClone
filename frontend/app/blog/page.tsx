@@ -44,7 +44,6 @@ import { useForm } from 'react-hook-form';
 import { useI18n } from '@/app/locales/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { text } from 'stream/consumers';
 
 export type MarkdownData = {
 	text: string;

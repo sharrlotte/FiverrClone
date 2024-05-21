@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { createI18nClient } from 'next-international/client';
 

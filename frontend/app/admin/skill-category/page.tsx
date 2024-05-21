@@ -147,8 +147,6 @@ export default function Page() {
     queryFn: () => getSkillCategory({ size: 20, page: searchParams.page }),
   });
 
-  console.log(data);
-
   const table = useReactTable({
     data: data ?? [],
     columns,

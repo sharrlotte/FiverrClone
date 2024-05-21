@@ -13,9 +13,14 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+
   app.getHttpAdapter().getInstance().set('etag', false);
   app.use(cookieParser());
-  app.enableCors({});
   app.setGlobalPrefix('api');
   app.enableVersioning({
     type: VersioningType.URI,

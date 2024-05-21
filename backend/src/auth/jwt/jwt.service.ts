@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
+import { SessionDto } from 'src/auth/dto/session.dto';
 import { JwtPayload } from 'src/types/auth';
 
 @Injectable()
 export class JwtAuthService {
   constructor(private jwtService: JwtService) {}
 
-  login(user: User) {
-    const { id, username, avatar } = user;
+  login(user: SessionDto) {
+    const { id, displayName, avatar } = user;
     const payload: JwtPayload = {
       sub: id,
-      displayName: username,
+      displayName,
       avatar: avatar ?? '',
     };
 

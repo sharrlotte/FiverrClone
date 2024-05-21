@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 async function Header() {
 	const user = await getSession();
 
+	console.log({ user });
+
 	return (
 		<div>
 			<div className='flex items-center  gap-x-5 gap-y-2 p-10 '>

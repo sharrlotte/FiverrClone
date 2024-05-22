@@ -25,3 +25,7 @@ export async function updaterSkillCategory(id: number, request: CreateSkillCateg
     data: request,
   });
 }
+
+export async function deleteSkillCategory(id: number) {
+  return api.delete(`/skill-categories/${id}`);
+}

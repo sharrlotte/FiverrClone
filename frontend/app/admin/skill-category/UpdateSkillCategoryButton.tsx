@@ -1,20 +1,22 @@
-import { FormProvider, useForm } from 'react-hook-form';
+'use client';
+
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { UpdateSkillCategoryRequest, createSkillCategorySchema } from '@/schema/skill-category.schema';
-import { createSkillCategory, updaterSkillCategory } from '@/api/skill-category.api';
+import { SkillCategory, updaterSkillCategory } from '@/api/skill-category.api';
 import LoadingOverlay from './LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import Image from 'next/image';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
-type Props = { id: number };
+type Props = { skillCategory: SkillCategory };
 
-export default function UpdateSkillCategoryButton({ id }: Props) {
+export default function UpdateSkillCategoryButton({ skillCategory: { id, name, description } }: Props) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -22,14 +24,14 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
   const form = useForm<UpdateSkillCategoryRequest>({
     resolver: zodResolver(createSkillCategorySchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: name,
+      description: description,
     },
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: UpdateSkillCategoryRequest) => updaterSkillCategory(id, value),
-    onMutate: () => {
+    onSettled: () => {
       setOpen(false);
     },
     onSuccess: () => {
@@ -37,10 +39,23 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
     },
 
     onError: (error: any) => {
-      toast({
-        title: 'Lỗi',
-        description: 'Có lỗi đã xảy ra, vui lòng thử lại sau: ' + error.response.data.message,
-      });
+      switch (error.response.status) {
+        case 409:
+          toast({
+            title: 'Lỗi',
+            description: 'Tên thể loại đã tồn tại, vui lòng chọn tên khác',
+            variant: 'destructive',
+          });
+          break;
+
+        default:
+          toast({
+            title: 'Lỗi',
+            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau',
+            variant: 'destructive',
+          });
+          break;
+      }
     },
   });
 
@@ -49,21 +64,21 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
       {isPending && <LoadingOverlay />}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="flex justify-between w-full items-center" variant="outline">
-            <Image src="/image/add.svg" height={24} width={24} alt="" />
-            <span>Thêm món</span>
+          <Button className="flex justify-start w-full items-center gap-2" variant="ghost">
+            <PencilSquareIcon className="h-6 w-6" />
+            <span>Cập nhật</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="overflow-auto h-full">
-          <FormProvider {...form}>
-            <h3 className="text-xl font-semibold">Thêm Thể Loại</h3>
+          <Form {...form}>
+            <h3 className="text-xl font-semibold">Cập nhật thể loại kỹ năng</h3>
             <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tên sản phẩm</FormLabel>
+                    <FormLabel>Tên</FormLabel>
                     <FormControl>
                       <Input placeholder="Tên" {...field} />
                     </FormControl>
@@ -77,7 +92,7 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mô tả sản phẩm</FormLabel>
+                    <FormLabel>Mô tả</FormLabel>
                     <FormControl>
                       <Input placeholder="Mô tả" {...field} />
                     </FormControl>
@@ -88,7 +103,7 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
 
               <Button type="submit">Lưu</Button>
             </form>
-          </FormProvider>
+          </Form>
         </DialogContent>
       </Dialog>
     </div>

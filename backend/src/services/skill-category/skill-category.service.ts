@@ -12,16 +12,17 @@ export class SkillCategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createSkillCategoryDto: CreateSkillCategoryDto): Promise<SkillCategory> {
-    const duplicateName = await this.prisma.skill.findFirst({ where: { name: createSkillCategoryDto.name } });
+    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name: createSkillCategoryDto.name } });
 
     if (duplicateName) {
       throw new Conflict<typeof createSkillCategoryDto>('name');
     }
+
     return this.prisma.skillCategory.create({ data: { ...createSkillCategoryDto, createdAt: new Date() } });
   }
 
   findAll({ name, page, size }: NamePaginationQueryDto): Promise<SkillCategory[]> {
-    return this.prisma.skillCategory.findMany({ where: { name }, take: size, skip: size * page });
+    return this.prisma.skillCategory.findMany({ where: { name }, orderBy: { createdAt: 'desc' }, take: size, skip: size * page });
   }
 
   async findOne(id: number): Promise<SkillCategory> {
@@ -35,13 +36,13 @@ export class SkillCategoryService {
   }
 
   async update(id: number, updateSkillCategoryDto: UpdateSkillCategoryDto): Promise<SkillCategory> {
-    const duplicateName = await this.prisma.skill.findFirst({ where: { name: updateSkillCategoryDto.name } });
+    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name: updateSkillCategoryDto.name } });
 
     if (duplicateName && duplicateName.id !== id) {
       throw new Conflict<typeof updateSkillCategoryDto>('name');
     }
 
-    return this.prisma.skillCategory.update({ where: { id }, data: { ...updateSkillCategoryDto, updatedAt: new Date(), createdAt: new Date() } });
+    return this.prisma.skillCategory.update({ where: { id }, data: { ...updateSkillCategoryDto, updatedAt: new Date() } });
   }
 
   async remove(id: number): Promise<number> {

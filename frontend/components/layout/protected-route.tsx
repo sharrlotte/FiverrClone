@@ -14,11 +14,11 @@ function NoPermission() {
   return <span className="fixed inset-0 flex justify-center items-center text-2xl">You don have permission to access this page</span>;
 }
 
-export default async function ProtectedRoute({ all, any, children, session }: Props) {
+export default function ProtectedRoute({ all, any, children, session }: Props) {
   if (!session?.roles)
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-        Please login to continue
+        Vui lòng đăng nhập để tiếp tục
         <Link className="min-w-[100px]" title="login" href="/account/login" />
       </div>
     );

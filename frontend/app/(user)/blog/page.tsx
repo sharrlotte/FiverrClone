@@ -24,7 +24,7 @@ export type MarkdownData = {
 
 type MarkdownEditorProps = {
   value: MarkdownData;
-  onChange: (value: MarkdownData) => void;
+  onChange: (_value: MarkdownData) => void;
 };
 
 type EditorMode = 'edit' | 'preview' | 'live';

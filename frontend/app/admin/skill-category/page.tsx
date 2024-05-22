@@ -15,7 +15,7 @@ import { SkillCategory, getSkillCategory } from '@/api/skill-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 
-export const columns: ColumnDef<SkillCategory>[] = [
+const columns: ColumnDef<SkillCategory>[] = [
   {
     id: 'select',
     header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
@@ -73,13 +73,13 @@ export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const params = useSearchParams();
-  const searchParams = searchParamsSchema.parse(params);
+  const page = searchParamsSchema.parse(params).page;
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const { data } = useQuery({
     queryKey: [''],
-    queryFn: () => getSkillCategory({ size: 20, page: searchParams.page }),
+    queryFn: () => getSkillCategory({ size: 20, page }),
   });
 
   const table = useReactTable({
@@ -149,22 +149,22 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="space-x-2">
+        <div className="space-x-2 ">
           <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="?page=1">1</PaginationLink>
+                <PaginationLink href={`?page=${page - 1}`}>{page - 1}</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
+                <PaginationLink href={`?page=${page}`} isActive>
+                  {page}
                 </PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
+                <PaginationLink href={`?page=${page + 1}`}>{page + 1}</PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationEllipsis />

@@ -1,5 +1,7 @@
-export interface User {
-	sub: string;
-	displayName: string;
-	avatar: string;
+export interface Session {
+  id: string;
+  username: string;
+  avatar: string;
+  roles: string[];
+  authorities: string[];
 }

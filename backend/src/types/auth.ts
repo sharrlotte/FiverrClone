@@ -4,6 +4,8 @@ export type JwtPayload = {
   sub: number;
   iat?: number;
   exp?: number;
-  displayName: string;
-  avatar?: string;
+  username: string;
+  avatar: string | null;
+  roles: string[];
+  authorities: string[];
 };

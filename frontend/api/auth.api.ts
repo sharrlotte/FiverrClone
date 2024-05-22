@@ -1,9 +1,9 @@
 import api from '@/api/api';
-import { User } from '@/schema/user.schema';
+import { Session } from '@/schema/user.schema';
 import { cookies } from 'next/headers';
 
-export async function getSession(): Promise<User> {
-	const result = await api.get('/auth/@me', { headers: { Cookie: cookies().toString() } });
+export async function getSession(): Promise<Session | null> {
+  const result = await api.get('/auth/session', { headers: { Cookie: cookies().toString() } });
 
-	return result.data;
+  return result.data;
 }

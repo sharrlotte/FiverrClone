@@ -9,11 +9,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import AddSkillCategory from './AddSkillCategory';
 import { useQuery } from '@tanstack/react-query';
 import { SkillCategory, getSkillCategory } from '@/api/skill-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
+import AddSkillCategoryButton from './AddSkillCategoryButton';
+import UpdateSkillCategoryButton from './UpdateSkillCategoryButton';
 
 const columns: ColumnDef<SkillCategory>[] = [
   {
@@ -57,7 +58,9 @@ const columns: ColumnDef<SkillCategory>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <UpdateSkillCategoryButton id={skillCategory.id} />
+            </DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText('' + skillCategory.id)}>Copy payment ID</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
@@ -108,7 +111,7 @@ export default function Page() {
           <h2>Quản Lý Thể loại</h2>
         </div>
         <div>
-          <AddSkillCategory />
+          <AddSkillCategoryButton />
         </div>
       </div>
       <div className="rounded-md border">

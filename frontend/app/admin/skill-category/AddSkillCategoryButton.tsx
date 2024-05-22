@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export default function AddSkillCategory() {
+export default function AddSkillCategoryButton() {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const { toast } = useToast();

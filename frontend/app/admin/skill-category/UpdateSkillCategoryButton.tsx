@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { UpdateSkillCategoryRequest, createSkillCategorySchema } from '@/schema/skill-category.schema';
 import { SkillCategory, updaterSkillCategory } from '@/api/skill-category.api';
-import LoadingOverlay from './LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -29,7 +28,7 @@ export default function UpdateSkillCategoryButton({ skillCategory: { id, name, d
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (value: UpdateSkillCategoryRequest) => updaterSkillCategory(id, value),
     onSettled: () => {
       setOpen(false);
@@ -60,52 +59,50 @@ export default function UpdateSkillCategoryButton({ skillCategory: { id, name, d
   });
 
   return (
-    <div>
-      {isPending && <LoadingOverlay />}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="flex justify-start w-full items-center gap-2" variant="ghost">
-            <PencilSquareIcon className="h-6 w-6" />
-            <span>Cập nhật</span>
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="overflow-auto h-full">
-          <Form {...form}>
-            <h3 className="text-xl font-semibold">Cập nhật thể loại kỹ năng</h3>
-            <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tên</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tên" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="flex justify-start w-full items-center gap-2" variant="ghost">
+          <PencilSquareIcon className="h-6 w-6" />
+          <span>Cập nhật</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="overflow-auto h-full">
+        <Form {...form}>
+          <h3 className="text-xl font-semibold">Cập nhật thể loại kỹ năng</h3>
+          <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tên</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tên" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mô tả</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Mô tả" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mô tả</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Mô tả" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="w-full flex justify-end">
               <Button type="submit">Lưu</Button>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-    </div>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }

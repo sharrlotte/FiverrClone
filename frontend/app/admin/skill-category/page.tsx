@@ -35,7 +35,7 @@ const columns: ColumnDef<SkillCategory>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('name')}</div>,
   },
   {
     accessorKey: 'description',

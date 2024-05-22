@@ -99,7 +99,9 @@ export default function AddSkillCategoryButton() {
                 )}
               />
 
-              <Button type="submit">Lưu</Button>
+              <div className="w-full flex justify-end">
+                <Button type="submit">Lưu</Button>
+              </div>
             </form>
           </Form>
         </DialogContent>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { UpdateSkillCategoryRequest, createSkillCategorySchema } from '@/schema/skill-category.schema';
 import { createSkillCategory, updaterSkillCategory } from '@/api/skill-category.api';
-import LoadingFilter from './LoadingFilter';
+import LoadingOverlay from './LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -46,7 +46,7 @@ export default function UpdateSkillCategoryButton({ id }: Props) {
 
   return (
     <div>
-      {isPending && <LoadingFilter />}
+      {isPending && <LoadingOverlay />}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="flex justify-between w-full items-center" variant="outline">

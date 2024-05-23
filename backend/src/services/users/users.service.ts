@@ -63,7 +63,7 @@ export class UsersService {
       },
     });
 
-    const userRoles = await this.prisma.userRole.create({
+    await this.prisma.userRole.create({
       data: {
         userId: user.id,
         roleId: role.id,

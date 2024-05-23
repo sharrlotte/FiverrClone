@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './services/users/users.controller';
-import { UsersService } from './services/users/users.service';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './services/auth/auth.module';
-import { UsersModule } from './services/users/users.module';
-import appConfig from './config/configuration';
+import { AuthModule } from 'src/services/auth/auth.module';
 import { PrismaModule } from 'src/services/prisma/prisma.module';
-import { TagModule } from './services/tag/tag.module';
-import { SkillModule } from './services/skill/skill.module';
-import { SkillCategoryModule } from './services/skill-category/skill-category.module';
-import { RoleModule } from './services/role/role.module';
+import { RoleModule } from 'src/services/role/role.module';
+import { SkillCategoryModule } from 'src/services/skill-category/skill-category.module';
+import { SkillModule } from 'src/services/skill/skill.module';
+import { TagModule } from 'src/services/tag/tag.module';
+import { UsersModule } from 'src/services/users/users.module';
+import appConfig from 'src/config/configuration';
 
 @Module({
   imports: [
@@ -27,7 +25,5 @@ import { RoleModule } from './services/role/role.module';
     SkillCategoryModule,
     RoleModule,
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
 })
 export class AppModule {}

@@ -1,10 +1,9 @@
-"use client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HTMLAttributes, useState } from "react";
+'use client';
 
-export default function QueryProvider({
-  children,
-}: HTMLAttributes<HTMLDivElement>) {
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HTMLAttributes, useState } from 'react';
+
+export default function QueryProvider({ children }: HTMLAttributes<HTMLDivElement>) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -15,10 +14,8 @@ export default function QueryProvider({
             retry: 3,
           },
         },
-      })
+      }),
   );
 
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

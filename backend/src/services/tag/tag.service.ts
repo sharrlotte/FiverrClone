@@ -42,7 +42,7 @@ export class TagService {
       throw new Conflict<typeof updateTagDto>('name');
     }
 
-    return this.prisma.tag.update({ where: { id }, data: { ...updateTagDto, updatedAt: new Date(), createdAt: new Date() } });
+    return this.prisma.tag.update({ where: { id }, data: { ...updateTagDto, updatedAt: new Date() } });
   }
 
   async remove(id: number): Promise<number> {

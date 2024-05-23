@@ -13,20 +13,18 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -42,15 +40,11 @@ const data: Payment[] = [
         id: 1,
         name: "dev",
         description: "thiết kế và lập trình ứng dụng",
-        createAt: new Date(),
-        uppdateAt: new Date(),
     },
     {
         id: 2,
         name: "mobile",
         description: "thiết kế và lắp ráp điện thoại",
-        createAt: new Date(),
-        uppdateAt: new Date(),
     },
 ];
 
@@ -58,8 +52,6 @@ export type Payment = {
     id: number;
     name: string;
     description: string;
-    uppdateAt: Date;
-    createAt: Date;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -100,6 +92,7 @@ export const columns: ColumnDef<Payment>[] = [
             <div className="capitalize">{row.getValue("description")}</div>
         ),
     },
+
     {
         id: "actions",
         enableHiding: false,
@@ -225,18 +218,18 @@ export default function DataTableDemo() {
                             <PaginationLink href="#" isActive>1</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href="http://localhost:3000/admin/skillcategory/trang2">
+                            <PaginationLink href="">
                                 2
                             </PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href="http://localhost:3000/admin/skillcategory/trang3">3</PaginationLink>
+                            <PaginationLink href="">3</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationEllipsis />
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationNext href="http://localhost:3000/admin/skillcategory/trang2" />
+                            <PaginationNext href="" />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>

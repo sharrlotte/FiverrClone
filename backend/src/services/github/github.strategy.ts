@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-github';
 
-import { UsersService } from '../../users/users.service';
+import { UsersService } from '../users/users.service';
 import { AppConfig } from 'src/config/configuration';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 

@@ -2,8 +2,8 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { getUser } from 'src/services/auth/auth.utils';
-import { GithubOauthGuard } from 'src/services/auth/github/github.guard';
-import { JwtAuthService } from 'src/services/auth/jwt/jwt.service';
+import { GithubOauthGuard } from 'src/services/github/github.guard';
+import { JwtAuthService } from 'src/services/jwt/jwt.service';
 import { AppConfig } from 'src/config/configuration';
 
 @Controller('auth/github')

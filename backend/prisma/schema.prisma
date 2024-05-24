@@ -1,35 +1,35 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
-    id         Int       @id @default(autoincrement())
-    userId     Int       @default(autoincrement())
-    provider   String
-    providerId String
-    updatedAt  DateTime? @db.Timestamp(6)
-    createdAt  DateTime  @db.Timestamp(6)
-    user       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         Int       @id @default(autoincrement())
+  userId     Int       @default(autoincrement())
+  provider   String
+  providerId String
+  updatedAt  DateTime? @db.Timestamp(6)
+  createdAt  DateTime  @db.Timestamp(6)
+  user       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@index([providerId])
-    @@index([provider])
-    @@index([userId])
+  @@index([providerId])
+  @@index([provider])
+  @@index([userId])
 }
 
 model Authority {
-    id              Int             @id @default(autoincrement())
-    name            String          @unique
-    description     String
-    updatedAt       DateTime?       @db.Timestamp(6)
-    createdAt       DateTime        @db.Timestamp(6)
-    userAuthorities UserAuthority[]
+  id              Int             @id @default(autoincrement())
+  name            String          @unique
+  description     String
+  updatedAt       DateTime?       @db.Timestamp(6)
+  createdAt       DateTime        @db.Timestamp(6)
+  userAuthorities UserAuthority[]
 
-    @@index([name])
+  @@index([name])
 }
 
 model Category {
@@ -42,36 +42,36 @@ model Category {
     childCategories Category[]     @relation("CategoryToCategory")
     postCategories  PostCategory[]
 
-    @@index([name])
-    @@index([parentId])
+  @@index([name])
+  @@index([parentId])
 }
 
 model FavoritePost {
-    userId    Int      @default(autoincrement())
-    postId    Int      @default(autoincrement())
-    createdAt DateTime @db.Timestamp(6)
-    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId    Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([userId, postId])
-    @@index([postId])
-    @@index([userId])
+  @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model Package {
-    id           Int       @id @default(autoincrement())
-    postId       Int       @default(autoincrement())
-    title        String
-    description  String?
-    revision     Int?      @default(0)
-    deliveryTime DateTime  @db.Time(6)
-    price        Decimal   @db.Money
-    special      Json?     @db.Json
-    updatedAt    DateTime? @db.Timestamp(6)
-    createdAt    DateTime  @db.Timestamp(6)
-    post         Post      @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           Int       @id @default(autoincrement())
+  postId       Int       @default(autoincrement())
+  title        String
+  description  String?
+  revision     Int?      @default(0)
+  deliveryTime DateTime  @db.Time(6)
+  price        Decimal   @db.Money
+  special      Json?     @db.Json
+  updatedAt    DateTime? @db.Timestamp(6)
+  createdAt    DateTime  @db.Timestamp(6)
+  post         Post      @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@index([postId, title])
+  @@index([postId, title])
 }
 
 model Post {
@@ -96,164 +96,164 @@ model Post {
 }
 
 model PostCategory {
-    postId     Int      @default(autoincrement())
-    categoryId Int      @default(autoincrement())
-    createdAt  DateTime @db.Timestamp(6)
-    category   Category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    post       Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  postId     Int      @default(autoincrement())
+  categoryId Int      @default(autoincrement())
+  createdAt  DateTime @db.Timestamp(6)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([postId, categoryId])
-    @@index([categoryId])
-    @@index([postId])
+  @@id([postId, categoryId])
+  @@index([categoryId])
+  @@index([postId])
 }
 
 model PostImage {
-    id        Int      @id @default(autoincrement())
-    postId    Int      @default(autoincrement())
-    link      String
-    createdAt DateTime @db.Timestamp(6)
-    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id        Int      @id @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  link      String
+  createdAt DateTime @db.Timestamp(6)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@index([postId])
+  @@index([postId])
 }
 
 model PostTag {
-    tagId     Int      @default(autoincrement())
-    postId    Int      @default(autoincrement())
-    createdAt DateTime @db.Timestamp(6)
-    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tagId     Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([tagId, postId])
-    @@index([postId])
-    @@index([tagId])
+  @@id([tagId, postId])
+  @@index([postId])
+  @@index([tagId])
 }
 
 model Preview {
-    userId    Int      @default(autoincrement())
-    postId    Int      @default(autoincrement())
-    star      Int
-    comment   String
-    createdAt DateTime @db.Timestamp(6)
-    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId    Int      @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  star      Int
+  comment   String
+  createdAt DateTime @db.Timestamp(6)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([userId, postId])
-    @@index([postId])
-    @@index([userId])
+  @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model Role {
-    id          Int        @id @default(autoincrement())
-    name        String     @unique
-    description String
-    updatedAt   DateTime?  @db.Timestamp(6)
-    createdAt   DateTime   @db.Timestamp(6)
-    userRoles   UserRole[]
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String
+  updatedAt   DateTime?  @db.Timestamp(6)
+  createdAt   DateTime   @db.Timestamp(6)
+  userRoles   UserRole[]
 
-    @@index([name])
+  @@index([name])
 }
 
 model Tag {
-    id          Int       @id @default(autoincrement())
-    name        String
-    description String
-    updatedAt   DateTime? @db.Timestamp(6)
-    createdAt   DateTime  @db.Timestamp(6)
-    postTags    PostTag[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  updatedAt   DateTime? @db.Timestamp(6)
+  createdAt   DateTime  @db.Timestamp(6)
+  postTags    PostTag[]
 
-    @@index([name])
+  @@index([name])
 }
 
 model User {
-    id            Int             @id @default(autoincrement())
-    username      String
-    about         String
-    updatedAt     DateTime?       @db.Timestamp(6)
-    createdAt     DateTime        @db.Timestamp(6)
-    avatar        String?
-    accounts      Account[]
-    favoritePosts FavoritePost[]
-    posts         Post[]
-    previews      Preview[]
-    authorities   UserAuthority[]
-    roles         UserRole[]
+  id            Int             @id @default(autoincrement())
+  username      String
+  about         String
+  updatedAt     DateTime?       @db.Timestamp(6)
+  createdAt     DateTime        @db.Timestamp(6)
+  avatar        String?
+  accounts      Account[]
+  favoritePosts FavoritePost[]
+  posts         Post[]
+  previews      Preview[]
+  authorities   UserAuthority[]
+  roles         UserRole[]
 }
 
 model UserAuthority {
-    userId      Int       @default(autoincrement())
-    authorityId Int       @default(autoincrement())
-    createdAt   DateTime  @db.Timestamp(6)
-    authority   Authority @relation(fields: [authorityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId      Int       @default(autoincrement())
+  authorityId Int       @default(autoincrement())
+  createdAt   DateTime  @db.Timestamp(6)
+  authority   Authority @relation(fields: [authorityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([userId, authorityId])
-    @@index([authorityId])
-    @@index([userId])
+  @@id([userId, authorityId])
+  @@index([authorityId])
+  @@index([userId])
 }
 
 model UserRole {
-    userId    Int      @default(autoincrement())
-    roleId    Int      @default(autoincrement())
-    createdAt DateTime @db.Timestamp(6)
-    role      Role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId    Int      @default(autoincrement())
+  roleId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@id([userId, roleId])
-    @@index([roleId])
-    @@index([userId])
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@index([userId])
 }
 
 model Order {
-    id           Int          @id @default(autoincrement())
-    postId       Int          @default(autoincrement())
-    title        String
-    description  String?
-    revision     Int?         @default(0)
-    deliveryTime DateTime     @db.Time(6)
-    price        Decimal      @db.Money
-    special      Json?        @db.Json
-    status       OrderStatus? @default(Pending)
-    createdAt    DateTime     @db.Timestamp(6)
-    post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           Int          @id @default(autoincrement())
+  postId       Int          @default(autoincrement())
+  title        String
+  description  String?
+  revision     Int?         @default(0)
+  deliveryTime DateTime     @db.Time(6)
+  price        Decimal      @db.Money
+  special      Json?        @db.Json
+  status       OrderStatus? @default(Pending)
+  createdAt    DateTime     @db.Timestamp(6)
+  post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@index([postId])
-    @@index([status])
+  @@index([postId])
+  @@index([status])
 }
 
 model PostBrowsingHistory {
-    id        Int      @id @default(autoincrement())
-    postId    Int      @default(autoincrement())
-    createdAt DateTime @db.Timestamp(6)
-    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id        Int      @id @default(autoincrement())
+  postId    Int      @default(autoincrement())
+  createdAt DateTime @db.Timestamp(6)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Skill {
-    id            Int           @id @default(autoincrement())
-    categoryId    Int           @default(autoincrement())
-    name          String
-    description   String
-    updatedAt     DateTime?     @db.Timestamp(6)
-    createdAt     DateTime      @db.Timestamp(6)
-    skillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id            Int           @id @default(autoincrement())
+  categoryId    Int           @default(autoincrement())
+  name          String
+  description   String
+  updatedAt     DateTime?     @db.Timestamp(6)
+  createdAt     DateTime      @db.Timestamp(6)
+  skillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    @@index([categoryId])
-    @@index([name])
+  @@index([categoryId])
+  @@index([name])
 }
 
 model SkillCategory {
-    id          Int       @id @default(autoincrement())
-    name        String
-    description String
-    updatedAt   DateTime? @db.Timestamp(6)
-    createdAt   DateTime  @db.Timestamp(6)
-    skills      Skill[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  updatedAt   DateTime? @db.Timestamp(6)
+  createdAt   DateTime  @db.Timestamp(6)
+  skills      Skill[]
 
-    @@index([name])
+  @@index([name])
 }
 
 enum OrderStatus {
-    Pending
-    Accepted
-    Rejected
+  Pending
+  Accepted
+  Rejected
 }

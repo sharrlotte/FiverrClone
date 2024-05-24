@@ -1,7 +1,6 @@
-import { size } from 'lodash';
 import { z } from 'zod';
 
-export const createSkillCategorySchema = z.object({
+export const createPostCategorySchema = z.object({
   name: z
     .string()
     .min(4, {
@@ -15,23 +14,25 @@ export const createSkillCategorySchema = z.object({
       message: 'Chú thích sản phẩm phải nhiều hơn 4 kí tự',
     })
     .max(100, { message: 'Chú thích sản phẩm phải ít hơn 100 kí tự' }),
+
+  parentId: z.number().nullable(),
 });
 
-export type CreateSkillCategoryRequest = z.infer<typeof createSkillCategorySchema>;
+export type CreatePostCategoryRequest = z.infer<typeof createPostCategorySchema>;
 
-export type UpdateSkillCategoryRequest = CreateSkillCategoryRequest;
+export type UpdatePostCategoryRequest = CreatePostCategoryRequest;
 
-export const getSkillCategorySchema = z.object({
+export const getPostCategorySchema = z.object({
   name: z
     .string()
     .min(4, {
       message: 'Tên sản phẩm phải nhiều hơn 4 kí tự',
     })
-    .max(80, { message: 'Tên sản phẩm phải ít hơn 100 kí tự' })
+    .max(100, { message: 'Tên sản phẩm phải ít hơn 100 kí tự' })
     .optional(),
 
   page: z.number().min(0),
   size: z.number().max(50),
 });
 
-export type GetSkillCategoryRequest = z.infer<typeof getSkillCategorySchema>;
+export type GetPostCategoryRequest = z.infer<typeof getPostCategorySchema>;

@@ -3,21 +3,21 @@
 import * as React from 'react';
 import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
-import { Tag, getTag } from '@/api/tag.api';
+import { PostCategory, getPostCategory } from '@/api/post-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
+import AddPostCategoryButton from './AddPostCategoryButton';
+import UpdatePostCategoryButton from './UpdatePostCategoryButton';
 import PageSelector from '@/components/ui/page-selector';
-import UpdateTagButton from './UpdateTagButton';
-import DeleteTagButton from './DeleteTagButton';
-import { getTagSchema } from '../../../schema/tag.sechema';
-import AddTagButton from './AddTagButton';
+import DeletePostCategoryButton from '@/app/admin/post-category/DeletePostCategoryButton';
 
-const columns: ColumnDef<Tag>[] = [
+const columns: ColumnDef<PostCategory>[] = [
   {
     id: 'select',
     header: ({ table }) => <Checkbox checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')} onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} aria-label="Select all" />,
@@ -45,10 +45,17 @@ const columns: ColumnDef<Tag>[] = [
     },
   },
   {
+    accessorKey: 'parentId',
+    header: () => <div>Thể Loại cha</div>,
+    cell: ({ row }) => {
+      return <div className="font-medium px-0">{row.getValue('parentId')}</div>;
+    },
+  },
+  {
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const tag = row.original;
+      const skillCategory = row.original;
 
       return (
         <DropdownMenu>
@@ -58,8 +65,8 @@ const columns: ColumnDef<Tag>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <UpdateTagButton tag={tag} />
-            <DeleteTagButton tag={tag} />
+            <UpdatePostCategoryButton skillCategory={skillCategory} />
+            <DeletePostCategoryButton skillCategory={skillCategory} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -77,7 +84,7 @@ export default function Page() {
 
   const { data, isFetching } = useQuery({
     queryKey: [page],
-    queryFn: () => getTag({ size: 20, page }),
+    queryFn: () => getPostCategory({ size: 20, page }),
   });
 
   const table = useReactTable({
@@ -107,7 +114,7 @@ export default function Page() {
             <h2>Quản lý thể loại kỹ năng</h2>
           </div>
           <div>
-            <AddTagButton />
+            <AddPostCategoryButton />
           </div>
         </div>
         {isFetching ? (

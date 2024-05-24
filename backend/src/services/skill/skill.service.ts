@@ -44,6 +44,14 @@ export class SkillService {
   }
 
   async update(id: number, updateSkillDto: UpdateSkillDto): Promise<Skill> {
+    const { categoryId } = updateSkillDto;
+
+    const category = await this.prisma.skill.findUnique({ where: { id: categoryId } });
+
+    if (!category) {
+      throw new NotFound<typeof updateSkillDto>('categoryId');
+    }
+
     const duplicateName = await this.prisma.skill.findFirst({ where: { name: updateSkillDto.name } });
 
     if (duplicateName && duplicateName.id !== id) {

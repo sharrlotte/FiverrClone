@@ -36,13 +36,13 @@ async function Header() {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <Link className="border rounded-md p-2" href="account/login">
-              Login
+              Đăng nhập
             </Link>
           </>
         </>
       ) : (
         <Link className="border rounded-md p-2" href="account/login">
-          Login
+          Đăng nhập
         </Link>
       )}
     </div>

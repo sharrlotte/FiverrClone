@@ -19,7 +19,7 @@ export class SkillController {
 
   @Get()
   findAll(@Query() query: NamePaginationQueryDto) {
-    return plainToInstance(SkillResponseDto, this.skillService.findAll(query));
+    return this.skillService.findAll(query).then((items) => items.map((item) => plainToInstance(SkillResponseDto, item)));
   }
 
   @Get(':id')

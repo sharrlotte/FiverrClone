@@ -26,7 +26,7 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
     let user = await this.usersService.find(id, 'github');
 
     if (!user) {
-      user = await this.usersService.create(id, 'github', { username: displayName ?? name ?? username, profileUrl });
+      user = await this.usersService.create(id, 'github', { username: displayName ?? name ?? username   , profileUrl });
     }
 
     return user;

@@ -9,7 +9,4 @@ export class SkillCategoryResponseDto {
 
   @Expose()
   description: string;
-
-  @Expose()
-  createdAt: Date;
 }

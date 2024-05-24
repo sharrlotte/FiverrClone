@@ -9,7 +9,4 @@ export class SkillResponseDto {
 
   @Expose()
   description: string;
-
-  @Expose()
-  createdAt: number;
 }

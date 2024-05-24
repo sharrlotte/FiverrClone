@@ -8,20 +8,42 @@ type Props = {
   any?: UserRole[];
   all?: UserRole[];
   session: Session | null;
+  alt?: ReactNode;
 };
 
 function NoPermission() {
-  return <span className="fixed inset-0 flex justify-center items-center text-2xl">You don have permission to access this page</span>;
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+      <span className="font-bold text-2xl">You don have permission to access this page</span>
+      <Link className="min-w-[100px] border p-2 rounded-md" title="home" href="/">
+        Về trang chủ{' '}
+      </Link>
+    </div>
+  );
 }
 
-export default function ProtectedRoute({ all, any, children, session }: Props) {
-  if (!session?.roles)
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-        Vui lòng đăng nhập để tiếp tục
-        <Link className="min-w-[100px]" title="login" href="/account/login" />
-      </div>
-    );
+function LoginToContinue() {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-2">
+      <span className="text-2xl font-bold">Vui lòng đăng nhập để tiếp tục</span>
+      <Link className="min-w-[100px] border p-2 rounded-md" title="login" href="/account/login">
+        Đến trang đăng nhập
+      </Link>
+      <Link className="min-w-[100px] border p-2 rounded-md" title="home" href="/">
+        Về trang chủ
+      </Link>
+    </div>
+  );
+}
+
+export default function ProtectedRoute({ all, any, children, session, alt }: Props) {
+  if (!session?.roles) {
+    if (alt) {
+      return alt;
+    }
+
+    return <LoginToContinue />;
+  }
 
   const roles = session.roles;
 

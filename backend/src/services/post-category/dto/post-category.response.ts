@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class TagResponseDto {
+export class PostCategoryResponseDto {
   @Expose()
   id: number;
 
@@ -9,4 +9,7 @@ export class TagResponseDto {
 
   @Expose()
   description: string;
+
+  @Expose()
+  parentId: number;
 }

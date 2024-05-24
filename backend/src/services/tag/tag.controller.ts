@@ -19,7 +19,7 @@ export class TagController {
 
   @Get()
   findAll(@Query() query: NamePaginationQueryDto) {
-    return plainToInstance(TagResponseDto, this.tagService.findAll(query));
+    return this.tagService.findAll(query).then((items) => items.map((item) => plainToInstance(TagResponseDto, item)));
   }
 
   @Get(':id')

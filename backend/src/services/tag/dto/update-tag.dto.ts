@@ -1,9 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/swagger';
+import { CreateTagDto } from 'src/services/tag/dto/create-tag.dto';
 
-export class UpdateTagDto {
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  description: string;
-}
+export class UpdateTagDto extends PartialType(CreateTagDto) {}

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
-export class CreateTagDto {
+export class CreatePostCategoryDto {
   @ApiProperty({
     minLength: 4,
     maxLength: 100,
@@ -19,4 +19,6 @@ export class CreateTagDto {
   @MinLength(4)
   @MaxLength(1000)
   description: string;
+
+  parentId: number;
 }

@@ -19,7 +19,7 @@ export default function NavLink({ href, name, icon }: Props) {
     );
 
   return (
-    <div className="flex gap-4 p-2 items-start" key={name}>
+    <div className="flex gap-4 p-2 items-start hover:bg-blue-400 rounded-md hover:text-white" key={name}>
       {icon}
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1" className="border-none max-w-full overflow-hidden gap-4 grid">

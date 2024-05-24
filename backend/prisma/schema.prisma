@@ -33,14 +33,14 @@ model Authority {
 }
 
 model Category {
-  id              Int            @id @default(autoincrement())
-  name            String         @unique
-  parentId        Int            @default(autoincrement())
-  updatedAt       DateTime?      @db.Timestamp(6)
-  createdAt       DateTime       @db.Timestamp(6)
-  parentCategory  Category       @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  childCategories Category[]     @relation("CategoryToCategory")
-  postCategories  PostCategory[]
+    id              Int            @id @default(autoincrement())
+    name            String         @unique
+    parentId        Int?           @default(autoincrement())
+    updatedAt       DateTime?      @db.Timestamp(6)
+    createdAt       DateTime       @db.Timestamp(6)
+    parentCategory  Category?       @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    childCategories Category[]     @relation("CategoryToCategory")
+    postCategories  PostCategory[]
 
   @@index([name])
   @@index([parentId])

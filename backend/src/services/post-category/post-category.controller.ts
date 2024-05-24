@@ -7,7 +7,7 @@ import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto
 import { plainToInstance } from 'class-transformer';
 import { PostCategoryResponse } from 'src/services/post-category/dto/post-category.response';
 
-@Controller('post-category')
+@Controller('post-categories')
 export class PostCategoryController {
   constructor(private readonly postCategoryService: PostCategoryService) {}
 
@@ -18,8 +18,8 @@ export class PostCategoryController {
   }
 
   @Get()
-  findAll(@Query() query: NamePaginationQueryDto) {
-    return this.postCategoryService.findAll(query).then((items) => items.map((item) => plainToInstance(PostCategoryResponse, item)));
+  findAll(@Query() query: NamePaginationQueryDto, @Query() isParent?: boolean) {
+    return this.postCategoryService.findAll({ ...query, isParent }).then((items) => items.map((item) => plainToInstance(PostCategoryResponse, item)));
   }
 
   @Get(':id')

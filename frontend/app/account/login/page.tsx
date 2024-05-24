@@ -23,7 +23,7 @@ const images: Post[] = [
     link: `${env.url.backend_url}/auth/google`,
   },
   {
-    image: '/image/icons8-google.svg',
+    image: '/image/github-mark.svg',
     alt: 'google',
     text: 'Continue with Github',
     link: `${env.url.backend_url}/auth/github`,

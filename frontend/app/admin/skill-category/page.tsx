@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -70,10 +70,11 @@ const columns: ColumnDef<SkillCategory>[] = [
 export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const params = useSearchParams();
-  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const params = useSearchParams();
+  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isFetching } = useQuery({
     queryKey: [page],
@@ -86,7 +87,6 @@ export default function Page() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -99,9 +99,11 @@ export default function Page() {
     },
   });
 
+  console.log('Render');
+
   return (
-    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4">
-      <div>
+    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4 overflow-hidden">
+      <div className="h-full overflow-hidden flex flex-col">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
             <h2>Quản lý thể loại kỹ năng</h2>
@@ -127,7 +129,7 @@ export default function Page() {
                 </TableRow>
               ))}
             </TableHeader>
-            <TableBody>
+            <TableBody className="h-full overflow-y-auto">
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

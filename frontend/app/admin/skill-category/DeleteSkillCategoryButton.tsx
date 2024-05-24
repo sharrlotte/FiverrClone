@@ -1,7 +1,6 @@
 'use client';
 
 import { deleteSkillCategory, SkillCategory } from '@/api/skill-category.api';
-import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
@@ -16,7 +15,7 @@ export default function DeleteSkillCategoryButton({ skillCategory: { id, name } 
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async () => deleteSkillCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries();
@@ -33,10 +32,6 @@ export default function DeleteSkillCategoryButton({ skillCategory: { id, name } 
       }
     },
   });
-
-  if (isPending) {
-    return <LoadingOverlay />;
-  }
 
   return (
     <AlertDialog>

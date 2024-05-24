@@ -8,6 +8,7 @@ import { SkillModule } from 'src/services/skill/skill.module';
 import { TagModule } from 'src/services/tag/tag.module';
 import { UsersModule } from 'src/services/users/users.module';
 import { PostCategoryModule } from './services/post-category/post-category.module';
+import { PostModule } from './services/post/post.module';
 import appConfig from 'src/config/configuration';
 
 @Module({
@@ -26,6 +27,7 @@ import appConfig from 'src/config/configuration';
     SkillCategoryModule,
     RoleModule,
     PostCategoryModule,
+    PostModule,
   ],
 })
 export class AppModule {}

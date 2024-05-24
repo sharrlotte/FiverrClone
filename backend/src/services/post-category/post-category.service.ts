@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 import { Category } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import Conflict from 'src/error/Conflict';
@@ -26,13 +26,27 @@ export class PostCategoryService {
       if (!parentCategory) {
         throw new NotFound<typeof createPostCategoryDto>('parentId');
       }
+
+      if (parentCategory.parentId !== null) {
+        throw new BadRequestException('Children can not be parent of other children');
+      }
     }
 
     return this.prisma.skillCategory.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
   }
 
-  findAll({ name, size, page }: NamePaginationQueryDto): Promise<Category[]> {
-    return this.prisma.category.findMany({ where: { name }, take: size, skip: size * page });
+  findAll({ name, size, page, isParent }: NamePaginationQueryDto & { isParent?: boolean }): Promise<Category[]> {
+    let query = {};
+
+    if (isParent === true) {
+      query = { name, isParent: null };
+    } else if (isParent === false) {
+      query = { name, isParent: { not: null } };
+    } else {
+      query = { name };
+    }
+
+    return this.prisma.category.findMany({ where: query, take: size, skip: size * page });
   }
 
   async findOne(id: number) {
@@ -59,6 +73,16 @@ export class PostCategoryService {
 
       if (!parentCategory) {
         throw new NotFound<typeof updatePostCategoryDto>('parentId');
+      }
+
+      if (parentCategory.parentId !== null) {
+        throw new BadRequestException('Children can not be parent of other children');
+      }
+    } else {
+      const children = await this.prisma.category.findFirst({ where: { parentId: id } });
+
+      if (children !== null) {
+        throw new BadRequestException('Children can not be parent of other children');
       }
     }
 

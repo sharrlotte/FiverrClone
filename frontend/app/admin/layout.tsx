@@ -46,9 +46,24 @@ const links: LinkType[] = [
   },
   {
     links: [
-      { name: 'Báo cáo', icon: <FlagIcon className="h-6 w-6" />, href: '/admin/report' },
-      { name: 'Bình luận', icon: <ChatBubbleOvalLeftIcon className="h-6 w-6" />, href: '/admin/comment' },
-      { name: 'Bài đăng', icon: <DocumentIcon className="h-6 w-6" />, href: '/admin/post' },
+      {
+        name: 'Báo cáo',
+        icon: <FlagIcon className="h-6 w-6" />,
+        href: [
+          {
+            name: 'Bình luận',
+            href: '/admin/report/comment',
+          },
+          {
+            name: 'Người dùng',
+            href: '/admin/report/user',
+          },
+          {
+            name: 'Bài đăng',
+            href: '/admin/post',
+          },
+        ],
+      },
     ],
     alt: 'home',
     groupName: 'Kiểm duyệt',

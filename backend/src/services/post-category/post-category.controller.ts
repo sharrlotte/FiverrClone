@@ -18,8 +18,8 @@ export class PostCategoryController {
   }
 
   @Get()
-  findAll(@Query() query: NamePaginationQueryDto) {
-    return this.postCategoryService.findAll(query).then((items) => items.map((item) => plainToInstance(PostCategoryResponse, item)));
+  findAll(@Query() query: NamePaginationQueryDto, @Query() isParent?: boolean) {
+    return this.postCategoryService.findAll({ ...query, isParent }).then((items) => items.map((item) => plainToInstance(PostCategoryResponse, item)));
   }
 
   @Get(':id')

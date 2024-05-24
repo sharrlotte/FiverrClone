@@ -3,13 +3,21 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { GithubModule } from '../github/github.module';
 import { JwtAuthService } from 'src/services/jwt/jwt.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppConfig } from '../../config/configuration';
 
 @Module({
   imports: [
-    JwtModule.register({
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService<AppConfig>) => {
+        return {
+          secret: configService.get<string>('auth.jwt.secret'),
+          signOptions: { expiresIn: '3d' },
+        };
+      },
       global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '3d' },
     }),
     GithubModule,
     JwtModule,
@@ -18,4 +26,4 @@ import { JwtAuthService } from 'src/services/jwt/jwt.service';
   providers: [JwtAuthService],
   exports: [JwtAuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

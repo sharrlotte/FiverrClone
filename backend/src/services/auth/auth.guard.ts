@@ -8,11 +8,12 @@ export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService<AppConfig>,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
     const token = request?.cookies?.jwt;
+
 
     if (!token) {
       //TODO: throw exception

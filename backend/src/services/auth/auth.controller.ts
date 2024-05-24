@@ -8,6 +8,7 @@ import { SessionDto } from './dto/session.dto';
 
 @Controller('auth')
 export class AuthController {
+
   @Get('session')
   @UseGuards(AuthGuard)
   getProfile(@Req() req: Request): SessionDto {

@@ -15,7 +15,7 @@ export default function Home() {
           <h1 className="text-4xl text-black">Popular Service</h1>
         </div>
         <div className="mt-5 px-20">
-          <div className="font-black hover:opacity-80">
+          <div className="font-black">
             <Carouselshow />
           </div>
         </div>

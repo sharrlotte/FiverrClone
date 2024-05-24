@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 import { Category } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import Conflict from 'src/error/Conflict';

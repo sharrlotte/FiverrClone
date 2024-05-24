@@ -1,13 +1,10 @@
-import { getSession } from '@/api/auth.api';
 import NavLink from '@/app/admin/NavLink';
 import Header from '@/app/Header';
 import ProtectedRoute from '@/components/layout/protected-route';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { getSession } from '@/api/auth.api';
 import { Button } from '@/components/ui/button';
-
 import { Separator } from '@/components/ui/separator';
-import { ChartBarSquareIcon, ChatBubbleOvalLeftIcon, DocumentIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import { ChartBarSquareIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import React, { ReactNode } from 'react';
 
 type LinkType = {
@@ -46,9 +43,24 @@ const links: LinkType[] = [
   },
   {
     links: [
-      { name: 'Báo cáo', icon: <FlagIcon className="h-6 w-6" />, href: '/admin/report' },
-      { name: 'Bình luận', icon: <ChatBubbleOvalLeftIcon className="h-6 w-6" />, href: '/admin/comment' },
-      { name: 'Bài đăng', icon: <DocumentIcon className="h-6 w-6" />, href: '/admin/post' },
+      {
+        name: 'Báo cáo',
+        icon: <FlagIcon className="h-6 w-6" />,
+        href: [
+          {
+            name: 'Bình luận',
+            href: '/admin/report/comment',
+          },
+          {
+            name: 'Người dùng',
+            href: '/admin/report/user',
+          },
+          {
+            name: 'Bài đăng',
+            href: '/admin/post',
+          },
+        ],
+      },
     ],
     alt: 'home',
     groupName: 'Kiểm duyệt',
@@ -70,25 +82,9 @@ export default async function Page({ children }: { children: ReactNode }) {
                   {groupName}
                 </div>
                 <div className="p-2 flex flex-col gap-2 font-bold text-lg">
-                  {links.map(({ icon, name, href }) =>
-                    typeof href === 'string' ? (
-                      <NavLink key={href} icon={icon} href={href} name={name} />
-                    ) : (
-                      <div className="flex gap-4 p-2 items-start" key={name}>
-                        {icon}
-                        <Accordion type="single" collapsible className="max-w-full">
-                          <AccordionItem value="item-1" className="border-none max-w-full overflow-hidden gap-4 grid">
-                            <AccordionTrigger className="p-0 font-bold text-lg gap-2 hover:no-underline">{name}</AccordionTrigger>
-                            {href.map((item) => (
-                              <AccordionContent key={item.href}>
-                                <Link href={item.href}>{item.name}</Link>
-                              </AccordionContent>
-                            ))}
-                          </AccordionItem>
-                        </Accordion>
-                      </div>
-                    ),
-                  )}
+                  {links.map(({ icon, name, href }) => (
+                    <NavLink key={name} icon={icon} href={href} name={name} />
+                  ))}
                 </div>
               </div>
             ))}

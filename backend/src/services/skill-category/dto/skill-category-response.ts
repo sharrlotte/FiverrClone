@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class SkillCategoryResponseDto {
+export class SkillCategoryResponse {
   @Expose()
   id: number;
 

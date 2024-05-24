@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class PostCategoryResponseDto {
+export class PostCategoryResponse {
   @Expose()
   id: number;
 

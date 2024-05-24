@@ -13,7 +13,7 @@ export class CreatePostCategoryDto {
 
   @ApiProperty({
     minLength: 4,
-    maxLength: 100,
+    maxLength: 1000,
   })
   @IsNotEmpty()
   @MinLength(4)

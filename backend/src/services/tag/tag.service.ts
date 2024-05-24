@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 import NotFound from 'src/error/NotFound';
 import Conflict from 'src/error/Conflict';
 import { Tag } from '@prisma/client';

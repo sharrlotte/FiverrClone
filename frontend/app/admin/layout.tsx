@@ -2,14 +2,16 @@ import { getSession } from '@/api/auth.api';
 import NavLink from '@/app/admin/NavLink';
 import Header from '@/app/Header';
 import ProtectedRoute from '@/components/layout/protected-route';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 
 import { Separator } from '@/components/ui/separator';
 import { ChartBarSquareIcon, ChatBubbleOvalLeftIcon, DocumentIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import React, { ReactNode } from 'react';
 
 type LinkType = {
-  links: { name: string; icon: ReactNode; href: string }[];
+  links: { name: string; icon?: ReactNode; href: { name: string; href: string }[] | string }[];
   groupName: string;
   alt: string;
 };
@@ -27,7 +29,16 @@ const links: LinkType[] = [
       {
         name: 'Thể Loại',
         icon: <TagIcon className="h-6 w-6" />,
-        href: '/admin/skill-category',
+        href: [
+          {
+            name: 'Loại bài viết',
+            href: '/admin/post-category',
+          },
+          {
+            name: 'Loại kỹ năng',
+            href: '/admin/skill-category',
+          },
+        ],
       },
     ],
     alt: 'home',
@@ -59,9 +70,25 @@ export default async function Page({ children }: { children: ReactNode }) {
                   {groupName}
                 </div>
                 <div className="p-2 flex flex-col gap-2 font-bold text-lg">
-                  {links.map(({ icon, name, href }) => (
-                    <NavLink key={href} icon={icon} href={href} name={name} />
-                  ))}
+                  {links.map(({ icon, name, href }) =>
+                    typeof href === 'string' ? (
+                      <NavLink key={href} icon={icon} href={href} name={name} />
+                    ) : (
+                      <div className="flex gap-4 p-2 items-start" key={name}>
+                        {icon}
+                        <Accordion type="single" collapsible className="max-w-full">
+                          <AccordionItem value="item-1" className="border-none max-w-full overflow-hidden gap-4 grid">
+                            <AccordionTrigger className="p-0 font-bold text-lg gap-2 hover:no-underline">{name}</AccordionTrigger>
+                            {href.map((item) => (
+                              <AccordionContent key={item.href}>
+                                <Link href={item.href}>{item.name}</Link>
+                              </AccordionContent>
+                            ))}
+                          </AccordionItem>
+                        </Accordion>
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
             ))}

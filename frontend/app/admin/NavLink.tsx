@@ -12,14 +12,14 @@ type Props = {
 export default function NavLink({ href, name, icon }: Props) {
   if (typeof href === 'string')
     return (
-      <Link href={href} className="flex gap-4 items-center hover:bg-blue-400 hover:text-white p-2 rounded-md">
+      <Link href={href} className="flex gap-4 items-center p-2 rounded-md">
         {icon}
         <div>{name}</div>
       </Link>
     );
 
   return (
-    <div className="flex gap-4 p-2 items-start hover:bg-blue-400 rounded-md hover:text-white" key={name}>
+    <div className="flex gap-4 p-2 items-start rounded-md" key={name}>
       {icon}
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1" className="border-none max-w-full overflow-hidden gap-4 grid">

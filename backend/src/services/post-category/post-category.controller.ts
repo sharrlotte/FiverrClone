@@ -7,7 +7,7 @@ import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto
 import { plainToInstance } from 'class-transformer';
 import { PostCategoryResponse } from 'src/services/post-category/dto/post-category.response';
 
-@Controller('post-category')
+@Controller('post-categories')
 export class PostCategoryController {
   constructor(private readonly postCategoryService: PostCategoryService) {}
 

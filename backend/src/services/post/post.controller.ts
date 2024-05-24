@@ -6,7 +6,7 @@ import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-
 import { plainToInstance } from 'class-transformer';
 import { PostResponse } from 'src/services/post/dto/post.response';
 
-@Controller('post')
+@Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 

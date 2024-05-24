@@ -3,7 +3,8 @@ import { plainToInstance } from 'class-transformer';
 import { Request } from 'express';
 import { AuthGuard } from 'src/services/auth/auth.guard';
 import { getUser } from 'src/services/auth/auth.utils';
-import { SessionDto } from 'src/services/auth/dto/session.dto';
+import { SessionDto } from './dto/session.dto';
+
 
 @Controller('auth')
 export class AuthController {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSkillCategoryDto } from './dto/create-skill-category.dto';
 import { UpdateSkillCategoryDto } from './dto/update-skill-category.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 import Conflict from 'src/error/Conflict';
 import NotFound from 'src/error/NotFound';
 import { SkillCategory } from '@prisma/client';

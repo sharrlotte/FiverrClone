@@ -5,7 +5,7 @@ import NotFound from 'src/error/NotFound';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { CreateSkillDto } from 'src/services/skill/dto/create-skill.dto';
 import { UpdateSkillDto } from 'src/services/skill/dto/update-skill.dto';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 
 @Injectable()
 export class SkillService {

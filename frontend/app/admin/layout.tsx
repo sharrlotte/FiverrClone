@@ -76,7 +76,7 @@ export default async function Page({ children }: { children: ReactNode }) {
                     ) : (
                       <div className="flex gap-4 p-2 items-start" key={name}>
                         {icon}
-                        <Accordion type="single" collapsible className="max-w-full">
+                        <Accordion type="single" collapsible className="w-full">
                           <AccordionItem value="item-1" className="border-none max-w-full overflow-hidden gap-4 grid">
                             <AccordionTrigger className="p-0 font-bold text-lg gap-2 hover:no-underline">{name}</AccordionTrigger>
                             {href.map((item) => (

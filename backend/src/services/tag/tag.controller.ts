@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query 
 import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto copy';
+import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
 import { ApiBody } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
-import { TagResponseDto } from 'src/services/tag/dto/tag-response.dto';
+import { TagResponse } from 'src/services/tag/dto/tag-response.dto';
 
 @Controller('tags')
 export class TagController {
@@ -14,23 +14,23 @@ export class TagController {
   @Post()
   @ApiBody({ type: CreateTagDto })
   create(@Body() createTagDto: CreateTagDto) {
-    return plainToInstance(TagResponseDto, this.tagService.create(createTagDto));
+    return plainToInstance(TagResponse, this.tagService.create(createTagDto));
   }
 
   @Get()
   findAll(@Query() query: NamePaginationQueryDto) {
-    return this.tagService.findAll(query).then((items) => items.map((item) => plainToInstance(TagResponseDto, item)));
+    return this.tagService.findAll(query).then((items) => items.map((item) => plainToInstance(TagResponse, item)));
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return plainToInstance(TagResponseDto, this.tagService.findOne(id));
+    return plainToInstance(TagResponse, this.tagService.findOne(id));
   }
 
   @Patch(':id')
   @ApiBody({ type: UpdateTagDto })
   update(@Param('id', ParseIntPipe) id: number, @Body() updateTagDto: UpdateTagDto) {
-    return plainToInstance(TagResponseDto, this.tagService.update(id, updateTagDto));
+    return plainToInstance(TagResponse, this.tagService.update(id, updateTagDto));
   }
 
   @Delete(':id')

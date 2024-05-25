@@ -32,16 +32,17 @@ export class PostCategoryService {
       }
     }
 
-    return this.prisma.skillCategory.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
+    return this.prisma.category.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
   }
 
   findAll({ name, size, page, isParent }: NamePaginationQueryDto & { isParent?: boolean }): Promise<Category[]> {
+    name = name === '' ? undefined : name;
     let query = {};
 
     if (isParent === true) {
-      query = { name, isParent: null };
+      query = { name, parentId: null };
     } else if (isParent === false) {
-      query = { name, isParent: { not: null } };
+      query = { name, parentId: { not: null } };
     } else {
       query = { name };
     }

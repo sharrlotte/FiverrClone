@@ -1,4 +1,3 @@
-import { size } from 'lodash';
 import { z } from 'zod';
 
 export const createSkillCategorySchema = z.object({

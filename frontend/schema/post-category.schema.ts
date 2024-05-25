@@ -15,7 +15,7 @@ export const createPostCategorySchema = z.object({
     })
     .max(100, { message: 'Chú thích thể loại phải ít hơn 100 kí tự' }),
 
-  parentId: z.number().nullable(),
+  parentId: z.number().optional(),
 });
 
 export type CreatePostCategoryRequest = z.infer<typeof createPostCategorySchema>;
@@ -33,6 +33,7 @@ export const getPostCategorySchema = z.object({
 
   page: z.number().min(0),
   size: z.number().max(50),
+  isParent: z.boolean().optional(),
 });
 
 export type GetPostCategoryRequest = z.infer<typeof getPostCategorySchema>;

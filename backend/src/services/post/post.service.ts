@@ -5,17 +5,19 @@ import { Post } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-query.dto';
 import NotFound from 'src/error/NotFound';
+import { SessionDto } from 'src/services/auth/dto/session.dto';
 
 @Injectable()
 export class PostService {
   constructor(private prisma: PrismaService) {}
 
   //Add images and more stuff to finish post
-  async create(createPostDto: CreatePostDto) {
+  async create(session: SessionDto, createPostDto: CreatePostDto) {
     const { packages, categories, ...createPostData } = createPostDto;
 
     const post = await this.prisma.post.create({
       data: {
+        userId: session.id,
         ...createPostData,
         createdAt: new Date(),
       },
@@ -27,6 +29,8 @@ export class PostService {
         createdAt: new Date(),
       })),
     });
+
+    await Promise.all(categories.map(async (category) => this.prisma.category.findFirstOrThrow({ where: { id: category, parentId: { not: null } } })));
 
     const saveCategories = this.prisma.postCategory.createMany({
       data: categories.map((item) => ({

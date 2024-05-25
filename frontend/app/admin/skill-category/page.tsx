@@ -14,8 +14,8 @@ import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 import AddSkillCategoryButton from './AddSkillCategoryButton';
 import UpdateSkillCategoryButton from './UpdateSkillCategoryButton';
-import PageSelector from '@/components/ui/page-selector';
 import DeleteSkillCategoryButton from '@/app/admin/skill-category/DeleteSkillCategoryButton';
+import PageSelector from '@/components/common/PageSelector';
 
 const columns: ColumnDef<SkillCategory>[] = [
   {
@@ -77,7 +77,7 @@ export default function Page() {
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isFetching } = useQuery({
-    queryKey: [page],
+    queryKey: ['skill-categories', page],
     queryFn: () => getSkillCategory({ size: 20, page }),
   });
 
@@ -98,8 +98,6 @@ export default function Page() {
       rowSelection,
     },
   });
-
-  console.log('Render');
 
   return (
     <div className="rounded-md border w-full h-full flex justify-between flex-col p-4 overflow-hidden">

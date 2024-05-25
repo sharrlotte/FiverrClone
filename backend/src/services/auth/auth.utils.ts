@@ -10,3 +10,9 @@ export function getUser(req: Request): SessionDto | null {
 
   return { id: user.sub, username: user.username, avatar: user.avatar, authorities: user.authorities, roles: user.roles };
 }
+
+export function getAuthUser(req: Request): SessionDto {
+  const user = req.user as unknown as any;
+
+  return { id: user.sub, username: user.username, avatar: user.avatar, authorities: user.authorities, roles: user.roles };
+}

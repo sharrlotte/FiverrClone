@@ -5,15 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { CreatePostCategoryRequest, createPostCategorySchema } from '@/schema/post-category.schema';
-import { createPostCategory } from '@/api/post-category.api';
-import LoadingOverlay from '../../../components/ui/LoadingOverlay';
+import { createPostCategory, getPostCategoryById } from '@/api/post-category.api';
+import LoadingOverlay from '../../../components/common/LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PostCategorySelector from '@/components/common/PostCategorySelector';
 
 export default function AddPostCategoryButton() {
   const queryClient = useQueryClient();
@@ -25,8 +25,15 @@ export default function AddPostCategoryButton() {
     defaultValues: {
       name: '',
       description: '',
-      parentId: null,
+      parentId: undefined,
     },
+  });
+
+  const id = form.getValues('parentId') ?? 0;
+  const { data } = useQuery({
+    queryKey: ['post-category', id],
+    queryFn: () => getPostCategoryById(id),
+    enabled: !!id,
   });
 
   const { mutate, isPending } = useMutation({
@@ -104,22 +111,13 @@ export default function AddPostCategoryButton() {
               <FormField
                 control={form.control}
                 name="parentId"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field: { value, onChange } }) => (
+                  <FormItem className="flex flex-col">
                     <FormLabel>Thể loại cha</FormLabel>
                     <FormControl>
-                      <Select>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Chọn thể loại" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Fruits</SelectLabel>
-
-                            <SelectItem value="apple">Apple</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                      <PostCategorySelector selectedValues={value} onSelect={(value) => onChange(value)} isParent>
+                        {data?.name}
+                      </PostCategorySelector>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

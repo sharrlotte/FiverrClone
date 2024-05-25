@@ -32,7 +32,11 @@ export class CreatePackageDto {
 
   @IsNotEmpty()
   @IsInt()
-  @Min(0)
+  @Min(100000)
   price: number;
+
+  @ApiProperty({
+    required: false,
+  })
   special: Record<string, string>;
 }

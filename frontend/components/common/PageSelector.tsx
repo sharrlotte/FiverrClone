@@ -28,9 +28,11 @@ export default function PageSelector({ className, defaultPage, maxPage, enabled 
         <PaginationItem>
           <PaginationPrevious />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink onClick={() => handlePageChange(previousPage)}>{previousPage}</PaginationLink>
-        </PaginationItem>
+        {+page > 0 && (
+          <PaginationItem>
+            <PaginationLink onClick={() => handlePageChange(previousPage)}>{previousPage}</PaginationLink>
+          </PaginationItem>
+        )}
         <PaginationItem>
           <PaginationLink isActive>{page}</PaginationLink>
         </PaginationItem>

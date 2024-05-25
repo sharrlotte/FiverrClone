@@ -18,7 +18,4 @@ export class PostResponse {
 
   @Expose()
   favorites: bigint;
-
-  @Expose()
-  about: string;
 }

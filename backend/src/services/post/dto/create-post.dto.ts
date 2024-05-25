@@ -21,16 +21,7 @@ export class CreatePostDto {
   @MinLength(100)
   @MaxLength(10000)
   content: string;
-
-  @ApiProperty({
-    minLength: 4,
-    maxLength: 1000,
-  })
-  @IsNotEmpty()
-  @MinLength(4)
-  @MaxLength(1000)
-  about: string;
-
+  
   @ApiProperty({
     minLength: 1,
     maxLength: 10,

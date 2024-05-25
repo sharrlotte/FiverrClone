@@ -6,7 +6,7 @@ import Navigation from '@/app/Navigation';
 import Link from 'next/link';
 export default function Home() {
   return (
-    <main>
+    <main className="overflow-y-auto overflow-x-hidden h-full">
       <div className="p-4 min-h-dvh">
         <div className="flex gap-2 w-full">
           <Link className="text-3xl font-bold" href="/">

@@ -15,6 +15,11 @@ export async function createPostCategory(request: CreatePostCategoryRequest) {
   });
 }
 
+export async function getPostCategoryById(id: number): Promise<PostCategory> {
+  const result = await api.get(`/post-categories/${id}`);
+
+  return result.data;
+}
 export async function getPostCategory(request: GetPostCategoryRequest): Promise<PostCategory[]> {
   const result = await api.get('/post-categories', { params: request });
 

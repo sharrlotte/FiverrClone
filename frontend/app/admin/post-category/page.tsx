@@ -14,8 +14,8 @@ import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 import AddPostCategoryButton from './AddPostCategoryButton';
 import UpdatePostCategoryButton from './UpdatePostCategoryButton';
-import PageSelector from '@/components/ui/page-selector';
 import DeletePostCategoryButton from '@/app/admin/post-category/DeletePostCategoryButton';
+import PageSelector from '@/components/common/PageSelector';
 
 const columns: ColumnDef<PostCategory>[] = [
   {
@@ -65,7 +65,7 @@ const columns: ColumnDef<PostCategory>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <UpdatePostCategoryButton skillCategory={skillCategory} />
+            <UpdatePostCategoryButton postCategory={skillCategory} />
             <DeletePostCategoryButton skillCategory={skillCategory} />
           </DropdownMenuContent>
         </DropdownMenu>
@@ -83,7 +83,7 @@ export default function Page() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const { data, isFetching } = useQuery({
-    queryKey: [page],
+    queryKey: ['post-categories', page],
     queryFn: () => getPostCategory({ size: 20, page }),
   });
 

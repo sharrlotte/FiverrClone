@@ -37,6 +37,10 @@ const links: LinkType[] = [
             name: 'Loại kỹ năng',
             href: '/admin/skill-category',
           },
+          {
+            name: 'Nhãn',
+            href: '/admin/tag',
+          },
         ],
       },
     ],

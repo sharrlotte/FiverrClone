@@ -8,6 +8,7 @@ import Link from 'next/link';
 import env from '@/constant/env';
 import { HistoryIcon, UserCircle } from 'lucide-react';
 import ProtectedElement from '@/components/layout/protected-element';
+import { cn } from '@/lib/utils';
 
 type Tab = {
   icon: ReactNode;
@@ -28,7 +29,7 @@ const tabs: Tab = [
   [
     {
       icon: <BookOpenIcon className="w-5 h-5" />,
-      action: 'Bài đăng của bạn',
+      action: <Link href="/my-post">Bài đăng của bạn</Link>,
     },
     {
       icon: <HeartIcon className="w-5 h-5" />,
@@ -53,11 +54,15 @@ const tabs: Tab = [
   ],
 ];
 
-async function Header() {
+type Props = {
+  className?: string;
+};
+
+async function Header({ className }: Props) {
   const user = await getSession();
 
   return (
-    <div className="flex items-center gap-x-5 gap-y-2 w-full">
+    <div className={cn('flex items-center gap-x-5 gap-y-2 w-full', className)}>
       <div className="flex w-full items-center gap-2">
         <div className="absolute w-full flex items-center ps-3 pointer-events-none">
           <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -85,6 +90,13 @@ async function Header() {
               <span>{user.username}</span>
             </div>
             <div className="pt-6">
+              <ProtectedElement session={user} all={['ADMIN']}>
+                <Link className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md" href="/admin">
+                  <UserCircle className="w-5 h-5" />
+                  Admin
+                </Link>
+                <div className="border-b pt-1 mb-1 w-full" />
+              </ProtectedElement>
               {tabs.map((tab, index) => (
                 <React.Fragment key={index}>
                   {tab.map(({ action, icon }, index) => (
@@ -96,13 +108,6 @@ async function Header() {
                   <div className="border-b pt-1 mb-1 w-full" />
                 </React.Fragment>
               ))}
-              <ProtectedElement session={user} all={['ADMIN']}>
-                <Link className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md" href="/admin">
-                  <UserCircle className='w-5 h-5' />
-                  Admin
-                </Link>
-                <div className="border-b pt-1 mb-1 w-full" />
-              </ProtectedElement>
             </div>
           </SheetContent>
         </Sheet>

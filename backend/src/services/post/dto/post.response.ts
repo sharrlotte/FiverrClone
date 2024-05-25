@@ -14,8 +14,11 @@ export class PostResponse {
   content: string;
 
   @Expose()
-  stars: bigint;
+  stars: number;
 
   @Expose()
-  favorites: bigint;
+  favorites: number;
+
+  @Expose()
+  thumbnail: number;
 }

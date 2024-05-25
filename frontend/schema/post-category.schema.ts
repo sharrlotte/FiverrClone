@@ -31,7 +31,7 @@ export const getPostCategorySchema = z.object({
     .max(100, { message: 'Tên thể loại phải ít hơn 100 kí tự' })
     .optional(),
 
-  page: z.number().min(0),
+  page: z.number().min(1),
   size: z.number().max(50),
   isParent: z.boolean().optional(),
 });

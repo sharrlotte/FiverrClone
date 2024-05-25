@@ -30,7 +30,7 @@ export const getTagSchema = z.object({
     .max(80, { message: 'Tên thể loại phải ít hơn 80 kí tự' })
     .optional(),
 
-  page: z.number().min(0),
+  page: z.number().min(1),
   size: z.number().max(50),
 });
 

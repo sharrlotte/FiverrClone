@@ -4,6 +4,7 @@ import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nes
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { AuthGuard } from 'src/services/auth/auth.guard';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      enableDebugMessages: true,
     }),
   );
 
@@ -23,6 +25,7 @@ async function bootstrap() {
   app.getHttpAdapter().getInstance().set('etag', false);
   app.use(cookieParser());
   app.setGlobalPrefix('api');
+  app.use(helmet());
 
   const authGuard = app.get(AuthGuard);
   app.useGlobalGuards(authGuard);

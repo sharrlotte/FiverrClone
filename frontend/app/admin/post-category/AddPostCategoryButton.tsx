@@ -5,15 +5,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { CreatePostCategoryRequest, createPostCategorySchema } from '@/schema/post-category.schema';
-import { createPostCategory, getPostCategoryById } from '@/api/post-category.api';
+import { createPostCategory } from '@/api/post-category.api';
 import LoadingOverlay from '../../../components/common/LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import PostCategorySelector from '@/components/common/PostCategorySelector';
+import PostCategoryNameById from '@/components/common/PostCategoryNameById';
 
 export default function AddPostCategoryButton() {
   const queryClient = useQueryClient();
@@ -27,13 +28,6 @@ export default function AddPostCategoryButton() {
       description: '',
       parentId: undefined,
     },
-  });
-
-  const id = form.getValues('parentId') ?? 0;
-  const { data } = useQuery({
-    queryKey: ['post-category', id],
-    queryFn: () => getPostCategoryById(id),
-    enabled: !!id,
   });
 
   const { mutate, isPending } = useMutation({
@@ -116,7 +110,7 @@ export default function AddPostCategoryButton() {
                     <FormLabel>Thể loại cha</FormLabel>
                     <FormControl>
                       <PostCategorySelector selectedValues={value} onSelect={(value) => onChange(value)} isParent>
-                        {data?.name}
+                        {value && <PostCategoryNameById id={value} />}
                       </PostCategorySelector>
                     </FormControl>
                     <FormMessage />

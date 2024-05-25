@@ -14,26 +14,25 @@ type BaseProps = {
 type Props =
   | (BaseProps & {
       multiple?: false;
-      selectedValues?: number;
-      onSelect: (selected: number | undefined) => void;
+      selected?: number;
+      onSelect: (provider: (selected: number | undefined) => number | undefined) => void;
     })
   | (BaseProps & {
       multiple: true;
-      selectedValues?: number[];
-      onSelect: (selected: number[]) => void;
+      selected?: number[];
+      onSelect: (provider: (selected: number[]) => number[]) => void;
     });
 
-export default function PostCategorySelector({ selectedValues, isParent, multiple, onSelect, children }: Props) {
+export default function PostCategorySelector({ selected, isParent, multiple, onSelect, children }: Props) {
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<number[]>(selectedValues === undefined ? [] : multiple ? selectedValues : [selectedValues]);
 
   const { data, isFetching } = useQuery({
     queryKey: ['post-categories', isParent, name],
     queryFn: () =>
       getPostCategory({
         name,
-        page: 0,
+        page: 1,
         size: 20,
         isParent,
       }),
@@ -41,26 +40,22 @@ export default function PostCategorySelector({ selectedValues, isParent, multipl
 
   function handleSelect(id: number) {
     if (multiple) {
-      setSelected((prev) => (prev.includes(id) ? prev.filter((value) => value !== id) : [...prev, id]));
+      onSelect((prev) => (prev.includes(id) ? prev.filter((value) => value !== id) : [...prev, id]));
     } else {
-      if (selected.includes(id)) {
-        onSelect(undefined);
-        setSelected([]);
+      if (selected && selected === id) {
+        onSelect(() => undefined);
       } else {
-        setSelected([id]);
-        onSelect(id);
-        setOpen(false);
+        onSelect(() => id);
       }
+      setOpen(false);
     }
   }
-
-  console.log(selected);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="items-center gap-2 h-10 w-fit" variant="outline">
-          {children ?? 'Chọn thể loại'}
+        <Button className="items-center gap-2 h-10 w-fit bg-accent" variant="outline">
+          Chọn thể loại
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -77,7 +72,7 @@ export default function PostCategorySelector({ selectedValues, isParent, multipl
                     key={id}
                     onClick={() => handleSelect(id)}
                     className={cn({
-                      'bg-emerald-500 hover:bg-emerald-500': selected.length !== 0 && selected.includes(id),
+                      'bg-emerald-500 hover:bg-emerald-500': selected && multiple ? selected.includes(id) : selected === id,
                     })}
                   >
                     {name}
@@ -87,18 +82,6 @@ export default function PostCategorySelector({ selectedValues, isParent, multipl
             ) : (
               <div>Không có kết quả</div>
             )}
-          </div>
-        )}
-        {multiple && (
-          <div className="flex justify-end py-2">
-            <Button
-              onClick={() => {
-                onSelect(selected);
-                setOpen(false);
-              }}
-            >
-              Chọn
-            </Button>
           </div>
         )}
       </DialogContent>

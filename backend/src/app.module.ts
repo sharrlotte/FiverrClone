@@ -9,7 +9,10 @@ import { TagModule } from 'src/services/tag/tag.module';
 import { UsersModule } from 'src/services/users/users.module';
 import { PostCategoryModule } from './services/post-category/post-category.module';
 import { PostModule } from './services/post/post.module';
+import { CloudinaryService } from './services/cloudinary/cloudinary.service';
+import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
 import appConfig from 'src/config/configuration';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -28,6 +31,11 @@ import appConfig from 'src/config/configuration';
     RoleModule,
     PostCategoryModule,
     PostModule,
+    CloudinaryModule,
+    MulterModule.register({
+      dest: './upload',
+    }),
   ],
+  providers: [CloudinaryService],
 })
 export class AppModule {}

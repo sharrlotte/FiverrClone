@@ -1,7 +1,10 @@
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from '@/components/ui/pagination';
 import useQueryState from '@/hook/use-query-state';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = {
   className?: string;
@@ -12,8 +15,10 @@ type Props = {
 
 export default function PageSelector({ className, defaultPage, maxPage, enabled }: Props) {
   const [page, setPage] = useQueryState('page', '' + defaultPage);
+  const [goTo, setGoTo] = useState(0);
+  const [open, setOpen] = useState(false);
 
-  const previousPage = +page <= 0 ? 0 : +page - 1;
+  const previousPage = +page <= 1 ? 1 : +page - 1;
   const nextPage = +page >= maxPage ? +page : +page + 1;
 
   function handlePageChange(page: number) {
@@ -26,9 +31,9 @@ export default function PageSelector({ className, defaultPage, maxPage, enabled 
     <Pagination className={cn(className)}>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious />
+          <PaginationPrevious onClick={() => handlePageChange(previousPage)} />
         </PaginationItem>
-        {+page > 0 && (
+        {+page > 1 && (
           <PaginationItem>
             <PaginationLink onClick={() => handlePageChange(previousPage)}>{previousPage}</PaginationLink>
           </PaginationItem>
@@ -40,10 +45,29 @@ export default function PageSelector({ className, defaultPage, maxPage, enabled 
           <PaginationLink onClick={() => handlePageChange(nextPage)}>{nextPage}</PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationEllipsis />
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger>
+              <PaginationEllipsis />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>Đi đến trang</DialogTitle>
+              <Input type="number" value={goTo} onChange={(event) => setGoTo(event.currentTarget.valueAsNumber)} />
+              <div className="flex justify-end">
+                <Button
+                  className="min-w-20"
+                  onClick={() => {
+                    handlePageChange(goTo);
+                    setOpen(false);
+                  }}
+                >
+                  Đi
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext />
+          <PaginationNext onClick={() => handlePageChange(nextPage)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

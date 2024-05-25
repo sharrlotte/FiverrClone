@@ -14,7 +14,7 @@ export class PostCategoryService {
   async create(createPostCategoryDto: CreatePostCategoryDto) {
     const { name, parentId } = createPostCategoryDto;
 
-    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name: name } });
+    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name } });
 
     if (duplicateName) {
       throw new Conflict<typeof createPostCategoryDto>('name');
@@ -40,14 +40,14 @@ export class PostCategoryService {
     let query = {};
 
     if (isParent === true) {
-      query = { name, parentId: null };
+      query = { name: { contains: name }, parentId: null };
     } else if (isParent === false) {
-      query = { name, parentId: { not: null } };
+      query = { name: { contains: name }, parentId: { not: null } };
     } else {
-      query = { name };
+      query = { name: { contains: name } };
     }
 
-    return this.prisma.category.findMany({ where: query, take: size, skip: size * page });
+    return this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number) {

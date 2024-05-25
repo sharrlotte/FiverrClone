@@ -3,7 +3,7 @@
 import { BoldIcon, CheckListIcon, CodeBlockIcon, EditPanelIcon, FullScreenIcon, HRIcon, ImageIcon, ItalicIcon, LinkChainIcon, ListIcon, LivePanelIcon, OrderedListIcon, PreviewPanelIcon, QuoteIcon, StrikethroughIcon, TitleIcon } from '@/components/ui/icon/icons';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,13 +25,12 @@ export type MarkdownData = {
 
 type MarkdownEditorProps = {
   value: MarkdownData;
-  onChange: (_value: MarkdownData) => void;
+  onChange: (func: (_value: MarkdownData) => MarkdownData) => void;
 };
 
 type EditorMode = 'edit' | 'preview' | 'live';
 
-export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
-  const [content, setContent] = useState(value);
+export default function MarkdownEditor({ value: content, onChange: setContent }: MarkdownEditorProps) {
   const [mode, setMode] = useState<EditorMode>('live');
   const [isFullscreen, setFullscreen] = useState(false);
 
@@ -39,11 +38,6 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    onChange(content);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
 
   function insertAtCaret(content: string) {
     const input = inputRef.current;
@@ -187,7 +181,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
             </Button>
           </div>
           <div className="px-1">
-            <Button className="p-1" size="icon" title={'fullscreen'} variant="ghost" onClick={toggleFullscreen}>
+            <Button className="p-1" type="button" size="icon" title={'fullscreen'} variant="ghost" onClick={toggleFullscreen}>
               <FullScreenIcon className="h-3 w-3" />
             </Button>
           </div>

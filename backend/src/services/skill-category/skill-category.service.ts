@@ -22,7 +22,7 @@ export class SkillCategoryService {
   }
 
   findAll({ name, page, size }: NamePaginationQueryDto): Promise<SkillCategory[]> {
-    return this.prisma.skillCategory.findMany({ where: { name }, orderBy: { createdAt: 'desc' }, take: size, skip: size * page });
+    return this.prisma.skillCategory.findMany({ where: { name: { contains: name } }, orderBy: { createdAt: 'desc' }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<SkillCategory> {

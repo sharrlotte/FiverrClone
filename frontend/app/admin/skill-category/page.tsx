@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { SkillCategory, getSkillCategory } from '@/api/skill-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
@@ -76,9 +76,10 @@ export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
-  const { data, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['skill-categories', page],
     queryFn: () => getSkillCategory({ size: 20, page }),
+    placeholderData: keepPreviousData,
   });
 
   const table = useReactTable({
@@ -101,7 +102,7 @@ export default function Page() {
 
   return (
     <div className="rounded-md border w-full h-full flex justify-between flex-col p-4 overflow-hidden">
-      <div className="h-full overflow-hidden flex flex-col">
+      <div className="max-h-full overflow-hidden flex flex-col">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
             <h2>Quản lý thể loại kỹ năng</h2>
@@ -110,7 +111,7 @@ export default function Page() {
             <AddSkillCategoryButton />
           </div>
         </div>
-        {isFetching ? (
+        {isLoading ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -151,7 +152,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
       </div>
     </div>
   );

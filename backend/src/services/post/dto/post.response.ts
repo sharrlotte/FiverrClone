@@ -1,4 +1,5 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { UserResponse } from 'src/services/users/dto/user.reponse';
 
 export class PostResponse {
   @Expose()
@@ -21,4 +22,11 @@ export class PostResponse {
 
   @Expose()
   thumbnail: number;
+
+  @Expose()
+  isFavorite: boolean;
+
+  @Expose()
+  @Type(() => UserResponse)
+  user: UserResponse;
 }

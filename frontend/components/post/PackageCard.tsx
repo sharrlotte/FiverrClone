@@ -1,4 +1,4 @@
-import { Package } from '@/api/post.apit';
+import { Package } from '@/api/post.api';
 import { translateDuration } from '@/lib/utils';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import React from 'react';

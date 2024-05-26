@@ -1,16 +1,20 @@
-import { Post } from '@/api/post.apit';
+import { Post } from '@/api/post.api';
+import FavoriteButton from '@/components/post/FavoriteButton';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 type Props = {
   post: Post;
 };
 
-export default function PostCard({ post: { title, thumbnail } }: Props) {
+export default function PostCard({ post: { id, title, thumbnail, isFavorite } }: Props) {
   return (
-    <div className="border rounded-md p-4">
-      <Image className='aspect-square object-cover' width={200} height={200} src={thumbnail} alt={title} />
+    <Link className="space-y-2 relative" href={`/posts/${id}`}>
+      <Image className="w-full object-cover rounded-lg overflow-hidden" width={300} height={200} src={thumbnail} alt={title} />
       <h3>{title}</h3>
-    </div>
+      <FavoriteButton postId={id} isFavorite={isFavorite} />
+      <p></p>
+    </Link>
   );
 }

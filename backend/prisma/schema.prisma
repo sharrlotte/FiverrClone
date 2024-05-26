@@ -81,7 +81,8 @@ model Post {
     userId                Int
     title                 String
     content               String
-    stars                 Int?                  @default(0)
+    totalStars            Int?                  @default(0)
+    starsCount            Int?                  @default(0)
     favorites             Int?                  @default(0)
     thumbnail             String
     updatedAt             DateTime?             @db.Timestamp(6)
@@ -168,18 +169,19 @@ model Tag {
 }
 
 model User {
-    id            Int             @id @default(autoincrement())
-    username      String
-    about         String
-    updatedAt     DateTime?       @db.Timestamp(6)
-    createdAt     DateTime        @db.Timestamp(6)
-    avatar        String?
-    accounts      Account[]
-    favoritePosts FavoritePost[]
-    posts         Post[]
-    previews      Preview[]
-    authorities   UserAuthority[]
-    roles         UserRole[]
+    id                  Int                   @id @default(autoincrement())
+    username            String
+    about               String
+    updatedAt           DateTime?             @db.Timestamp(6)
+    createdAt           DateTime              @db.Timestamp(6)
+    avatar              String?
+    accounts            Account[]
+    favoritePosts       FavoritePost[]
+    posts               Post[]
+    previews            Preview[]
+    authorities         UserAuthority[]
+    roles               UserRole[]
+    PostBrowsingHistory PostBrowsingHistory[]
 }
 
 model UserAuthority {
@@ -224,10 +226,17 @@ model Order {
 }
 
 model PostBrowsingHistory {
-    id        Int      @id @default(autoincrement())
     postId    Int
+    userId    Int
     createdAt DateTime @db.Timestamp(6)
+    updatedAt DateTime @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, postId])
+    @@index([postId])
+    @@index([userId])
+    @@index([updatedAt])
 }
 
 model Skill {

@@ -41,6 +41,21 @@ export class PostController {
     return this.postService.previews(+id, session, previews);
   }
 
+  @Post(':id/favorite')
+  @Roles(['USER'])
+  @UseGuards(RolesGuard)
+  favorite(@Param('id') id: string, @Req() req: Request) {
+    const session = getAuthUser(req);
+    return this.postService.favorite(+id, session);
+  }
+  @Post(':id/visit')
+  @Roles(['USER'])
+  @UseGuards(RolesGuard)
+  visit(@Param('id') id: string, @Req() req: Request) {
+    const session = getAuthUser(req);
+    return this.postService.visit(+id, session);
+  }
+
   @Get()
   findAll(@Query() query: TitlePaginationQueryDto) {
     return this.postService.findAll(query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));

@@ -1,7 +1,8 @@
 'use client';
 
-import { createPost } from '@/api/post.apit';
+import { createPost } from '@/api/post.api';
 import AddPackageButton from '@/app/(user)/new-post/AddPackageButton';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 import PostCategoryNameById from '@/components/common/PostCategoryNameById';
 import PostCategorySelector from '@/components/common/PostCategorySelector';
 import PackageCard from '@/components/post/PackageCard';
@@ -56,8 +57,12 @@ export default function Page() {
     },
   });
 
+  if (isPending) {
+    return <LoadingOverlay />;
+  }
+
   return (
-    <div className="h-full">
+    <div className="h-full overflow-hidden">
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8 h-full overflow-y-auto p-4">
           <FormMessage />

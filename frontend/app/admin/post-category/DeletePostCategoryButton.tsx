@@ -20,10 +20,26 @@ export default function DeletePostCategoryButton({ skillCategory: { id, name } }
     },
     onError: (error: any) => {
       switch (error.response.status) {
+        case 400:
+          toast({
+            title: 'Lỗi',
+            description: 'Xóa các thể loại con trước',
+            variant: 'destructive',
+          });
+          break;
+
+        case 404:
+          toast({
+            title: 'Lỗi',
+            description: 'Không tìm thấy',
+            variant: 'destructive',
+          });
+          break;
+
         default:
           toast({
             title: 'Lỗi',
-            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau',
+            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau' + error.response.data.message,
             variant: 'destructive',
           });
           break;

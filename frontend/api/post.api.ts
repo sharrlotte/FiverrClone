@@ -9,16 +9,30 @@ export type Post = {
   userId: number;
   title: string;
   content: string;
-  stars: bigint;
+  totalStars: number;
+  totalCount: number;
   thumbnail: string;
-  favorites: bigint;
+  favorites: number;
+  isFavorite: boolean;
 };
 
-export async function getPost(request: GetPostRequest): Promise<Post[]> {
+export async function getMyPost(request: GetPostRequest): Promise<Post[]> {
   const result = await api.get('/users/@me/posts', { params: request });
 
   return result.data;
 }
+
+export async function getMyFavoritePost(request: GetPostRequest): Promise<Post[]> {
+  const result = await api.get('/users/@me/favorite-posts', { params: request });
+
+  return result.data;
+}
+export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise<Post[]> {
+  const result = await api.get('/users/@me/post-browsing-history', { params: request });
+
+  return result.data;
+}
+
 export async function createPost({ thumbnail, previews, ...request }: CreatePostRequest) {
   const result = await api.post('/posts', request);
 
@@ -32,6 +46,17 @@ export async function createPost({ thumbnail, previews, ...request }: CreatePost
   const postPreviews = api.post(`/posts/${result.data.id}/previews`, previewsForm, { data: previewsForm });
 
   await Promise.all([postThumbnail, postPreviews]);
+
+  return result.data;
+}
+
+export async function favoritePost(postId: number) {
+  const result = await api.post(`/posts/${postId}/favorite`);
+
+  return result.data;
+}
+export async function visitPost(postId: number) {
+  const result = await api.post(`/posts/${postId}/visit`);
 
   return result.data;
 }

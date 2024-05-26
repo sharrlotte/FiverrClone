@@ -14,7 +14,7 @@ export class PostCategoryService {
   async create(createPostCategoryDto: CreatePostCategoryDto) {
     const { name, parentId } = createPostCategoryDto;
 
-    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name } });
+    const duplicateName = await this.prisma.category.findFirst({ where: { name } });
 
     if (duplicateName) {
       throw new Conflict<typeof createPostCategoryDto>('name');
@@ -91,7 +91,13 @@ export class PostCategoryService {
   }
 
   async remove(id: number) {
-    const result = await this.prisma.skill.deleteMany({ where: { id } });
+    const children = await this.prisma.category.findFirst({ where: { parentId: id } });
+
+    if (children) {
+      throw new BadRequestException('Category still have children');
+    }
+
+    const result = await this.prisma.category.deleteMany({ where: { id } });
 
     if (result.count === 0) {
       throw new NotFound('id');

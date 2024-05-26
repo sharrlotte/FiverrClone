@@ -27,7 +27,7 @@ export default function PostCategorySelector({ selected, isParent, multiple, onS
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { data, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['post-categories', isParent, name],
     queryFn: () =>
       getPostCategory({
@@ -55,13 +55,13 @@ export default function PostCategorySelector({ selected, isParent, multiple, onS
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="items-center gap-2 h-10 w-fit bg-accent" variant="outline">
-          Chọn thể loại
+          {multiple ? 'Chọn thể loại' : selected ? children : 'Chọn thể loại'}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Chọn thể loại</DialogTitle>
         <Input value={name} onChange={(event) => setName(event.target.value)}></Input>
-        {isFetching ? (
+        {isLoading ? (
           'Đang tải'
         ) : (
           <div>

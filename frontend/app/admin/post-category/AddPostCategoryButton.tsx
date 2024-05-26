@@ -109,7 +109,7 @@ export default function AddPostCategoryButton() {
                   <FormItem className="flex flex-col">
                     <FormLabel>Thể loại cha</FormLabel>
                     <FormControl>
-                      <PostCategorySelector selectedValues={value} onSelect={(value) => onChange(value)} isParent>
+                      <PostCategorySelector selected={value} onSelect={(provider) => onChange(provider(value))} isParent>
                         {value && <PostCategoryNameById id={value} />}
                       </PostCategorySelector>
                     </FormControl>

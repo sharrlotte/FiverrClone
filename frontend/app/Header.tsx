@@ -33,11 +33,11 @@ const tabs: Tab = [
     },
     {
       icon: <HeartIcon className="w-5 h-5" />,
-      action: 'Bài đăng yêu thích',
+      action: <Link href="/favorite-post">Bài đăng yêu thích</Link>,
     },
     {
       icon: <HistoryIcon className="w-5 h-5" />,
-      action: 'Lịch sử truy cập',
+      action: <Link href="/post-browsing-history">Lịch sử truy cập</Link>,
     },
   ],
   [

@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <div className="p-4 h-full flex justify-between flex-col overflow-hidden">
       <div className="h-full overflow-y-auto flex flex-col gap-4">
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
 

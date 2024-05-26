@@ -1,3 +1,4 @@
+import { DurationType } from '@prisma/client';
 import { Expose, Type } from 'class-transformer';
 import { UserResponse } from 'src/services/users/dto/user.reponse';
 
@@ -15,13 +16,16 @@ export class PostResponse {
   content: string;
 
   @Expose()
-  stars: number;
+  totalStars: number;
+
+  @Expose()
+  starsCount: number;
 
   @Expose()
   favorites: number;
 
   @Expose()
-  thumbnail: number;
+  thumbnail: string;
 
   @Expose()
   isFavorite: boolean;
@@ -29,4 +33,34 @@ export class PostResponse {
   @Expose()
   @Type(() => UserResponse)
   user: UserResponse;
+}
+
+export class Package {
+  @Expose()
+  id: number;
+
+  @Expose()
+  title: string;
+
+  @Expose()
+  description: string;
+
+  @Expose()
+  revision: number;
+
+  @Expose()
+  deliveryTime: number;
+
+  @Expose()
+  durationType: DurationType;
+
+  @Expose()
+  @Type(() => BigInt)
+  price: BigInt;
+}
+
+export class PostDetailResponse extends PostResponse {
+  @Expose()
+  @Type(() => Package)
+  packages: Package[];
 }

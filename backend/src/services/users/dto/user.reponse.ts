@@ -5,7 +5,7 @@ export class UserResponse {
   id: number;
 
   @Expose()
-  avatar: string;
+  avatar: string | null;
 
   @Expose()
   username: string;

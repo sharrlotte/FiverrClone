@@ -10,10 +10,33 @@ export type Post = {
   title: string;
   content: string;
   totalStars: number;
-  totalCount: number;
+  starsCount: number;
   thumbnail: string;
   favorites: number;
   isFavorite: boolean;
+  user: {
+    id: number;
+    username: string;
+    avatar: string;
+  };
+};
+
+export type PostDetail = {
+  id: number;
+  userId: number;
+  title: string;
+  content: string;
+  totalStars: number;
+  starsCount: number;
+  thumbnail: string;
+  favorites: number;
+  isFavorite: boolean;
+  user: {
+    id: number;
+    username: string;
+    avatar: string;
+  };
+  packages: Package[];
 };
 
 export async function getMyPost(request: GetPostRequest): Promise<Post[]> {
@@ -52,11 +75,6 @@ export async function createPost({ thumbnail, previews, ...request }: CreatePost
 
 export async function favoritePost(postId: number) {
   const result = await api.post(`/posts/${postId}/favorite`);
-
-  return result.data;
-}
-export async function visitPost(postId: number) {
-  const result = await api.post(`/posts/${postId}/visit`);
 
   return result.data;
 }

@@ -31,8 +31,8 @@ export default function FavoriteButton({ postId, isFavorite }: Props) {
   });
 
   return (
-    <Button variant="ghost">
-      <HeartIcon className={cn('w-7 h-7 absolute top-1 right-1 text-white', { 'text-red-500': expected })} onClick={() => mutate()} />
+    <Button className="w-8 h-8 p-0 absolute top-1 right-1" variant="transparent" onClick={() => mutate()}>
+      <HeartIcon className={cn('text-white', { 'text-red-500': expected })} />
     </Button>
   );
 }

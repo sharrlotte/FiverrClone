@@ -1,10 +1,13 @@
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('Pending', 'Accepted', 'Rejected');
 
+-- CreateEnum
+CREATE TYPE "DurationType" AS ENUM ('Hour', 'Day', 'Week', 'Month', 'Year');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" SERIAL NOT NULL,
-    "userId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
     "provider" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(6),
@@ -28,7 +31,8 @@ CREATE TABLE "Authority" (
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "parentId" SERIAL NOT NULL,
+    "description" TEXT NOT NULL,
+    "parentId" INTEGER,
     "updatedAt" TIMESTAMP(6),
     "createdAt" TIMESTAMP(6) NOT NULL,
 
@@ -37,8 +41,8 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "FavoritePost" (
-    "userId" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "postId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "FavoritePost_pkey" PRIMARY KEY ("userId","postId")
@@ -47,12 +51,13 @@ CREATE TABLE "FavoritePost" (
 -- CreateTable
 CREATE TABLE "Package" (
     "id" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT,
-    "revision" INTEGER DEFAULT 0,
-    "deliveryTime" TIME(6) NOT NULL,
-    "price" MONEY NOT NULL,
+    "description" TEXT NOT NULL,
+    "revision" INTEGER NOT NULL DEFAULT 0,
+    "deliveryTime" INTEGER NOT NULL DEFAULT 0,
+    "durationType" "DurationType" NOT NULL DEFAULT 'Day',
+    "price" BIGINT NOT NULL DEFAULT 0,
     "special" JSON,
     "updatedAt" TIMESTAMP(6),
     "createdAt" TIMESTAMP(6) NOT NULL,
@@ -63,12 +68,13 @@ CREATE TABLE "Package" (
 -- CreateTable
 CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
-    "userId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "stars" BIGINT DEFAULT 0,
-    "favorites" BIGINT DEFAULT 0,
-    "about" TEXT NOT NULL,
+    "totalStars" INTEGER NOT NULL DEFAULT 0,
+    "starsCount" INTEGER NOT NULL DEFAULT 0,
+    "favorites" INTEGER NOT NULL DEFAULT 0,
+    "thumbnail" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(6),
     "createdAt" TIMESTAMP(6) NOT NULL,
 
@@ -77,8 +83,8 @@ CREATE TABLE "Post" (
 
 -- CreateTable
 CREATE TABLE "PostCategory" (
-    "postId" SERIAL NOT NULL,
-    "categoryId" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "categoryId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "PostCategory_pkey" PRIMARY KEY ("postId","categoryId")
@@ -87,7 +93,7 @@ CREATE TABLE "PostCategory" (
 -- CreateTable
 CREATE TABLE "PostImage" (
     "id" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
     "link" TEXT NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
@@ -96,8 +102,8 @@ CREATE TABLE "PostImage" (
 
 -- CreateTable
 CREATE TABLE "PostTag" (
-    "tagId" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "tagId" INTEGER NOT NULL,
+    "postId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "PostTag_pkey" PRIMARY KEY ("tagId","postId")
@@ -105,8 +111,8 @@ CREATE TABLE "PostTag" (
 
 -- CreateTable
 CREATE TABLE "Preview" (
-    "userId" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "postId" INTEGER NOT NULL,
     "star" INTEGER NOT NULL,
     "comment" TEXT NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
@@ -150,8 +156,8 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "UserAuthority" (
-    "userId" SERIAL NOT NULL,
-    "authorityId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "authorityId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "UserAuthority_pkey" PRIMARY KEY ("userId","authorityId")
@@ -159,8 +165,8 @@ CREATE TABLE "UserAuthority" (
 
 -- CreateTable
 CREATE TABLE "UserRole" (
-    "userId" SERIAL NOT NULL,
-    "roleId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "roleId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "UserRole_pkey" PRIMARY KEY ("userId","roleId")
@@ -169,12 +175,12 @@ CREATE TABLE "UserRole" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT,
-    "revision" INTEGER DEFAULT 0,
+    "revision" INTEGER NOT NULL DEFAULT 0,
     "deliveryTime" TIME(6) NOT NULL,
-    "price" MONEY NOT NULL,
+    "price" BIGINT NOT NULL DEFAULT 0,
     "special" JSON,
     "status" "OrderStatus" DEFAULT 'Pending',
     "createdAt" TIMESTAMP(6) NOT NULL,
@@ -184,17 +190,18 @@ CREATE TABLE "Order" (
 
 -- CreateTable
 CREATE TABLE "PostBrowsingHistory" (
-    "id" SERIAL NOT NULL,
-    "postId" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL,
+    "updatedAt" TIMESTAMP(6) NOT NULL,
 
-    CONSTRAINT "PostBrowsingHistory_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PostBrowsingHistory_pkey" PRIMARY KEY ("userId","postId")
 );
 
 -- CreateTable
 CREATE TABLE "Skill" (
     "id" SERIAL NOT NULL,
-    "categoryId" SERIAL NOT NULL,
+    "categoryId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(6),
@@ -296,6 +303,15 @@ CREATE INDEX "Order_postId_idx" ON "Order"("postId");
 CREATE INDEX "Order_status_idx" ON "Order"("status");
 
 -- CreateIndex
+CREATE INDEX "PostBrowsingHistory_postId_idx" ON "PostBrowsingHistory"("postId");
+
+-- CreateIndex
+CREATE INDEX "PostBrowsingHistory_userId_idx" ON "PostBrowsingHistory"("userId");
+
+-- CreateIndex
+CREATE INDEX "PostBrowsingHistory_updatedAt_idx" ON "PostBrowsingHistory"("updatedAt");
+
+-- CreateIndex
 CREATE INDEX "Skill_categoryId_idx" ON "Skill"("categoryId");
 
 -- CreateIndex
@@ -360,6 +376,9 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_postId_fkey" FOREIGN KEY ("postId") RE
 
 -- AddForeignKey
 ALTER TABLE "PostBrowsingHistory" ADD CONSTRAINT "PostBrowsingHistory_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "PostBrowsingHistory" ADD CONSTRAINT "PostBrowsingHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "Skill" ADD CONSTRAINT "Skill_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "SkillCategory"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

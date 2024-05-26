@@ -63,11 +63,11 @@ model Package {
     id           Int          @id @default(autoincrement())
     postId       Int
     title        String
-    description  String?
-    revision     Int?         @default(0)
-    deliveryTime Int?
-    durationType DurationType
-    price        Decimal      @db.Money
+    description  String
+    revision     Int          @default(0)
+    deliveryTime Int          @default(0)
+    durationType DurationType @default(Day)
+    price        BigInt       @default(0)
     special      Json?        @db.Json
     updatedAt    DateTime?    @db.Timestamp(6)
     createdAt    DateTime     @db.Timestamp(6)
@@ -81,9 +81,9 @@ model Post {
     userId                Int
     title                 String
     content               String
-    totalStars            Int?                  @default(0)
-    starsCount            Int?                  @default(0)
-    favorites             Int?                  @default(0)
+    totalStars            Int                   @default(0)
+    starsCount            Int                   @default(0)
+    favorites             Int                   @default(0)
     thumbnail             String
     updatedAt             DateTime?             @db.Timestamp(6)
     createdAt             DateTime              @db.Timestamp(6)
@@ -213,9 +213,9 @@ model Order {
     postId       Int
     title        String
     description  String?
-    revision     Int?         @default(0)
+    revision     Int          @default(0)
     deliveryTime DateTime     @db.Time(6)
-    price        Decimal      @db.Money
+    price        BigInt       @default(0)
     special      Json?        @db.Json
     status       OrderStatus? @default(Pending)
     createdAt    DateTime     @db.Timestamp(6)

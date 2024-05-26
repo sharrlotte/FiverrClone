@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/services/auth/auth.module';
 import { PrismaModule } from 'src/services/prisma/prisma.module';
@@ -13,6 +13,7 @@ import { CloudinaryService } from './services/cloudinary/cloudinary.service';
 import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
 import appConfig from 'src/config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
+import { AuthMiddleware } from 'src/services/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -38,4 +39,8 @@ import { MulterModule } from '@nestjs/platform-express';
   ],
   providers: [CloudinaryService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

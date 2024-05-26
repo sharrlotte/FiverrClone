@@ -9,7 +9,7 @@ type Props = {
 
 export default function PackageCard({ data: { title, description, price, revision, deliveryTime, durationType } }: Props) {
   return (
-    <div className="border rounded-md p-6 w-fit min-w-[200px]">
+    <div className="border rounded-md p-6 w-fit min-w-[350px] max-w-[350px]">
       <div className="flex gap-2 justify-between items-end font-semibold">
         <h3>{title}</h3>
         <p>{price}VNĐ</p>

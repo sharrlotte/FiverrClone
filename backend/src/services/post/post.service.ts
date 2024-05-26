@@ -1,13 +1,13 @@
 import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { Post, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-query.dto';
 import NotFound from 'src/error/NotFound';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 import Conflict from 'src/error/Conflict';
 import { CloudinaryService } from 'src/services/cloudinary/cloudinary.service';
+import { PostDetailResponse, PostResponse } from 'src/services/post/dto/post.response';
 
 @Injectable()
 export class PostService {
@@ -110,33 +110,53 @@ export class PostService {
     return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { updatedAt: new Date() } });
   }
 
-  findAll({ title, page, size }: TitlePaginationQueryDto): Promise<Post[]> {
-    return this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1) });
+  async findAll(session: SessionDto | null, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
+    if (session) {
+      const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { user: true, favoritePosts: { where: { userId: session.id } } } });
+
+      return result.map(({ favoritePosts, ...data }) => ({ isFavorite: favoritePosts.length > 0, ...data }));
+    }
+
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { user: true } });
+
+    return result.map(({ ...data }) => ({ isFavorite: false, ...data }));
   }
-  async findAllByMe({ title, page, size, userId }: TitlePaginationQueryDto & { userId: number }): Promise<(Post & { isFavorite: boolean; user: User })[]> {
+  async findAllByMe(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
+    const userId = session.id;
     const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId }, take: size, skip: size * (page - 1), include: { user: true, favoritePosts: { where: { userId } } } });
 
     return result.map(({ favoritePosts, ...data }) => ({ isFavorite: favoritePosts.length > 0, ...data }));
   }
-  async findAllByMeFavorite({ title, page, size, userId }: TitlePaginationQueryDto & { userId: number }): Promise<(Post & { isFavorite: boolean; user: User })[]> {
+  async findAllByMeFavorite(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
+    const userId = session.id;
     const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true } });
 
     return result.map((data) => ({ isFavorite: true, ...data }));
   }
-  async findAllByMeBrowsingHistory({ title, page, size, userId }: TitlePaginationQueryDto & { userId: number }): Promise<(Post & { isFavorite: boolean; user: User })[]> {
+  async findAllByMeBrowsingHistory(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
+    const userId = session.id;
     const result = await this.prisma.postBrowsingHistory.findMany({ where: { post: { title: { contains: title } } }, select: { post: { include: { user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
 
     return result.map(({ post, ...data }) => ({ isFavorite: post.favoritePosts.length > 0, ...post, ...data }));
   }
 
-  async findOne(id: number) {
-    const post = await this.prisma.post.findUnique({ where: { id } });
+  async findOne(id: number, session: SessionDto | null): Promise<PostDetailResponse> {
+    if (session) {
+      const post = await this.prisma.post.findUnique({ where: { id }, include: { user: true, packages: true, favoritePosts: { where: { userId: session.id } } } });
 
-    if (!post) {
-      throw new NotFound('id');
+      if (!post) {
+        throw new NotFound('id');
+      }
+
+      return { isFavorite: post.favoritePosts.length > 0, ...post };
+    } else {
+      const post = await this.prisma.post.findUnique({ where: { id }, include: { user: true, packages: true } });
+      if (!post) {
+        throw new NotFound('id');
+      }
+
+      return { isFavorite: false, ...post };
     }
-
-    return post;
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {

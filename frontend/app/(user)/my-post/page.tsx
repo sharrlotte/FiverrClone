@@ -26,7 +26,7 @@ export default function Page() {
             Tạo bài mới
           </Link>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
 

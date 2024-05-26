@@ -144,13 +144,24 @@ export default function MarkdownEditor({ value: content, onChange: setContent }:
             <CodeBlockIcon className="h-3 w-3" />
           </Button>
           <ImageDialog
-            onAccept={(value, image) => {
-              insertAtCaret(value);
+            onAccept={(content, image) => {
               if (image) {
-                setContent((prev) => ({
-                  ...prev,
-                  images: [...prev.images, image],
+                const input = inputRef.current;
+
+                if (!input) return;
+
+                const position = input.selectionStart ?? input.value.length;
+
+                setContent(({ text, images }) => ({
+                  text: text.substring(0, position) + content + text.substring(position),
+                  images: [...images, image],
                 }));
+
+                const newPosition = position + content.length;
+                input.focus();
+                setTimeout(() => input.setSelectionRange(newPosition, newPosition));
+              } else {
+                insertAtCaret(content);
               }
             }}
           >
@@ -252,7 +263,7 @@ function LinkDialog({ children, onAccept }: LinkDialogProps) {
           {children}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onSubmit={(event) => event.stopPropagation()}>
         <DialogTitle>Thêm đường dẫn</DialogTitle>
         <Form {...form}>
           <form className="space-y-2" onSubmit={form.handleSubmit(handleAccept)}>
@@ -356,7 +367,7 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
           {children}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onSubmit={(event) => event.stopPropagation()}>
         <DialogTitle>{'add-image'}</DialogTitle>
         <Form {...form}>
           <form className="space-y-2" onSubmit={form.handleSubmit(handleAccept)}>

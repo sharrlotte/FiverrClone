@@ -11,16 +11,16 @@ type Post = {
 };
 
 const images: Post[] = [
-  { link: '/image/COC-COC.ico', artist: 'AI Artits', title: 'Add talent to AI' },
-  { link: '/image/COC-COC.ico', artist: 'Logo Design', title: 'Build your brand' },
-  { link: '/image/COC-COC.ico', artist: 'WordPress', title: 'Customize your site' },
-  { link: '/image/COC-COC.ico', artist: 'Voice Over', title: 'share your messenge' },
-  { link: '/image/COC-COC.ico', artist: 'video Explainer', title: 'Engage your audience' },
-  { link: '/image/COC-COC.ico', artist: 'Socical Media', title: 'Read more customers' },
-  { link: '/image/COC-COC.ico', artist: 'SEO', title: 'Unlock growth online' },
-  { link: '/image/COC-COC.ico', artist: 'lllustration', title: 'Color your dream' },
-  { link: '/image/COC-COC.ico', artist: 'Translation', title: 'Go Gobal' },
-  { link: '/image/COC-COC.ico', artist: 'Data Entry', title: 'Learn your business' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'AI Artits', title: 'Add talent to AI' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'Logo Design', title: 'Build your brand' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'WordPress', title: 'Customize your site' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'Voice Over', title: 'share your messenge' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'video Explainer', title: 'Engage your audience' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'Socical Media', title: 'Read more customers' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'SEO', title: 'Unlock growth online' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'lllustration', title: 'Color your dream' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'Translation', title: 'Go Gobal' },
+  { link: '/image/Screenshot 2024-03-30 184723.png', artist: 'Data Entry', title: 'Learn your business' },
 ];
 
 export default function PopularServices() {
@@ -34,7 +34,7 @@ export default function PopularServices() {
                 <small className="tex-xs text-nowrap">{title}</small>
                 <span className="text-nowrap">{artist}</span>
               </div>
-              <Image src={link} alt="slide show" height={100} width={300} />
+              <Image className="overflow-hidden object-cover rounded-md" src={link} alt="slide show" height={100} width={300} />
             </CarouselItem>
           ))}
         </CarouselContent>

@@ -21,21 +21,21 @@ export class UsersController {
   @UseGuards(AuthGuard)
   findAllPost(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.findAllByMe({ ...query, userId: session.id }).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
+    return this.postService.findAllByMe(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/favorite-posts')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
   findAllFavoritePost(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.findAllByMeFavorite({ ...query, userId: session.id }).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
+    return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/post-browsing-history')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
   findAllPostBrowsingHistory(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.findAllByMeFavorite({ ...query, userId: session.id }).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
+    return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
 
   @Get(':id')

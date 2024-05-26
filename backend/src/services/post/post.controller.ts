@@ -4,9 +4,9 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-query.dto';
 import { plainToInstance } from 'class-transformer';
-import { PostResponse } from 'src/services/post/dto/post.response';
+import { PostDetailResponse, PostResponse } from 'src/services/post/dto/post.response';
 import { Request } from 'express';
-import { getAuthUser } from 'src/services/auth/auth.utils';
+import { getAuthUser, getUser } from 'src/services/auth/auth.utils';
 import { RolesGuard } from 'src/shared/guard/role.guard';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -57,13 +57,15 @@ export class PostController {
   }
 
   @Get()
-  findAll(@Query() query: TitlePaginationQueryDto) {
-    return this.postService.findAll(query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
+  findAll(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
+    const session = getUser(req);
+    return this.postService.findAll(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return plainToInstance(PostResponse, this.postService.findOne(+id));
+  findOne(@Param('id') id: string, @Req() req: Request) {
+    const session = getUser(req);
+    return plainToInstance(PostDetailResponse, this.postService.findOne(+id, session));
   }
 
   @Patch(':id')

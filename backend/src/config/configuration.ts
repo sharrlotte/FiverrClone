@@ -11,6 +11,10 @@ export interface AppConfig {
   'cloudinary.cloudName': string;
 }
 
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 export default () => ({
   port: parseInt(process.env.PORT || '8080'),
   url: {

@@ -72,11 +72,11 @@
   }
 
   body {
-    @apply h-full bg-background text-foreground overflow-hidden;
+    @apply w-full h-full bg-background text-foreground overflow-hidden;
   }
 
   html {
-    @apply h-full overflow-hidden;
+    @apply w-full h-full overflow-hidden;
   }
 
   .markdown > * {

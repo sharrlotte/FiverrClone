@@ -16,6 +16,7 @@ export class UsersController {
     private readonly postService: PostService,
     private readonly userService: UsersService,
   ) {}
+
   @Get('/@me/posts')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
@@ -40,6 +41,16 @@ export class UsersController {
 
   @Get(':id')
   get(@Param('id') id: string) {
-    return plainToInstance(UserResponse, this.userService.get(+id));
-  }
+      return plainToInstance(UserResponse, this.userService.get(+id));
+    }
+    
+      @Get('@me/profile')
+      getProfile(@Param('id') id: string) {
+        return plainToInstance(UserResponse, this.userService.get(+id));
+      }
+    
+      @Get('@me/profile')
+      updateProfile(@Param('id') id: string) {
+        return plainToInstance(UserResponse, this.userService.get(+id));
+      }
 }

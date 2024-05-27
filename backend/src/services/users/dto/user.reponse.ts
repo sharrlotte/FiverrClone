@@ -10,3 +10,8 @@ export class UserResponse {
   @Expose()
   username: string;
 }
+
+export class UserProfileResponse extends UserResponse {
+  @Expose()
+  about: string;
+}

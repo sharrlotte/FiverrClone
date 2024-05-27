@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from 'src/services/auth/auth.guard';
 import { getAuthUser } from 'src/services/auth/auth.utils';
@@ -8,7 +8,8 @@ import { PostService } from 'src/services/post/post.service';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { Request } from 'express';
 import { UsersService } from 'src/services/users/users.service';
-import { UserResponse } from 'src/services/users/dto/user.reponse';
+import { UserProfileResponse, UserResponse } from 'src/services/users/dto/user.reponse';
+import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 
 @Controller('users')
 export class UsersController {
@@ -41,16 +42,20 @@ export class UsersController {
 
   @Get(':id')
   get(@Param('id') id: string) {
-      return plainToInstance(UserResponse, this.userService.get(+id));
-    }
-    
-      @Get('@me/profile')
-      getProfile(@Param('id') id: string) {
-        return plainToInstance(UserResponse, this.userService.get(+id));
-      }
-    
-      @Get('@me/profile')
-      updateProfile(@Param('id') id: string) {
-        return plainToInstance(UserResponse, this.userService.get(+id));
-      }
+    return plainToInstance(UserResponse, this.userService.get(+id));
+  }
+
+  @Get('@me/profile')
+  getProfile(@Param('id') id: string, @Req() req: Request) {
+    return plainToInstance(UserProfileResponse, this.userService.getProfile(+id));
+  }
+
+  @Roles(['USER'])
+  @UseGuards(AuthGuard)
+  @Get('@me/profile')
+  updateProfile(@Param('id') id: string, @Req() req: Request, @Body() updateProfileDto: UpdateProfileDto) {
+    const session = getAuthUser(req);
+
+    return plainToInstance(UserProfileResponse, this.userService.updateProfile(+id, session, updateProfileDto));
+  }
 }

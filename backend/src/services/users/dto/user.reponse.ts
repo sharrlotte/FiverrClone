@@ -11,7 +11,13 @@ export class UserResponse {
   username: string;
 }
 
-export class UserProfileResponse extends UserResponse {
+export class UserProfileResponse {
+  @Expose()
+  id: number;
+
+  @Expose()
+  username: string;
+
   @Expose()
   about: string;
 }

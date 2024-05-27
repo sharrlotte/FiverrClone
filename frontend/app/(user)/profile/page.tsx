@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import React from 'react';
 
 export default async function page() {
-  const user = await getSession();
+
   return (
     <div>
       <div className="p-4 g-2 w-full">

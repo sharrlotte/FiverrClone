@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, MaxLength, MinLength, ValidateNested } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsUrl, MaxLength, MinLength, ValidateNested } from 'class-validator';
 import { CreatePackageDto } from 'src/services/post/dto/create-package.dto';
 
 export class CreatePostDto {
@@ -21,15 +21,6 @@ export class CreatePostDto {
   @MinLength(100)
   @MaxLength(10000)
   content: string;
-
-  @ApiProperty({
-    minLength: 4,
-    maxLength: 1000,
-  })
-  @IsNotEmpty()
-  @MinLength(4)
-  @MaxLength(1000)
-  about: string;
 
   @ApiProperty({
     minLength: 1,

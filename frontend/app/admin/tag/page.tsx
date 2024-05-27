@@ -11,11 +11,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Tag, getTag } from '@/api/tag.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
-import PageSelector from '@/components/ui/page-selector';
 import UpdateTagButton from './UpdateTagButton';
 import DeleteTagButton from './DeleteTagButton';
-import { getTagSchema } from '../../../schema/tag.sechema';
 import AddTagButton from './AddTagButton';
+import PageSelector from '@/components/common/PageSelector';
 
 const columns: ColumnDef<Tag>[] = [
   {
@@ -70,13 +69,14 @@ const columns: ColumnDef<Tag>[] = [
 export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const params = useSearchParams();
-  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const { data, isFetching } = useQuery({
-    queryKey: [page],
+  const params = useSearchParams();
+  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['tags', page],
     queryFn: () => getTag({ size: 20, page }),
   });
 
@@ -110,7 +110,7 @@ export default function Page() {
             <AddTagButton />
           </div>
         </div>
-        {isFetching ? (
+        {isLoading ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -151,7 +151,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={0} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
       </div>
     </div>
   );

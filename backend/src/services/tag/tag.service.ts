@@ -22,7 +22,7 @@ export class TagService {
   }
 
   findAll({ name, page, size }: NamePaginationQueryDto): Promise<Tag[]> {
-    return this.prisma.tag.findMany({ where: { name }, take: size, skip: size * page });
+    return this.prisma.tag.findMany({ where: { name: { contains: name } }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<Tag> {

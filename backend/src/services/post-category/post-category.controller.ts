@@ -18,7 +18,7 @@ export class PostCategoryController {
   }
 
   @Get()
-  findAll(@Query() query: NamePaginationQueryDto, @Query() isParent?: boolean) {
+  findAll(@Query() query: NamePaginationQueryDto, @Query('isParent') isParent?: boolean) {
     return this.postCategoryService.findAll({ ...query, isParent }).then((items) => items.map((item) => plainToInstance(PostCategoryResponse, item)));
   }
 

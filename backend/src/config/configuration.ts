@@ -6,7 +6,14 @@ export interface AppConfig {
   'auth.github.clientId'?: string;
   'auth.github.clientSecret'?: string;
   'auth.github.callbackURL'?: string;
+  'cloudinary.secret': string;
+  'cloudinary.key': string;
+  'cloudinary.cloudName': string;
 }
+
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
 
 export default () => ({
   port: parseInt(process.env.PORT || '8080'),
@@ -23,5 +30,10 @@ export default () => ({
       clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET as string,
       callbackURL: process.env.GITHUB_OAUTH_CALLBACK_URL as string,
     },
+  },
+  cloudinary: {
+    secret: process.env.CLOUDINARY_SECRET as string,
+    key: process.env.CLOUDINARY_KEY as string,
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME as string,
   },
 });

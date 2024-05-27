@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/services/auth/auth.module';
 import { PrismaModule } from 'src/services/prisma/prisma.module';
@@ -9,7 +9,11 @@ import { TagModule } from 'src/services/tag/tag.module';
 import { UsersModule } from 'src/services/users/users.module';
 import { PostCategoryModule } from './services/post-category/post-category.module';
 import { PostModule } from './services/post/post.module';
+import { CloudinaryService } from './services/cloudinary/cloudinary.service';
+import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
 import appConfig from 'src/config/configuration';
+import { MulterModule } from '@nestjs/platform-express';
+import { AuthMiddleware } from 'src/services/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -28,6 +32,15 @@ import appConfig from 'src/config/configuration';
     RoleModule,
     PostCategoryModule,
     PostModule,
+    CloudinaryModule,
+    MulterModule.register({
+      dest: './upload',
+    }),
   ],
+  providers: [CloudinaryService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

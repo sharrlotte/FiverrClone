@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { CreateSkillCategoryRequest, createSkillCategorySchema } from '@/schema/skill-category.schema';
 import { createSkillCategory } from '@/api/skill-category.api';
-import LoadingOverlay from '../../../components/ui/LoadingOverlay';
+import LoadingOverlay from '../../../components/common/LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';

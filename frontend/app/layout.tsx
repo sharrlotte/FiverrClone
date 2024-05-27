@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { Roboto as Font } from 'next/font/google';
 import QueryProvider from './query-provider';
 
-import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import NextTopLoader from 'nextjs-toploader';
+
+import './globals.css';
 
 const inter = Font({ subsets: ['latin'], weight: '400' });
 
@@ -21,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster />
+        <NextTopLoader height={2} showSpinner={false} color="blue" />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

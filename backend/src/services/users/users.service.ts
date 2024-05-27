@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
+import NotFound from 'src/error/NotFound';
 
 type UserWithAuthoritiesAndRoles = Prisma.UserGetPayload<{}> & { roles: string[]; authorities: string[] };
 
@@ -81,5 +82,15 @@ export class UsersService {
     });
 
     return { ...user, authorities: [], roles: [role.name] };
+  }
+
+  async get(id: number): Promise<User> {
+    const user = await this.prisma.user.findFirst({ where: { id } });
+
+    if (!user) {
+      throw new NotFound('id');
+    }
+
+    return user;
   }
 }

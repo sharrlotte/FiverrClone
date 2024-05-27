@@ -1,21 +1,21 @@
 'use client';
 
 import * as React from 'react';
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { SkillCategory, getSkillCategory } from '@/api/skill-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 import AddSkillCategoryButton from './AddSkillCategoryButton';
 import UpdateSkillCategoryButton from './UpdateSkillCategoryButton';
-import PageSelector from '@/components/ui/page-selector';
 import DeleteSkillCategoryButton from '@/app/admin/skill-category/DeleteSkillCategoryButton';
+import PageSelector from '@/components/common/PageSelector';
 
 const columns: ColumnDef<SkillCategory>[] = [
   {
@@ -70,14 +70,16 @@ const columns: ColumnDef<SkillCategory>[] = [
 export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const params = useSearchParams();
-  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const { data, isFetching } = useQuery({
-    queryKey: [page],
+  const params = useSearchParams();
+  const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['skill-categories', page],
     queryFn: () => getSkillCategory({ size: 20, page }),
+    placeholderData: keepPreviousData,
   });
 
   const table = useReactTable({
@@ -86,7 +88,6 @@ export default function Page() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -100,8 +101,8 @@ export default function Page() {
   });
 
   return (
-    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4">
-      <div>
+    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4 overflow-hidden">
+      <div className="max-h-full overflow-hidden flex flex-col">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
             <h2>Quản lý thể loại kỹ năng</h2>
@@ -110,7 +111,7 @@ export default function Page() {
             <AddSkillCategoryButton />
           </div>
         </div>
-        {isFetching ? (
+        {isLoading ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -127,7 +128,7 @@ export default function Page() {
                 </TableRow>
               ))}
             </TableHeader>
-            <TableBody>
+            <TableBody className="h-full overflow-y-auto">
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
@@ -151,7 +152,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={0} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
       </div>
     </div>
   );

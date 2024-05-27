@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { ChartBarSquareIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import React, { ReactNode } from 'react';
 import env from '@/constant/env';
+import Link from 'next/link';
 
 type LinkType = {
   links: { name: string; icon?: ReactNode; href: { name: string; href: string }[] | string }[];
@@ -35,6 +36,10 @@ const links: LinkType[] = [
           {
             name: 'Loại kỹ năng',
             href: '/admin/skill-category',
+          },
+          {
+            name: 'Nhãn',
+            href: '/admin/tag',
           },
         ],
       },
@@ -73,10 +78,12 @@ export default async function Page({ children }: { children: ReactNode }) {
 
   return (
     <ProtectedRoute session={session} all={['ADMIN']}>
-      <div className="flex divide-x h-full">
+      <div className="flex divide-x h-dvh overflow-hidden">
         <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4">
           <div>
-            <div className="p-4 text-5xl">ICON</div>
+            <Link className="p-4 text-5xl" href="/">
+              ICON
+            </Link>
             {links.map(({ links, alt, groupName }, index) => (
               <div className="w-full flex justify-start gap-4 py-2 flex-col text-gray-500" key={index}>
                 <div className="font-bold text-xl" title={alt}>
@@ -111,7 +118,7 @@ export default async function Page({ children }: { children: ReactNode }) {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-full p-6 ">
+        <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">
           <Header />
           {children}
         </div>

@@ -72,14 +72,14 @@
   }
 
   body {
-    @apply h-full bg-background text-foreground;
+    @apply h-full bg-background text-foreground overflow-hidden;
   }
 
   html {
-    @apply h-full;
+    @apply h-full overflow-hidden;
   }
 
-  .markdown>* {
+  .markdown > * {
     @apply overflow-hidden;
   }
 
@@ -103,7 +103,7 @@
     @apply m-0 border-l-4 border-zinc-300 p-0 pl-2;
   }
 
-  p>code {
+  p > code {
     @apply rounded-md border bg-background bg-opacity-60 p-1 text-foreground;
   }
 
@@ -124,7 +124,7 @@
     border: 4px solid transparent;
     background-clip: padding-box;
     border-radius: 9999px;
-    @apply border-2 border-transparent bg-white bg-clip-padding;
+    @apply border-2 border-transparent bg-gray-500 bg-clip-padding;
   }
 
   *::-webkit-scrollbar-button {

@@ -14,7 +14,7 @@ export class PostCategoryService {
   async create(createPostCategoryDto: CreatePostCategoryDto) {
     const { name, parentId } = createPostCategoryDto;
 
-    const duplicateName = await this.prisma.skillCategory.findFirst({ where: { name: name } });
+    const duplicateName = await this.prisma.category.findFirst({ where: { name } });
 
     if (duplicateName) {
       throw new Conflict<typeof createPostCategoryDto>('name');
@@ -32,21 +32,22 @@ export class PostCategoryService {
       }
     }
 
-    return this.prisma.skillCategory.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
+    return this.prisma.category.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
   }
 
   findAll({ name, size, page, isParent }: NamePaginationQueryDto & { isParent?: boolean }): Promise<Category[]> {
+    name = name === '' ? undefined : name;
     let query = {};
 
     if (isParent === true) {
-      query = { name, isParent: null };
+      query = { name: { contains: name }, parentId: null };
     } else if (isParent === false) {
-      query = { name, isParent: { not: null } };
+      query = { name: { contains: name }, parentId: { not: null } };
     } else {
-      query = { name };
+      query = { name: { contains: name } };
     }
 
-    return this.prisma.category.findMany({ where: query, take: size, skip: size * page });
+    return this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number) {
@@ -90,7 +91,13 @@ export class PostCategoryService {
   }
 
   async remove(id: number) {
-    const result = await this.prisma.skill.deleteMany({ where: { id } });
+    const children = await this.prisma.category.findFirst({ where: { parentId: id } });
+
+    if (children) {
+      throw new BadRequestException('Category still have children');
+    }
+
+    const result = await this.prisma.category.deleteMany({ where: { id } });
 
     if (result.count === 0) {
       throw new NotFound('id');

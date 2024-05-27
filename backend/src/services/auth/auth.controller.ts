@@ -15,12 +15,11 @@ export class AuthController {
   getProfile(@Req() req: Request): SessionDto {
     return plainToInstance(SessionDto, getUser(req));
   }
+
   @Get('logout')
   @UseGuards(AuthGuard)
   logout(@Res({ passthrough: true }) res: Response) {
-    res.cookie('jwt', '', {
-      httpOnly: true,
-    });
+    res.clearCookie('jwt');
 
     return res.redirect(`${this.configService.get('url.frontend')}`);
   }

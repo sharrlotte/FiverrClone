@@ -3,16 +3,17 @@
 import { BoldIcon, CheckListIcon, CodeBlockIcon, EditPanelIcon, FullScreenIcon, HRIcon, ImageIcon, ItalicIcon, LinkChainIcon, ListIcon, LivePanelIcon, OrderedListIcon, PreviewPanelIcon, QuoteIcon, StrikethroughIcon, TitleIcon } from '@/components/ui/icon/icons';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Markdown from '@/components/ui/markdown';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import env from '@/constant/env';
 
 export type MarkdownData = {
   text: string;
@@ -24,21 +25,12 @@ export type MarkdownData = {
 
 type MarkdownEditorProps = {
   value: MarkdownData;
-  onChange: (_value: MarkdownData) => void;
+  onChange: (func: (_value: MarkdownData) => MarkdownData) => void;
 };
 
 type EditorMode = 'edit' | 'preview' | 'live';
 
-export default function Page() {
-  const [content, setContent] = useState<MarkdownData>({
-    images: [],
-    text: '',
-  });
-  return <MarkdownEditor value={content} onChange={setContent} />;
-}
-
-function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
-  const [content, setContent] = useState(value);
+export default function MarkdownEditor({ value: content, onChange: setContent }: MarkdownEditorProps) {
   const [mode, setMode] = useState<EditorMode>('live');
   const [isFullscreen, setFullscreen] = useState(false);
 
@@ -46,8 +38,6 @@ function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => onChange(content), [content, onChange]);
 
   function insertAtCaret(content: string) {
     const input = inputRef.current;
@@ -127,19 +117,19 @@ function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
     >
       <section className="flex divide-x">
         <div>
-          <Button className="w-5 p-1" size="icon" title={'bold'} variant="outline" type="button" onClick={() => wrapAtCaret('**', '**')}>
+          <Button className="w-8 h-8 p-1" size="icon" title={'bold'} variant="ghost" type="button" onClick={() => wrapAtCaret('**', '**')}>
             <BoldIcon className="h-3 w-3" />
           </Button>
-          <Button className="w-5 p-1" size="icon" title={'italic'} variant="outline" onClick={() => wrapAtCaret('*', '*')}>
+          <Button className="w-8 h-8 p-1" size="icon" title={'italic'} variant="ghost" onClick={() => wrapAtCaret('*', '*')}>
             <ItalicIcon className="h-3 w-3" />
           </Button>
-          <Button className="w-5 p-1" size="icon" title={'strikethrough'} variant="outline" onClick={() => wrapAtCaret('~~', '~~')}>
+          <Button className="w-8 h-8 p-1" size="icon" title={'strikethrough'} variant="ghost" onClick={() => wrapAtCaret('~~', '~~')}>
             <StrikethroughIcon className="h-3 w-3" />
           </Button>
-          <Button className="w-5 p-1" size="icon" title={'strikethrough'} variant="outline" onClick={() => insertAtCaret('\n----------\n')}>
+          <Button className="w-8 h-8 p-1" size="icon" title={'strikethrough'} variant="ghost" onClick={() => insertAtCaret('\n----------\n')}>
             <HRIcon className="h-3 w-3" />
           </Button>
-          <Button className="p-1" size="icon" title={'header'} variant="outline" onClick={() => wrapAtCaret('# ', ' \n')}>
+          <Button className="p-1" size="icon" title={'header'} variant="ghost" onClick={() => wrapAtCaret('# ', ' \n')}>
             <TitleIcon className="h-3 w-3" />
           </Button>
         </div>
@@ -147,20 +137,31 @@ function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           <LinkDialog onAccept={insertAtCaret}>
             <LinkChainIcon className="h-3 w-3" />
           </LinkDialog>
-          <Button className="p-1" size="icon" title={'quote'} variant="outline" onClick={() => insertAtCaret('> ')}>
+          <Button className="p-1" size="icon" title={'quote'} variant="ghost" onClick={() => insertAtCaret('> ')}>
             <QuoteIcon className="h-3 w-3" />
           </Button>
-          <Button className="w-5 p-1" size="icon" title={'code-block'} variant="outline" onClick={() => wrapAtCaret('`', '`')}>
+          <Button className="w-8 h-8 p-1" size="icon" title={'code-block'} variant="ghost" onClick={() => wrapAtCaret('`', '`')}>
             <CodeBlockIcon className="h-3 w-3" />
           </Button>
           <ImageDialog
-            onAccept={(value, image) => {
-              insertAtCaret(value);
+            onAccept={(content, image) => {
               if (image) {
-                setContent((prev) => ({
-                  ...prev,
-                  images: [...prev.images, image],
+                const input = inputRef.current;
+
+                if (!input) return;
+
+                const position = input.selectionStart ?? input.value.length;
+
+                setContent(({ text, images }) => ({
+                  text: text.substring(0, position) + content + text.substring(position),
+                  images: [...images, image],
                 }));
+
+                const newPosition = position + content.length;
+                input.focus();
+                setTimeout(() => input.setSelectionRange(newPosition, newPosition));
+              } else {
+                insertAtCaret(content);
               }
             }}
           >
@@ -168,30 +169,30 @@ function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
           </ImageDialog>
         </div>
         <div>
-          <Button className="p-1" size="icon" title={'list'} variant="outline" onClick={() => insertAtCaret('- ')}>
+          <Button className="p-1" size="icon" title={'list'} variant="ghost" onClick={() => insertAtCaret('- ')}>
             <ListIcon className="h-3 w-3" />
           </Button>
-          <Button className="p-1" size="icon" title={'ordered-list'} variant="outline" onClick={() => insertAtCaret('1. ')}>
+          <Button className="p-1" size="icon" title={'ordered-list'} variant="ghost" onClick={() => insertAtCaret('1. ')}>
             <OrderedListIcon className="h-3 w-3" />
           </Button>
-          <Button className="p-1" size="icon" title={'check-list'} variant="outline" onClick={() => insertAtCaret('- [] ')}>
+          <Button className="p-1" size="icon" title={'check-list'} variant="ghost" onClick={() => insertAtCaret('- [] ')}>
             <CheckListIcon className="h-3 w-3" />
           </Button>
         </div>
         <div className="ml-auto flex divide-x">
           <div>
-            <Button className="p-1" size="icon" disabled={mode === 'edit'} title={'edit-mode'} variant="outline" onClick={() => setMode('edit')}>
+            <Button className="p-1" size="icon" disabled={mode === 'edit'} title={'edit-mode'} variant="ghost" onClick={() => setMode('edit')}>
               <EditPanelIcon className="h-3 w-3" />
             </Button>
-            <Button className="p-1" disabled={mode === 'live'} size="icon" title={'live-mode'} variant="outline" onClick={() => setMode('live')}>
+            <Button className="p-1" disabled={mode === 'live'} size="icon" title={'live-mode'} variant="ghost" onClick={() => setMode('live')}>
               <LivePanelIcon className="h-3 w-3" />
             </Button>
-            <Button className="p-1" disabled={mode === 'preview'} size="icon" title={'preview-mode'} variant="outline" onClick={() => setMode('preview')}>
+            <Button className="p-1" disabled={mode === 'preview'} size="icon" title={'preview-mode'} variant="ghost" onClick={() => setMode('preview')}>
               <PreviewPanelIcon className="h-3 w-3" />
             </Button>
           </div>
           <div className="px-1">
-            <Button className="p-1" size="icon" title={'fullscreen'} variant="outline" onClick={toggleFullscreen}>
+            <Button className="p-1" type="button" size="icon" title={'fullscreen'} variant="ghost" onClick={toggleFullscreen}>
               <FullScreenIcon className="h-3 w-3" />
             </Button>
           </div>
@@ -204,7 +205,7 @@ function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
       >
         {(mode === 'edit' || mode === 'live') && (
           <textarea
-            className="h-full w-full resize-none overflow-y-auto border-none bg-transparent p-2 outline-none "
+            className="h-full w-full resize-none overflow-y-auto border-none bg-transparent p-2 ghost-none "
             ref={inputRef}
             title={'content'}
             value={content.text}
@@ -258,12 +259,12 @@ function LinkDialog({ children, onAccept }: LinkDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-5 p-1" size="icon" title={'add-link'} variant="outline">
+        <Button className="w-8 h-8 p-1" size="icon" title={'add-link'} variant="ghost">
           {children}
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>{'add-link'}</DialogTitle>
+      <DialogContent onSubmit={(event) => event.stopPropagation()}>
+        <DialogTitle>Thêm đường dẫn</DialogTitle>
         <Form {...form}>
           <form className="space-y-2" onSubmit={form.handleSubmit(handleAccept)}>
             <FormField
@@ -271,9 +272,9 @@ function LinkDialog({ children, onAccept }: LinkDialogProps) {
               name="header"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'url-header'}</FormLabel>
+                  <FormLabel>Nội dung</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder={'url-header'} />
+                    <Input {...field} placeholder={'Đường dẫn'} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -293,8 +294,8 @@ function LinkDialog({ children, onAccept }: LinkDialogProps) {
               )}
             />
             <div className="flex justify-end">
-              <Button className="ml-auto" title={'submit'} type="submit" variant="outline">
-                {'submit'}
+              <Button className="ml-auto" title={'submit'} type="submit">
+                Thêm
               </Button>
             </div>
           </form>
@@ -354,17 +355,19 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
     form.setValue('image', url);
   }
 
-  const imageUrl = form.getValues('image') && 'blob:' + form.getValues('image');
+  const image = form.getValues('image');
+
+  const imageUrl = image.startsWith(env.url.base) ? 'blob:' + form.getValues('image') : image;
   const hasImage = URL.canParse(imageUrl);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-5 p-1" size="icon" title={'add-image'} variant="outline">
+        <Button className="w-8 h-8 p-1" size="icon" title={'add-image'} variant="ghost">
           {children}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onSubmit={(event) => event.stopPropagation()}>
         <DialogTitle>{'add-image'}</DialogTitle>
         <Form {...form}>
           <form className="space-y-2" onSubmit={form.handleSubmit(handleAccept)}>
@@ -373,9 +376,9 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
               name="header"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'url-header'}</FormLabel>
+                  <FormLabel>Nội dung</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder={'url-header'} />
+                    <Input {...field} placeholder={'ĐƯờng dẫn ảnh'} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -386,10 +389,10 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
               name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'image'}</FormLabel>
+                  <FormLabel>Ảnh</FormLabel>
                   <FormControl>
                     <div className="flex gap-2">
-                      <Input {...field} placeholder={'url'} />
+                      <Input {...field} placeholder={'Đường dẫn'} />
                       <label className="flex h-9 items-center justify-center rounded-md border p-2" htmlFor="image" hidden>
                         <ImageIcon className="h-5 w-5" />
                       </label>
@@ -402,7 +405,7 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
             />
             {hasImage && (
               <div className="relative">
-                <Button className="absolute right-0 top-0" title={'delete'} size="icon" variant="outline" onClick={() => form.reset({ image: undefined })}>
+                <Button className="absolute right-0 top-0" title={'delete'} size="icon" variant="ghost" onClick={() => form.reset({ image: undefined })}>
                   <XMarkIcon className="h-4 w-4" />
                 </Button>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -410,8 +413,8 @@ function ImageDialog({ children, onAccept }: ImageDialogProps) {
               </div>
             )}
             <div className="flex justify-end">
-              <Button className="ml-auto" title={'submit'} type="submit" variant="outline">
-                {'submit'}
+              <Button className="ml-auto" title={'submit'} type="submit">
+                Thêm
               </Button>
             </div>
           </form>

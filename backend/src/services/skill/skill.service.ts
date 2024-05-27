@@ -30,7 +30,7 @@ export class SkillService {
   }
 
   findAll({ name, size, page }: NamePaginationQueryDto): Promise<Skill[]> {
-    return this.prisma.skill.findMany({ where: { name }, take: size, skip: size * page });
+    return this.prisma.skill.findMany({ where: { name: { contains: name } }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<Skill> {

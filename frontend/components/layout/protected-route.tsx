@@ -14,8 +14,8 @@ type Props = {
 function NoPermission() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      <span className="font-bold text-2xl">You don have permission to access this page</span>
-      <Link className="min-w-[100px] border p-2 rounded-md" title="home" href="/">
+      <span className="font-bold text-2xl">Bạn không có quyền để truy cập trang này</span>
+      <Link className="min-w-[100px] bg-blue-500 text-white border p-2 rounded-md" title="home" href="/">
         Về trang chủ{' '}
       </Link>
     </div>
@@ -26,10 +26,10 @@ function LoginToContinue() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
       <span className="text-2xl font-bold">Vui lòng đăng nhập để tiếp tục</span>
-      <Link className="min-w-[100px] border p-2 rounded-md" title="login" href="/account/login">
+      <Link className="min-w-[100px] border p-2 rounded-md bg-blue-500 text-white" title="login" href="/account/login">
         Đến trang đăng nhập
       </Link>
-      <Link className="min-w-[100px] border p-2 rounded-md" title="home" href="/">
+      <Link className="min-w-[100px] border p-2 rounded-md bg-blue-500 text-white" title="home" href="/">
         Về trang chủ
       </Link>
     </div>

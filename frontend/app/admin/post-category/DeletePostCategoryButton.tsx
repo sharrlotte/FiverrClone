@@ -1,5 +1,4 @@
 import { deletePostCategory, PostCategory } from '@/api/post-category.api';
-import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
@@ -14,27 +13,39 @@ export default function DeletePostCategoryButton({ postCategory: { id, name } }:
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async () => deletePostCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
     onError: (error: any) => {
       switch (error.response.status) {
+        case 400:
+          toast({
+            title: 'Lỗi',
+            description: 'Xóa các thể loại con trước',
+            variant: 'destructive',
+          });
+          break;
+
+        case 404:
+          toast({
+            title: 'Lỗi',
+            description: 'Không tìm thấy',
+            variant: 'destructive',
+          });
+          break;
+
         default:
           toast({
             title: 'Lỗi',
-            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau',
+            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau' + error.response.data.message,
             variant: 'destructive',
           });
           break;
       }
     },
   });
-
-  if (isPending) {
-    return <LoadingOverlay />;
-  }
 
   return (
     <AlertDialog>

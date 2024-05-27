@@ -7,10 +7,10 @@ import { TrashIcon } from '@radix-ui/react-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
-  skillCategory: PostCategory;
+  postCategory: PostCategory;
 };
 
-export default function DeletePostCategoryButton({ skillCategory: { id, name } }: Props) {
+export default function DeletePostCategoryButton({ postCategory: { id, name } }: Props) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 

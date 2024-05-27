@@ -55,7 +55,7 @@ const columns: ColumnDef<PostCategory>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const skillCategory = row.original;
+      const postCategory = row.original;
 
       return (
         <DropdownMenu>
@@ -65,8 +65,8 @@ const columns: ColumnDef<PostCategory>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <UpdatePostCategoryButton skillCategory={skillCategory} />
-            <DeletePostCategoryButton skillCategory={skillCategory} />
+            <UpdatePostCategoryButton postCategory={postCategory} />
+            <DeletePostCategoryButton postCategory={postCategory} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

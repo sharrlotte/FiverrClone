@@ -1,12 +1,12 @@
 'use client';
 
 import { deleteTag, Tag } from '@/api/tag.api';
-import LoadingOverlay from '@/app/admin/skill-category/LoadingOverlay';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import LoadingOverlay from '../../../components/ui/LoadingOverlay';
 
 type Props = {
     tag: Tag;

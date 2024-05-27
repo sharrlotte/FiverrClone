@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query, Req, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from 'src/services/auth/auth.guard';
 import { getAuthUser } from 'src/services/auth/auth.utils';
@@ -45,14 +45,20 @@ export class UsersController {
     return plainToInstance(UserResponse, this.userService.get(+id));
   }
 
-  @Get('@me/profile')
+  @Get(':id/profile')
   getProfile(@Param('id') id: string, @Req() req: Request) {
     return plainToInstance(UserProfileResponse, this.userService.getProfile(+id));
   }
 
+  @Get('@me/profile')
+  getMeProfile(@Req() req: Request) {
+    const session = getAuthUser(req);
+    return plainToInstance(UserProfileResponse, this.userService.getProfile(session.id));
+  }
+
   @Roles(['USER'])
   @UseGuards(AuthGuard)
-  @Get('@me/profile')
+  @Patch('@me/profile')
   updateProfile(@Param('id') id: string, @Req() req: Request, @Body() updateProfileDto: UpdateProfileDto) {
     const session = getAuthUser(req);
 

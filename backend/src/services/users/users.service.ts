@@ -4,7 +4,7 @@ import { AuthProvider } from 'src/types/auth';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import NotFound from 'src/error/NotFound';
-import { UserProfileResponse } from 'src/services/users/dto/user.reponse';
+import { UserProfileResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 
@@ -64,23 +64,19 @@ export class UsersService {
         about: '',
         avatar: profileUrl,
         createdAt: new Date(),
-      },
-    });
-
-    await this.prisma.userRole.create({
-      data: {
-        userId: user.id,
-        roleId: role.id,
-        createdAt: new Date(),
-      },
-    });
-
-    await this.prisma.account.create({
-      data: {
-        provider,
-        providerId,
-        userId: user.id,
-        createdAt: new Date(),
+        roles: {
+          create: {
+            roleId: role.id,
+            createdAt: new Date(),
+          },
+        },
+        accounts: {
+          create: {
+            provider,
+            providerId,
+            createdAt: new Date(),
+          },
+        },
       },
     });
 

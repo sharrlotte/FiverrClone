@@ -8,7 +8,7 @@ import { PostService } from 'src/services/post/post.service';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { Request } from 'express';
 import { UsersService } from 'src/services/users/users.service';
-import { UserProfileResponse, UserResponse } from 'src/services/users/dto/user.reponse';
+import { UserProfileResponse, UserResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 
 @Controller('users')

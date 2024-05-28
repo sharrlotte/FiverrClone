@@ -28,34 +28,32 @@ export class PostService {
       throw new Conflict<typeof createPostDto>('categories');
     }
 
-    const post = await this.prisma.post.create({
-      data: {
-        userId: session.id,
-        ...createPostData,
-        thumbnail: '',
-        createdAt: new Date(),
-      },
-    });
-
-    const savePackages = this.prisma.package.createMany({
-      data: packages.map((item) => ({
-        ...item,
-        postId: post.id,
-        createdAt: new Date(),
-      })),
-    });
-
     await Promise.all(categories.map(async (category) => this.prisma.category.findFirstOrThrow({ where: { id: category, parentId: { not: null } } })));
 
-    const saveCategories = this.prisma.postCategory.createMany({
-      data: categories.map((item) => ({
-        postId: post.id,
-        categoryId: item,
+    const post = await this.prisma.post.create({
+      data: {
+        ...createPostData,
+        userId: session.id,
+        thumbnail: '',
         createdAt: new Date(),
-      })),
+        packages: {
+          createMany: {
+            data: packages.map((item) => ({
+              ...item,
+              createdAt: new Date(),
+            })),
+          },
+        },
+        postCategories: {
+          createMany: {
+            data: categories.map((item) => ({
+              categoryId: item,
+              createdAt: new Date(),
+            })),
+          },
+        },
+      },
     });
-
-    await Promise.all([savePackages, saveCategories]);
 
     return post;
   }

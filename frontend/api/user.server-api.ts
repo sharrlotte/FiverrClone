@@ -1,14 +1,15 @@
 import api from '@/api/api';
+import { UpdateProfileRequest, UserProfile } from '@/schema/user.schema';
 import { cookies } from 'next/headers';
 
-export async function getPost(id: ): Promise<PostDetail> {
-  const result = await api.get(`/posts/${id}`, { headers: { Cookie: cookies().toString() } });
+export async function getProfile(id: number): Promise<UserProfile> {
+  const result = await api.get(`/users/${id}/profile`, { headers: { Cookie: cookies().toString() } });
 
   return result.data;
 }
 
-export async function visitPost(postId: number) {
-  const result = await api.post(`/posts/${postId}/visit`, { headers: { Cookie: cookies().toString() } });
+export async function updateProfile(id: number, payload: UpdateProfileRequest) {
+  const result = await api.patch(`/users/${id}/profile`, payload, { headers: { Cookie: cookies().toString() } });
 
   return result.data;
 }

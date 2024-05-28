@@ -20,4 +20,7 @@ export class UserProfileResponse {
 
   @Expose()
   about: string;
+
+  @Expose()
+  avatar: string | null;
 }

@@ -1,10 +1,13 @@
-import { getSession } from '@/api/auth.api';
+import { getAuthSession } from '@/api/auth.api';
+import { getProfile } from '@/api/user.server-api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import React from 'react';
 
 export default async function page() {
+  const session = await getAuthSession();
+  const profile = await getProfile(session.id);
 
   return (
     <div>
@@ -13,10 +16,10 @@ export default async function page() {
           <div>
             <CardHeader className="flex-col items-center gap-2">
               <Avatar className="h-24 w-24">
-                <AvatarImage className="rounded-full h-24 w-24" src={user.avatar + '.png'} alt="@shadcn" />
+                <AvatarImage className="rounded-full h-24 w-24" src={profile.avatar + '.png'} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <CardTitle>Creat</CardTitle>
+              <CardTitle>{profile.username}</CardTitle>
               <CardDescription>Deploy your new project in one-click.</CardDescription>
               <Button>Cập nhật</Button>
             </CardHeader>

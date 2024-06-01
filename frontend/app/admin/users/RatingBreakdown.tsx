@@ -1,4 +1,5 @@
 "user client";
+import StarIcon from '@heroicons/react/24/solid/StarIcon';
 import React from 'react'
 
 export default function () {
@@ -7,17 +8,26 @@ export default function () {
             <div>
                 <span className='font-black'>Rating Breakedown</span>
             </div>
-            <div className='flex gap-28 opacity-50'>
-                <span>Seller communication level</span>
-                <span>5 sao</span>
+            <div className='flex gap-28'>
+                <span className='opacity-50'>Seller communication level</span>
+                <div className='flex flex-row gap-2'>
+                    <span>5</span>
+                    <StarIcon className='h-6 w-6' />
+                </div>
             </div>
-            <div className='flex gap-32 opacity-50'>
-                <span>Recommend to a friend</span>
-                <span>4.9 sao</span>
+            <div className='flex gap-32'>
+                <span className='opacity-50'>Recommend to a friend</span>
+                <div className='flex flex-row gap-2'>
+                    <span>4.9</span>
+                    <StarIcon className='h-6 w-6' />
+                </div>
             </div>
-            <div className='flex gap-40 opacity-50'>
-                <span>Service as described</span>
-                <span>5 sao</span>
+            <div className='flex gap-40'>
+                <span className='opacity-50'>Service as described</span>
+                <div className='flex flex-row gap-2'>
+                    <span>5</span>
+                    <StarIcon className='h-6 w-6' />
+                </div>
             </div>
         </div>
     )

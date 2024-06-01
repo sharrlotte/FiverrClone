@@ -5,6 +5,7 @@ import { Button } from '../../../../components/ui/button';
 import PopularServices from '../../../PopularServices';
 import Evaluate from '../../../admin/users/Evaluate';
 import RatingBreakdown from '../../../admin/users/RatingBreakdown';
+import StarIcon from '@heroicons/react/24/solid/StarIcon';
 
 export default async function page({ children }: { children: ReactNode }) {
     const user = await getSession();
@@ -23,9 +24,14 @@ export default async function page({ children }: { children: ReactNode }) {
                     <div>
                         <div><span className='text-3xl'>{user?.username}</span></div>
                         <div>
-                            <div>(icon sao) so sao (so luot dang gia)</div>
-                            <div>(level user)</div>
-                            <div>(quoc gia) (ngon ngu)</div>
+                            <div className='flex flex-row gap-2'>
+                                <StarIcon className="w-6 h-6" />
+                                <span>(115)</span>
+                            </div>
+                            <div className='flex flex-row gap-10'>
+                                <span>Viet Nam</span>
+                                <span>Tieng Viet</span>
+                            </div>
                             <div>tag</div>
                         </div>
                     </div>
@@ -80,7 +86,7 @@ export default async function page({ children }: { children: ReactNode }) {
                         <Evaluate />
                         <RatingBreakdown />
                     </div>
-                    <div>
+                    <div className='mt-10'>
                         <span>binh luan</span>
                     </div>
                 </div>

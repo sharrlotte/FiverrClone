@@ -1,6 +1,6 @@
 import { DurationType } from '@prisma/client';
 import { Expose, Type } from 'class-transformer';
-import { UserResponse } from 'src/services/users/dto/user.reponse';
+import { UserResponse } from 'src/services/users/dto/user.response';
 
 export class PostResponse {
   @Expose()

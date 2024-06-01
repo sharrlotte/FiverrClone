@@ -19,7 +19,7 @@ const tabs: Tab = [
   [
     {
       icon: <UserIcon className="w-5 h-5" />,
-      action: 'Thông tin tài khoản',
+      action: <Link href="/profile">Thông tin tài khoản</Link>,
     },
     {
       icon: <ShoppingCartIcon className="w-5 h-5" />,

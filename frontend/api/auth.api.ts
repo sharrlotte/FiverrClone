@@ -6,3 +6,13 @@ export async function getSession(): Promise<Session | null> {
   const result = await api.get('/auth/session', { headers: { Cookie: cookies().toString() } });
   return result.data;
 }
+
+export async function getAuthSession(): Promise<Session> {
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error('Session not found');
+  }
+
+  return session;
+}

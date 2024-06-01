@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import NotFound from 'src/error/NotFound';
+import { UserProfileResponse } from 'src/services/users/dto/user.response';
+import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
+import { SessionDto } from 'src/services/auth/dto/session.dto';
 
 type UserWithAuthoritiesAndRoles = Prisma.UserGetPayload<{}> & { roles: string[]; authorities: string[] };
 
@@ -61,23 +64,19 @@ export class UsersService {
         about: '',
         avatar: profileUrl,
         createdAt: new Date(),
-      },
-    });
-
-    await this.prisma.userRole.create({
-      data: {
-        userId: user.id,
-        roleId: role.id,
-        createdAt: new Date(),
-      },
-    });
-
-    await this.prisma.account.create({
-      data: {
-        provider,
-        providerId,
-        userId: user.id,
-        createdAt: new Date(),
+        roles: {
+          create: {
+            roleId: role.id,
+            createdAt: new Date(),
+          },
+        },
+        accounts: {
+          create: {
+            provider,
+            providerId,
+            createdAt: new Date(),
+          },
+        },
       },
     });
 
@@ -86,6 +85,30 @@ export class UsersService {
 
   async get(id: number): Promise<User> {
     const user = await this.prisma.user.findFirst({ where: { id } });
+
+    if (!user) {
+      throw new NotFound('id');
+    }
+
+    return user;
+  }
+
+  async getProfile(id: number): Promise<UserProfileResponse> {
+    const user = await this.prisma.user.findFirst({ where: { id } });
+
+    if (!user) {
+      throw new NotFound('id');
+    }
+
+    return user;
+  }
+
+  async updateProfile(id: number, session: SessionDto, updateProfileDto: UpdateProfileDto): Promise<UserProfileResponse> {
+    if (session.id !== id) {
+      throw new ForbiddenException();
+    }
+
+    const user = await this.prisma.user.update({ where: { id }, data: updateProfileDto });
 
     if (!user) {
       throw new NotFound('id');

@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, UseGuards, UseInterceptors, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, UseGuards } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-query.dto';
 import { plainToInstance } from 'class-transformer';
 import { PostDetailResponse, PostResponse } from 'src/services/post/dto/post.response';
 import { Request } from 'express';
@@ -10,6 +9,7 @@ import { getAuthUser, getUser } from 'src/services/auth/auth.utils';
 import { RolesGuard } from 'src/shared/guard/role.guard';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { FormDataRequest } from 'nestjs-form-data';
+import { PostPaginationQueryDto } from 'src/services/post/dto/post-pagination-query.dto';
 
 @Controller('posts')
 export class PostController {
@@ -41,7 +41,7 @@ export class PostController {
   }
 
   @Get()
-  findAll(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
+  findAll(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getUser(req);
     return this.postService.findAll(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }

@@ -7,10 +7,10 @@ import { getPosts } from '@/api/post.api';
 import PostCard from '@/components/post/PostCard';
 import PostCardSkeleton from '@/components/post/PostCardSkeleton';
 
-export default function PopularServices() {
+export default function NewServices() {
   const { data, isLoading } = useQuery({
-    queryKey: ['posts', 'popular-service', 0],
-    queryFn: () => getPosts({ page: 1, size: 12, sort: 'favorites' }),
+    queryKey: ['posts', 'new-service', 0],
+    queryFn: () => getPosts({ page: 1, size: 12 }),
   });
 
   return (

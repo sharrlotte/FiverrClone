@@ -1,5 +1,5 @@
 import api from '@/api/api';
-import { Post, PostDetail } from '@/api/post.api';
+import { PostDetail } from '@/api/post.api';
 import { cookies } from 'next/headers';
 
 export async function getPost(id: number): Promise<PostDetail> {

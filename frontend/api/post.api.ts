@@ -40,6 +40,12 @@ export type PostDetail = {
   packages: Package[];
 };
 
+export async function getPosts(request: GetPostRequest): Promise<Post[]> {
+  const result = await api.get('/posts', { params: request });
+
+  return result.data;
+}
+
 export async function getMyPost(request: GetPostRequest): Promise<Post[]> {
   const result = await api.get('/users/@me/posts', { params: request });
 

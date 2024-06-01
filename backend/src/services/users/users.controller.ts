@@ -3,13 +3,13 @@ import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from 'src/services/auth/auth.guard';
 import { getAuthUser } from 'src/services/auth/auth.utils';
 import { PostResponse } from 'src/services/post/dto/post.response';
-import { TitlePaginationQueryDto } from 'src/services/post/dto/title-pagination-query.dto';
 import { PostService } from 'src/services/post/post.service';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { Request } from 'express';
 import { UsersService } from 'src/services/users/users.service';
 import { UserProfileResponse, UserResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
+import { PostPaginationQueryDto } from 'src/services/post/dto/post-pagination-query.dto';
 
 @Controller('users')
 export class UsersController {
@@ -21,21 +21,21 @@ export class UsersController {
   @Get('/@me/posts')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
-  findAllPost(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
+  findAllPost(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
     return this.postService.findAllByMe(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/favorite-posts')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
-  findAllFavoritePost(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
+  findAllFavoritePost(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
     return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/post-browsing-history')
   @Roles(['USER'])
   @UseGuards(AuthGuard)
-  findAllPostBrowsingHistory(@Query() query: TitlePaginationQueryDto, @Req() req: Request) {
+  findAllPostBrowsingHistory(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
     return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }

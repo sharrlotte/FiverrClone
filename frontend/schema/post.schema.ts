@@ -50,7 +50,7 @@ export const createPostSchema = z.object({
 export type CreatePostRequest = z.infer<typeof createPostSchema>;
 
 export const getPostSchema = z.object({
-  name: z
+  title: z
     .string()
     .min(4, {
       message: 'Tên thể loại phải nhiều hơn 4 kí tự',
@@ -60,6 +60,7 @@ export const getPostSchema = z.object({
 
   page: z.number().min(1),
   size: z.number().max(50),
+  sort: z.enum(['favorites']).optional(),
 });
 
 export type GetPostRequest = z.infer<typeof getPostSchema>;

@@ -23,7 +23,9 @@ function RouterLink({ href, children }: any) {
 }
 
 function MarkdownImage({ src, alt }: any) {
-  if (src && src.includes(env.url.base)) {
+  if (src && src.includes('res.cloudinary.com')) {
+    src = src.replace('http://localhost:3000/', '');
+  } else if (src && src.includes(env.url.base)) {
     src = 'blob:' + src;
   }
 

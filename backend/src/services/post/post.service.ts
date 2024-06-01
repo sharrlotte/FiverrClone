@@ -9,12 +9,15 @@ import { CloudinaryService } from 'src/services/cloudinary/cloudinary.service';
 import { PostDetailResponse, PostResponse } from 'src/services/post/dto/post.response';
 import { PostPaginationQueryDto } from 'src/services/post/dto/post-pagination-query.dto';
 import { Post } from '@prisma/client';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from 'src/config/configuration';
 
 @Injectable()
 export class PostService {
   constructor(
     private prisma: PrismaService,
     private cloudinaryService: CloudinaryService,
+    private configService: ConfigService,
   ) {}
 
   //Add images and more stuff to finish post
@@ -47,7 +50,7 @@ export class PostService {
             const publicId = this.cloudinaryService.randomPublicId();
 
             return this.cloudinaryService.uploadImage('post-images', image.buffer, publicId).then((result) => {
-              createPostData.content = createPostData.content.replace(filename, result.url);
+              createPostData.content = createPostData.content.replaceAll(`${this.configService.get<AppConfig>('url.frontend')}}`, '').replaceAll(filename, result.url);
               return result;
             });
           }),

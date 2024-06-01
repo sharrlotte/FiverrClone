@@ -13,9 +13,9 @@ type Props = {
 
 export default function PostCard({ post: { id, title, isFavorite, user, starsCount, totalStars, images } }: Props) {
   return (
-    <div className="space-y-2 relative">
-      <Image className="aspect-[3/2] w-full object-cover rounded-lg overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
+    <div className="flex flex-col gap-2 relative">
       <FavoriteButton postId={id} isFavorite={isFavorite} />
+      <Image className="aspect-[3/2] w-full object-cover rounded-lg overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
       <Link href={`/posts/${id}`} className="space-y-2">
         <div>
           <div className="flex gap-2 items-end">

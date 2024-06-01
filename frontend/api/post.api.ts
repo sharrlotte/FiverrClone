@@ -65,11 +65,13 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
 
 export async function createPost({ content, images, ...request }: CreatePostRequest) {
   const form = toFormData({
-    images,
     content: content.text,
     ...request,
   });
 
+  console.log(images);
+
+  images.forEach((file) => form.append('images', file));
   content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));
 
   const result = await api.post('/posts', form);

@@ -10,13 +10,13 @@ import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, Form, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { CreatePostRequest, createPostSchema } from '@/schema/post.schema';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import dynamic from 'next/dynamic';
+import { CreatePostRequest, createPostSchema } from '@/schema/post.schema';
 
 const MarkdownEditor = dynamic(() => import('@/components/common/MarkdownEditor'));
 
@@ -31,6 +31,7 @@ export default function Page() {
       content: { text: '', images: [] },
       categories: [],
       packages: [],
+      images: [],
     },
   });
 

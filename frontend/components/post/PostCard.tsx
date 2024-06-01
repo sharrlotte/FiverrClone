@@ -11,10 +11,10 @@ type Props = {
   post: Post;
 };
 
-export default function PostCard({ post: { id, title, thumbnail, isFavorite, user, starsCount, totalStars } }: Props) {
+export default function PostCard({ post: { id, title, isFavorite, user, starsCount, totalStars, images } }: Props) {
   return (
     <div className="space-y-2 relative">
-      <Image className="w-full object-cover rounded-lg overflow-hidden" width={300} height={200} src={thumbnail} alt={title} />
+      <Image className="aspect-[3/2] w-full object-cover rounded-lg overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
       <FavoriteButton postId={id} isFavorite={isFavorite} />
       <Link href={`/posts/${id}`} className="space-y-2">
         <div>
@@ -26,7 +26,7 @@ export default function PostCard({ post: { id, title, thumbnail, isFavorite, use
             <span>{user.username}</span>
           </div>
         </div>
-        <h3>{title}</h3>
+        <h3 className="text-wrap overflow-hidden w-full text-ellipsis">{title}</h3>
         <div className="flex text-lg gap-1">
           <StarIcon className="w-6 h-6" />
           <span className="font-bold">{calculateStar(starsCount, totalStars)}</span>

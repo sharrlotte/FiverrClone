@@ -1,6 +1,7 @@
 import api from '@/api/api';
 import { DurationType } from '@/constant/enum';
 import { CreatePostRequest, GetPostRequest } from '@/schema/post.schema';
+import { toFormData } from 'axios';
 
 export type Package = { title: string; description: string; revision: number; deliveryTime: number; durationType: DurationType; price: number };
 
@@ -11,7 +12,7 @@ export type Post = {
   content: string;
   totalStars: number;
   starsCount: number;
-  thumbnail: string;
+  images: string[];
   favorites: number;
   isFavorite: boolean;
   user: {
@@ -28,7 +29,7 @@ export type PostDetail = {
   content: string;
   totalStars: number;
   starsCount: number;
-  thumbnail: string;
+  images: string[];
   favorites: number;
   isFavorite: boolean;
   user: {
@@ -56,20 +57,16 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
   return result.data;
 }
 
-export async function createPost({ thumbnail, previews, ...request }: CreatePostRequest) {
-  const result = await api.post('/posts', request);
+export async function createPost({ content, images, ...request }: CreatePostRequest) {
+  const form = toFormData({
+    images,
+    content: content.text,
+    ...request,
+  });
 
-  const thumbnailForm = new FormData();
-  thumbnailForm.append('thumbnail', thumbnail);
+  content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));
 
-  const previewsForm = new FormData();
-  previewsForm.append('previews', previews as any);
-
-  const postThumbnail = api.post(`/posts/${result.data.id}/thumbnail`, thumbnailForm, { data: thumbnailForm });
-  const postPreviews = api.post(`/posts/${result.data.id}/previews`, previewsForm, { data: previewsForm });
-
-  await Promise.all([postThumbnail, postPreviews]);
-
+  const result = await api.post('/posts', form);
   return result.data;
 }
 

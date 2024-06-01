@@ -12,6 +12,7 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       enableDebugMessages: true,
+      transformOptions: { enableCircularCheck: true },
     }),
   );
 

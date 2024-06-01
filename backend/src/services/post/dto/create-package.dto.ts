@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { DurationType } from '@prisma/client';
-import { IsEnum, IsInt, IsNotEmpty, MaxLength, Min, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsNotEmpty, IsNumber, MaxLength, Min, MinLength } from 'class-validator';
 
 export class CreatePackageDto {
   @ApiProperty({
@@ -25,14 +26,18 @@ export class CreatePackageDto {
     minimum: 0,
   })
   @IsNotEmpty()
+  @IsInt()
   @Min(0)
+  @Type(() => Number)
   revision: number;
 
   @ApiProperty({
     minimum: 0,
   })
+  @IsNumber()
   @IsNotEmpty()
   @Min(0)
+  @Type(() => Number)
   deliveryTime: number;
 
   @ApiProperty({
@@ -45,6 +50,7 @@ export class CreatePackageDto {
   @IsNotEmpty()
   @IsInt()
   @Min(100000)
+  @Type(() => Number)
   price: number;
 
   @ApiProperty({

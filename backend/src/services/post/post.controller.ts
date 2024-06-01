@@ -9,7 +9,7 @@ import { Request } from 'express';
 import { getAuthUser, getUser } from 'src/services/auth/auth.utils';
 import { RolesGuard } from 'src/shared/guard/role.guard';
 import { Roles } from 'src/shared/decorator/role.decorator';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FormDataRequest } from 'nestjs-form-data';
 
 @Controller('posts')
 export class PostController {
@@ -18,27 +18,11 @@ export class PostController {
   @Post()
   @Roles(['USER'])
   @UseGuards(RolesGuard)
+  @FormDataRequest()
   create(@Req() req: Request, @Body() createPostDto: CreatePostDto) {
     const user = getAuthUser(req);
 
     return plainToInstance(PostResponse, this.postService.create(user, createPostDto));
-  }
-  @UseInterceptors(FileInterceptor('thumbnail'))
-  @Post(':id/thumbnail')
-  @Roles(['USER'])
-  @UseGuards(RolesGuard)
-  thumbnail(@Param('id') id: string, @UploadedFile() thumbnail: Express.Multer.File, @Req() req: Request) {
-    const session = getAuthUser(req);
-    return this.postService.thumbnail(+id, session, thumbnail);
-  }
-
-  @UseInterceptors(FilesInterceptor('previews'))
-  @Post(':id/previews')
-  @Roles(['USER'])
-  @UseGuards(RolesGuard)
-  images(@Param('id') id: string, @UploadedFiles() previews: Array<Express.Multer.File>, @Req() req: Request) {
-    const session = getAuthUser(req);
-    return this.postService.previews(+id, session, previews);
   }
 
   @Post(':id/favorite')

@@ -31,6 +31,9 @@ export class PostResponse {
   isFavorite: boolean;
 
   @Expose()
+  images: string[]
+
+  @Expose()
   @Type(() => UserResponse)
   user: UserResponse;
 }

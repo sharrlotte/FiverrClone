@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
@@ -18,7 +18,7 @@ export class PostService {
 
   //Add images and more stuff to finish post
   async create(session: SessionDto, createPostDto: CreatePostDto) {
-    const { packages, categories, ...createPostData } = createPostDto;
+    const { packages, categories, markdownImages, images, ...createPostData } = createPostDto;
 
     if (new Set(packages.map((value) => value.title)).size !== packages.length) {
       throw new Conflict<(typeof packages)[number]>('title');
@@ -28,7 +28,31 @@ export class PostService {
       throw new Conflict<typeof createPostDto>('categories');
     }
 
-    await Promise.all(categories.map(async (category) => this.prisma.category.findFirstOrThrow({ where: { id: category, parentId: { not: null } } })));
+    await Promise.all(categories.map(async (category) => this.prisma.category.findFirstOrThrow({ where: { id: +category, parentId: { not: null } } })));
+
+    const imageUrls: string[] = [];
+
+    if (images) {
+      const postImageUrl = await Promise.all(images.map(async (image) => this.cloudinaryService.uploadImage('post-images', image.buffer)));
+      imageUrls.push(...postImageUrl.map((item) => item.url));
+    }
+
+    if (markdownImages) {
+      const postImageUrl = await Promise.all(
+        markdownImages
+          .filter((image) => createPostData.content.includes(image.originalName))
+          .map(async (image) => {
+            const filename = image.originalName;
+            const publicId = this.cloudinaryService.randomPublicId();
+
+            return this.cloudinaryService.uploadImage('post-images', image.buffer, publicId).then((result) => {
+              createPostData.content = createPostData.content.replace(filename, result.url);
+              return result;
+            });
+          }),
+      );
+      imageUrls.push(...postImageUrl.map((item) => item.url));
+    }
 
     const post = await this.prisma.post.create({
       data: {
@@ -47,7 +71,15 @@ export class PostService {
         postCategories: {
           createMany: {
             data: categories.map((item) => ({
-              categoryId: item,
+              categoryId: +item,
+              createdAt: new Date(),
+            })),
+          },
+        },
+        postImages: {
+          createMany: {
+            data: imageUrls.map((link) => ({
+              link,
               createdAt: new Date(),
             })),
           },
@@ -56,37 +88,6 @@ export class PostService {
     });
 
     return post;
-  }
-
-  async thumbnail(id: number, session: SessionDto, thumbnail: Express.Multer.File) {
-    const post = await this.prisma.post.findFirst({ where: { id } });
-
-    if (!post) {
-      throw new NotFound('id');
-    }
-
-    if (post.userId !== session.id) {
-      throw new ForbiddenException();
-    }
-
-    const { url } = await this.cloudinaryService.uploadImage('thumbnail', thumbnail.buffer);
-
-    return await this.prisma.post.update({ where: { id }, data: { thumbnail: url } });
-  }
-  async previews(id: number, session: SessionDto, previews: Array<Express.Multer.File>) {
-    const post = await this.prisma.post.findFirst({ where: { id } });
-
-    if (!post) {
-      throw new NotFound('id');
-    }
-
-    if (post.userId !== session.id) {
-      throw new ForbiddenException();
-    }
-
-    const result = await Promise.all(previews.map(async (preview) => this.cloudinaryService.uploadImage('previews', preview.buffer)));
-
-    return await this.prisma.postImage.createMany({ data: result.map(({ url }) => ({ postId: id, link: url, createdAt: new Date() })) });
   }
 
   async favorite(id: number, session: SessionDto) {
@@ -110,50 +111,55 @@ export class PostService {
 
   async findAll(session: SessionDto | null, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
     if (session) {
-      const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { user: true, favoritePosts: { where: { userId: session.id } } } });
+      const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId: session.id } } } });
 
-      return result.map(({ favoritePosts, ...data }) => ({ isFavorite: favoritePosts.length > 0, ...data }));
+      return result.map(({ favoritePosts, postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: favoritePosts.length > 0, ...data }));
     }
 
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { user: true } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
-    return result.map(({ ...data }) => ({ isFavorite: false, ...data }));
+    return result.map(({ postImages, ...data }) => ({ isFavorite: false, images: postImages.map((item) => item.link), ...data }));
   }
   async findAllByMe(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId }, take: size, skip: size * (page - 1), include: { user: true, favoritePosts: { where: { userId } } } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } });
 
-    return result.map(({ favoritePosts, ...data }) => ({ isFavorite: favoritePosts.length > 0, ...data }));
+    return result.map(({ favoritePosts, postImages, ...data }) => ({ isFavorite: favoritePosts.length > 0, images: postImages.map((item) => item.link), ...data }));
   }
   async findAllByMeFavorite(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
-    return result.map((data) => ({ isFavorite: true, ...data }));
+    return result.map(({ postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: true, ...data }));
   }
   async findAllByMeBrowsingHistory(session: SessionDto, { title, page, size }: TitlePaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.postBrowsingHistory.findMany({ where: { post: { title: { contains: title } } }, select: { post: { include: { user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
+    const result = await this.prisma.postBrowsingHistory.findMany({ where: { post: { title: { contains: title } } }, select: { post: { include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
 
-    return result.map(({ post, ...data }) => ({ isFavorite: post.favoritePosts.length > 0, ...post, ...data }));
+    return result.map(({ post: { postImages, ...post }, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: post.favoritePosts.length > 0, ...post, ...data }));
   }
 
   async findOne(id: number, session: SessionDto | null): Promise<PostDetailResponse> {
     if (session) {
-      const post = await this.prisma.post.findUnique({ where: { id }, include: { user: true, packages: true, favoritePosts: { where: { userId: session.id } } } });
+      const result = await this.prisma.post.findUnique({ where: { id }, include: { postImages: { select: { link: true } }, user: true, packages: true, favoritePosts: { where: { userId: session.id } } } });
 
-      if (!post) {
+      if (!result) {
         throw new NotFound('id');
       }
 
-      return { isFavorite: post.favoritePosts.length > 0, ...post };
+      const { postImages, ...post } = result;
+
+      return { images: postImages.map((item) => item.link), isFavorite: post.favoritePosts.length > 0, ...post };
     } else {
-      const post = await this.prisma.post.findUnique({ where: { id }, include: { user: true, packages: true } });
-      if (!post) {
+      const result = await this.prisma.post.findUnique({ where: { id }, include: { user: true, packages: true, postImages: { select: { link: true } } } });
+
+      if (!result) {
         throw new NotFound('id');
       }
 
-      return { isFavorite: false, ...post };
+      const { postImages, ...post } = result;
+
+      return { images: postImages.map((item) => item.link), isFavorite: false, ...post };
     }
   }
 

@@ -14,6 +14,7 @@ import { CloudinaryModule } from './services/cloudinary/cloudinary.module';
 import appConfig from 'src/config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthMiddleware } from 'src/services/auth/auth.middleware';
+import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthMiddleware } from 'src/services/auth/auth.middleware';
       cache: true,
       load: [appConfig],
     }),
+    NestjsFormDataModule.config({ isGlobal: true, storage: MemoryStoredFile }),
     AuthModule,
     UsersModule,
     PrismaModule,
@@ -36,7 +38,7 @@ import { AuthMiddleware } from 'src/services/auth/auth.middleware';
     MulterModule.register({
       dest: './upload',
     }),
-  ],
+    ],
   providers: [CloudinaryService],
 })
 export class AppModule implements NestModule {

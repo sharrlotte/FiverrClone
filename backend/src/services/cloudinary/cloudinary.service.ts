@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 import { AppConfig } from 'src/config/configuration';
 import { extractPublicId } from 'cloudinary-build-url';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class CloudinaryService {
@@ -13,14 +14,14 @@ export class CloudinaryService {
       cloud_name: configService.get<string>('cloudinary.cloudName'),
     });
   }
-  async uploadImage(folder: string, imageBuffer: Buffer) {
+  async uploadImage(folder: string, imageBuffer: Buffer, publicId?: string) {
     if (!imageBuffer) {
       throw new BadRequestException('Image is invalid');
     }
 
     return await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader
-        .upload_stream({ folder, format: 'jpg' }, (error, result) => {
+        .upload_stream({ folder, format: 'jpg', public_id: publicId }, (error, result) => {
           if (result) {
             return resolve(result);
           }
@@ -40,5 +41,10 @@ export class CloudinaryService {
         return reject(error);
       });
     });
+  }
+
+  randomPublicId() {
+    const buf = new Uint8Array(1);
+    return crypto.getRandomValues(buf).toString();
   }
 }

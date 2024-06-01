@@ -1,5 +1,5 @@
 import { durationTypes } from '@/constant/enum';
-import { FileListSchema, FileSchema } from '@/schema/common.schema';
+import { FileListSchema } from '@/schema/common.schema';
 import { z } from 'zod';
 
 export const createPackageSchema = z.object({
@@ -32,17 +32,19 @@ export const createPostSchema = z.object({
     })
     .max(200, { message: 'Tựa đề phải ít hơn 200 kí tự' }),
 
-  content: z
-    .string()
-    .min(100, {
-      message: 'Nội dung phải nhiều hơn 100 kí tự',
-    })
-    .max(10000, { message: 'Nộ dung phải ít hơn 10000 kí tự' }),
+  content: z.object({
+    text: z
+      .string()
+      .min(100, {
+        message: 'Nội dung phải nhiều hơn 100 kí tự',
+      })
+      .max(10000, { message: 'Nộ dung phải ít hơn 10000 kí tự' }),
+    images: z.array(z.any()),
+  }),
 
   categories: z.array(z.number()).min(1, 'Phải có ít nhất 1 thể loại cho bài đăng').max(10, 'Tối đa 10 thể loại cho bài đăng'),
   packages: z.array(createPackageSchema).min(1, 'Phải có ít nhất 1 đơn giá').max(10, 'Tối đa chỉ có thể có 10 đơn giá'),
-  thumbnail: FileSchema,
-  previews: FileListSchema,
+  images: FileListSchema,
 });
 
 export type CreatePostRequest = z.infer<typeof createPostSchema>;

@@ -28,7 +28,7 @@ export default function Page() {
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       title: '',
-      content: '',
+      content: { text: '', images: [] },
       categories: [],
       packages: [],
     },
@@ -127,21 +127,7 @@ export default function Page() {
           />
           <FormField
             control={form.control}
-            name="thumbnail"
-            render={({ field }) => (
-              <FormItem className="flex flex-col pt-4">
-                <FormLabel>Ảnh bìa</FormLabel>
-                <FormControl>
-                  <Input className="w-fit" type="file" accept={'.png,.jpg,.jpeg'} onChange={(event) => field.onChange(event.currentTarget.files && event.currentTarget.files[0])} />
-                </FormControl>
-                <FormMessage />
-                <FormDescription>Ảnh được xuất hiện khi bài được hiện trên trang chủ</FormDescription>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="previews"
+            name="images"
             render={({ field }) => (
               <FormItem className="flex flex-col pt-4">
                 <FormLabel>Ảnh</FormLabel>
@@ -160,8 +146,7 @@ export default function Page() {
               <FormItem className="h-full">
                 <FormLabel>Nội dung</FormLabel>
                 <FormControl>
-                  {/* TODO: Add images later */}
-                  <MarkdownEditor value={{ text: field.value, images: [] }} onChange={(provider) => field.onChange(provider({ text: field.value, images: [] }).text)} />
+                  <MarkdownEditor value={field.value} onChange={(provider) => field.onChange(provider(field.value))} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

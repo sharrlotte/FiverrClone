@@ -6,7 +6,7 @@ import { ArrowLeftEndOnRectangleIcon, BellIcon, BookOpenIcon, Cog6ToothIcon, Env
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import env from '@/constant/env';
-import { HistoryIcon, UserCircle } from 'lucide-react';
+import { HistoryIcon, HomeIcon, UserCircle } from 'lucide-react';
 import ProtectedElement from '@/components/layout/protected-element';
 import { cn } from '@/lib/utils';
 
@@ -16,6 +16,12 @@ type Tab = {
 }[][];
 
 const tabs: Tab = [
+  [
+    {
+      icon: <HomeIcon className="w-5 h-5" />,
+      action: <Link href="/">Trang chủ</Link>,
+    },
+  ],
   [
     {
       icon: <UserIcon className="w-5 h-5" />,

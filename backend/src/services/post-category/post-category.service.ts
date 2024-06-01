@@ -48,9 +48,9 @@ export class PostCategoryService {
       query = { name: { contains: name } };
     }
 
-    const result = await this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1), include: { parentCategory: true } });
+    const result = await this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1), include: { parentCategory: true, childCategories: true } });
 
-    return result.map(({ parentCategory, ...item }) => ({ parent: parentCategory, ...item }));
+    return result.map(({ parentCategory, childCategories, ...item }) => ({ children: childCategories, parent: parentCategory, ...item }));
   }
 
   async findOne(id: number) {

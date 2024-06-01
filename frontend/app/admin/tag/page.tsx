@@ -100,8 +100,8 @@ export default function Page() {
   });
 
   return (
-    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4">
-      <div>
+    <div className="rounded-md border w-full h-full flex flex-col p-4">
+      <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
             <h2>Quản lý thể loại kỹ năng</h2>

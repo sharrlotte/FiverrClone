@@ -13,9 +13,23 @@ export class PostCategoryResponse {
   @Expose()
   @Type(() => PostParentCategoryResponse)
   parent: PostParentCategoryResponse | null;
+
+  @Expose()
+  @Type(() => PostChildCategoryResponse)
+  children: PostChildCategoryResponse[];
 }
 
 export class PostParentCategoryResponse {
+  @Expose()
+  id: number;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  description: string;
+}
+export class PostChildCategoryResponse {
   @Expose()
   id: number;
 

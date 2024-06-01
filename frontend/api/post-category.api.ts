@@ -11,6 +11,12 @@ export type PostCategory = {
     name: string;
     description: string;
   } | null;
+
+  children: {
+    id: number;
+    name: string;
+    description: string;
+  }[];
 };
 
 export async function createPostCategory(request: CreatePostCategoryRequest) {

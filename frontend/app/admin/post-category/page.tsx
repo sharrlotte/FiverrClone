@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -83,7 +83,7 @@ export default function Page() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const { data, isFetching } = useQuery({
-    queryKey: [page],
+    queryKey: ['post-category', page],
     queryFn: () => getPostCategory({ size: 20, page }),
   });
 
@@ -93,11 +93,10 @@ export default function Page() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    manualPagination: true,
     state: {
       sorting,
       columnFilters,
@@ -107,8 +106,8 @@ export default function Page() {
   });
 
   return (
-    <div className="rounded-md border w-full h-full flex justify-between flex-col p-4">
-      <div>
+    <div className="rounded-md border w-full h-full flex flex-col p-4">
+      <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
             <h2>Quản lý thể loại kỹ năng</h2>

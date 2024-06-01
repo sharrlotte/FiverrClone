@@ -9,7 +9,7 @@ import { createPostCategory } from '@/api/post-category.api';
 import LoadingOverlay from '../../../components/common/LoadingOverlay';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
@@ -114,6 +114,7 @@ export default function AddPostCategoryButton() {
                       </PostCategorySelector>
                     </FormControl>
                     <FormMessage />
+                    <FormDescription>Nếu không có thể loại cha thì đây là một thể loại cha</FormDescription>
                   </FormItem>
                 )}
               />

@@ -158,7 +158,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={0} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isFetching} />
       </div>
     </div>
   );

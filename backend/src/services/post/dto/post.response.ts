@@ -25,9 +25,6 @@ export class PostResponse {
   favorites: number;
 
   @Expose()
-  thumbnail: string;
-
-  @Expose()
   isFavorite: boolean;
 
   @Expose()

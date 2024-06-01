@@ -62,7 +62,6 @@ export class PostService {
       data: {
         ...createPostData,
         userId: session.id,
-        thumbnail: '',
         createdAt: new Date(),
         packages: {
           createMany: {

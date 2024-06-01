@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 
 export async function getSession(): Promise<Session | null> {
   const result = await api.get('/auth/session', { headers: { Cookie: cookies().toString() } });
-
   return result.data;
 }
 

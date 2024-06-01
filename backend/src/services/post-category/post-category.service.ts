@@ -6,6 +6,7 @@ import { Category } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import Conflict from 'src/error/Conflict';
 import NotFound from 'src/error/NotFound';
+import { PostCategoryResponse } from 'src/services/post-category/dto/post-category.response';
 
 @Injectable()
 export class PostCategoryService {
@@ -35,7 +36,7 @@ export class PostCategoryService {
     return this.prisma.category.create({ data: { ...createPostCategoryDto, createdAt: new Date() } });
   }
 
-  findAll({ name, size, page, isParent }: NamePaginationQueryDto & { isParent?: boolean }): Promise<Category[]> {
+  async findAll({ name, size, page, isParent }: NamePaginationQueryDto & { isParent?: boolean }): Promise<PostCategoryResponse[]> {
     name = name === '' ? undefined : name;
     let query = {};
 
@@ -47,7 +48,9 @@ export class PostCategoryService {
       query = { name: { contains: name } };
     }
 
-    return this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1) });
+    const result = await this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1), include: { parentCategory: true } });
+
+    return result.map(({ parentCategory, ...item }) => ({ parent: parentCategory, ...item }));
   }
 
   async findOne(id: number) {

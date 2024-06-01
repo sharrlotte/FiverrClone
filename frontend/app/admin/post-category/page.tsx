@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
-import { PostCategory, getPostCategory } from '@/api/post-category.api';
+import { getPostCategory, PostCategory } from '@/api/post-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 import AddPostCategoryButton from './AddPostCategoryButton';
@@ -45,10 +45,10 @@ const columns: ColumnDef<PostCategory>[] = [
     },
   },
   {
-    accessorKey: 'parentId',
+    accessorKey: 'parent',
     header: () => <div>Thể Loại cha</div>,
     cell: ({ row }) => {
-      return <div className="font-medium px-0">{row.getValue('parentId')}</div>;
+      return <div className="font-medium px-0">{row.getValue<PostCategory['parent']>('parent')?.name}</div>;
     },
   },
   {

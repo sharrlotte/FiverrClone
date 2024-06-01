@@ -5,8 +5,12 @@ export type PostCategory = {
   id: number;
   name: string;
   description: string;
-  parentId: number | null;
   createdAt: Date;
+  parent: {
+    id: number;
+    name: string;
+    description: string;
+  } | null;
 };
 
 export async function createPostCategory(request: CreatePostCategoryRequest) {

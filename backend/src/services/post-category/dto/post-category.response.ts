@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 export class PostCategoryResponse {
   @Expose()
@@ -11,5 +11,17 @@ export class PostCategoryResponse {
   description: string;
 
   @Expose()
-  parentId: number;
+  @Type(() => PostParentCategoryResponse)
+  parent: PostParentCategoryResponse | null;
+}
+
+export class PostParentCategoryResponse {
+  @Expose()
+  id: number;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  description: string;
 }

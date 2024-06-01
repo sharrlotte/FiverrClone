@@ -3,23 +3,23 @@ import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsOptional, Max, MaxLength, Min } from 'class-validator';
 
 export class NamePaginationQueryDto {
-  @Min(0)
-  @IsInt()
-  @Type(() => Number)
-  @IsNotEmpty()
   @ApiProperty({ default: 0, minimum: 0 })
+  @Min(1)
+  @IsInt()
+  @IsNotEmpty()
+  @Type(() => Number)
   page: number;
 
-  @Min(0)
+  @ApiProperty({ default: 20, maximum: 50, minimum: 0 })
+  @Min(20)
   @Max(50)
   @IsInt()
-  @Type(() => Number)
   @IsNotEmpty()
-  @ApiProperty({ default: 20, maximum: 50, minimum: 0 })
+  @Type(() => Number)
   size: number;
 
-  @IsOptional()
   @ApiProperty({ required: false })
+  @IsOptional()
   @MaxLength(100)
   name?: string;
 }

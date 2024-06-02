@@ -16,16 +16,13 @@ export default function FavoriteButton({ postId, isFavorite }: Props) {
 
   const { mutate } = useMutation({
     mutationFn: () => favoritePost(postId),
-    mutationKey: ['favorite-post', postId],
+    mutationKey: ['my-favorite-posts', postId],
     onMutate: () => {
       setExpected((prev) => !prev);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['my-favorite-posts'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['my-posts'],
+        queryKey: ['posts'],
       });
     },
   });

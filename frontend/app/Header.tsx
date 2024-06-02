@@ -55,7 +55,7 @@ const tabs: Tab = [
   [
     {
       icon: <ArrowLeftEndOnRectangleIcon className="w-5 h-5" />,
-      action: <Link href={`${env.url.backend_url}/auth/logout`}>Đăng xuất</Link>,
+      action: <Link href={`${env.url.base}/auth/logout`}>Đăng xuất</Link>,
     },
   ],
 ];

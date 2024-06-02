@@ -13,7 +13,7 @@ export default function Page() {
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['my-favorite-posts', page],
+    queryKey: ['my-favorite-posts', 'posts', page],
     queryFn: () => getMyFavoritePost({ page, size: 40 }),
   });
 

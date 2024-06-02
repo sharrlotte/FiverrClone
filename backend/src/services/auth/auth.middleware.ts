@@ -26,7 +26,7 @@ export class AuthMiddleware implements NestMiddleware {
     } catch (error) {
       console.log(error);
       //TODO: Secure
-      res.cookie('jwt', '', { httpOnly: true });
+      res.clearCookie('jwt');
     }
 
     next();

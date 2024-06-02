@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
@@ -94,19 +94,23 @@ export class PostService {
   }
 
   async favorite(id: number, session: SessionDto) {
-    const favorite = await this.prisma.favoritePost.findFirst({ where: { postId: id, userId: session.id } });
+    try {
+      const favorite = await this.prisma.favoritePost.findFirst({ where: { postId: id, userId: session.id } });
 
-    if (favorite) {
+      if (favorite) {
+        this.prisma.$transaction(async (cx) => {
+          await cx.post.update({ where: { id }, data: { favorites: { decrement: 1 } } });
+          await cx.favoritePost.deleteMany({ where: { postId: id, userId: session.id } });
+          return favorite;
+        });
+      }
       this.prisma.$transaction(async (cx) => {
-        await cx.post.update({ where: { id }, data: { favorites: { decrement: 1 } } });
-        await cx.favoritePost.deleteMany({ where: { postId: id, userId: session.id } });
-        return favorite;
+        await cx.post.update({ where: { id }, data: { favorites: { increment: 1 } } });
+        return await cx.favoritePost.create({ data: { postId: id, userId: session.id, createdAt: new Date() } });
       });
+    } catch (e) {
+      throw new InternalServerErrorException();
     }
-    this.prisma.$transaction(async (cx) => {
-      await cx.post.update({ where: { id }, data: { favorites: { increment: 1 } } });
-      return await cx.favoritePost.create({ data: { postId: id, userId: session.id, createdAt: new Date() } });
-    });
   }
   async visit(id: number, session: SessionDto) {
     return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { updatedAt: new Date() } });

@@ -42,7 +42,7 @@ model Category {
     parentCategory  Category?      @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     childCategories Category[]     @relation("CategoryToCategory")
     postCategories  PostCategory[]
-    idDeleted       Boolean        @default(false)
+    isDeleted       Boolean        @default(false)
 
     @@index([name])
     @@index([parentId])
@@ -163,7 +163,7 @@ model Tag {
     description String
     updatedAt   DateTime? @db.Timestamp(6)
     createdAt   DateTime  @db.Timestamp(6)
-    idDeleted   Boolean   @default(false)
+    isDeleted   Boolean   @default(false)
     postTags    PostTag[]
 
     @@index([name])
@@ -260,7 +260,7 @@ model Skill {
     description   String
     updatedAt     DateTime?     @db.Timestamp(6)
     createdAt     DateTime      @db.Timestamp(6)
-    idDeleted     Boolean       @default(false)
+    isDeleted     Boolean       @default(false)
     skillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     UserSkill     UserSkill[]
 
@@ -274,7 +274,8 @@ model SkillCategory {
     description String
     updatedAt   DateTime? @db.Timestamp(6)
     createdAt   DateTime  @db.Timestamp(6)
-    skills      Skill[]
+    isDeleted   Boolean   @default(false)
+    skills Skill[]
 
     @@index([name])
 }

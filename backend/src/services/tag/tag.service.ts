@@ -22,11 +22,11 @@ export class TagService {
   }
 
   findAll({ name, page, size }: NamePaginationQueryDto): Promise<Tag[]> {
-    return this.prisma.tag.findMany({ where: { name: { contains: name } }, take: size, skip: size * (page - 1) });
+    return this.prisma.tag.findMany({ where: { name: { contains: name }, isDeleted: false }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<Tag> {
-    const tag = await this.prisma.tag.findUnique({ where: { id } });
+    const tag = await this.prisma.tag.findUnique({ where: { id, isDeleted: false } });
 
     if (!tag) {
       throw new NotFound('id');
@@ -46,7 +46,7 @@ export class TagService {
   }
 
   async remove(id: number): Promise<number> {
-    const result = await this.prisma.tag.deleteMany({ where: { id } });
+    const result = await this.prisma.tag.updateMany({ where: { id }, data: { isDeleted: true } });
 
     if (result.count == 0) {
       throw new NotFound('id');

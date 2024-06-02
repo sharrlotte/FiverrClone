@@ -136,7 +136,7 @@ export class PostService {
   }
   async findAllByMeFavorite(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
     return result.map(({ postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: true, ...data }));
   }

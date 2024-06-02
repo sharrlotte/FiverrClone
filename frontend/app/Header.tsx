@@ -123,7 +123,7 @@ async function Header({ className }: Props) {
               <ProtectedElement session={user} all={['ADMIN']}>
                 <Link className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md" href="/admin">
                   <UserCircle className="w-5 h-5" />
-                  Admin
+                  Quản trị
                 </Link>
                 <div className="border-b pt-1 mb-1 w-full" />
               </ProtectedElement>

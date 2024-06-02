@@ -130,10 +130,24 @@ export default function Page() {
             control={form.control}
             name="images"
             render={({ field }) => (
-              <FormItem className="flex flex-col pt-4">
+              <FormItem className="flex flex-col pt-4 gap-2">
                 <FormLabel>Ảnh</FormLabel>
                 <FormControl>
-                  <Input className="w-fit" type="file" multiple accept={'.png,.jpg,.jpeg'} onChange={(event) => field.onChange(event.currentTarget.files)} />
+                  <div className="space-y-2">
+                    <label htmlFor="file" className="w-fit bg-blue-500 p-2 rounded-md text-white placeholder:text-white">
+                      Chọn ảnh
+                    </label>
+                    <Input hidden className="hidden" id="file" type="file" multiple accept={'.png,.jpg,.jpeg'} onChange={(event) => field.onChange(event.currentTarget.files)} />
+                    <div className="grid gap-2">
+                      <span>Tệp đã chọn</span>
+                      {new Array(field.value.length)
+                        .fill(1)
+                        .map((_, index) => (field.value as unknown as FileList).item(index) as File)
+                        .map((file, index) => (
+                          <span key={index}>{file.name}</span>
+                        ))}
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

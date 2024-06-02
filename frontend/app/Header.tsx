@@ -19,13 +19,21 @@ const tabs: Tab = [
   [
     {
       icon: <HomeIcon className="w-5 h-5" />,
-      action: <Link href="/">Trang chủ</Link>,
+      action: (
+        <Link className="w-full" href="/">
+          Trang chủ
+        </Link>
+      ),
     },
   ],
   [
     {
       icon: <UserIcon className="w-5 h-5" />,
-      action: <Link href="/profile">Thông tin tài khoản</Link>,
+      action: (
+        <Link className="w-full" href="/profile">
+          Thông tin tài khoản
+        </Link>
+      ),
     },
     {
       icon: <ShoppingCartIcon className="w-5 h-5" />,
@@ -35,15 +43,27 @@ const tabs: Tab = [
   [
     {
       icon: <BookOpenIcon className="w-5 h-5" />,
-      action: <Link href="/my-post">Bài đăng của bạn</Link>,
+      action: (
+        <Link className="w-full" href="/my-post">
+          Bài đăng của bạn
+        </Link>
+      ),
     },
     {
       icon: <HeartIcon className="w-5 h-5" />,
-      action: <Link href="/favorite-post">Bài đăng yêu thích</Link>,
+      action: (
+        <Link className="w-full" href="/favorite-post">
+          Bài đăng yêu thích
+        </Link>
+      ),
     },
     {
       icon: <HistoryIcon className="w-5 h-5" />,
-      action: <Link href="/post-browsing-history">Lịch sử truy cập</Link>,
+      action: (
+        <Link className="w-full" href="/post-browsing-history">
+          Lịch sử truy cập
+        </Link>
+      ),
     },
   ],
   [
@@ -55,7 +75,11 @@ const tabs: Tab = [
   [
     {
       icon: <ArrowLeftEndOnRectangleIcon className="w-5 h-5" />,
-      action: <Link href={`${env.url.backend_url}/auth/logout`}>Đăng xuất</Link>,
+      action: (
+        <Link className="w-full" href={`${env.url.backend_url}/auth/logout`}>
+          Đăng xuất
+        </Link>
+      ),
     },
   ],
 ];

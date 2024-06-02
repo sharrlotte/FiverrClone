@@ -16,10 +16,10 @@ export const createPackageSchema = z.object({
       message: 'Mô tả phải nhiều hơn 4 kí tự',
     })
     .max(100, { message: 'Mô tả phải ít hơn 100 kí tự' }),
-  revision: z.coerce.number().int().min(0, { message: 'Số lần sửa ít nhất là 0' }),
-  deliveryTime: z.coerce.number().min(1, { message: 'Thời gian phải lớn hơn 0' }),
+  revision: z.coerce.number({ message: 'Số lần phải là số' }).int().min(0, { message: 'Số lần sửa ít nhất là 0' }),
+  deliveryTime: z.coerce.number({ message: 'Thời gian phải là số' }).min(1, { message: 'Thời gian phải lớn hơn 0' }),
   durationType: z.enum(durationTypes),
-  price: z.coerce.number().int().min(100000, { message: 'Giá phải lớn hơn 100000' }),
+  price: z.coerce.number({ message: 'Giá phải là số nguyên' }).int({ message: 'Giá phải là số nguyên' }).min(100000, { message: 'Giá phải lớn hơn 100000' }),
 });
 
 export type CreatePackageRequest = z.infer<typeof createPackageSchema>;

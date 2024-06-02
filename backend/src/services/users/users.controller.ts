@@ -37,7 +37,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   findAllPostBrowsingHistory(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
+    return this.postService.findAllByMeBrowsingHistory(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
 
   @Get(':id')

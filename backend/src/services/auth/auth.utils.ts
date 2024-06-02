@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 
 export function getUser(req: Request): SessionDto | null {
+  //@ts-ignore
   const user = req.user as unknown as SessionDto;
 
   if (!user) {
@@ -13,6 +14,7 @@ export function getUser(req: Request): SessionDto | null {
 }
 
 export function getAuthUser(req: Request): SessionDto {
+  //@ts-ignore
   const user = req.user as unknown as SessionDto;
 
   if (!user) {

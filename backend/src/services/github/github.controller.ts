@@ -5,6 +5,7 @@ import { getUser } from 'src/services/auth/auth.utils';
 import { GithubOauthGuard } from 'src/services/github/github.guard';
 import { JwtAuthService } from 'src/services/jwt/jwt.service';
 import { AppConfig } from 'src/config/configuration';
+import { SessionDto } from 'src/services/auth/dto/session.dto';
 
 @Controller('auth/github')
 export class GithubOauthController {
@@ -20,7 +21,7 @@ export class GithubOauthController {
   @Get('callback')
   @UseGuards(GithubOauthGuard)
   async githubAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const user = getUser(req);
+    const user = req.user as unknown as SessionDto;
 
     if (!user) {
       return res.redirect(`${this.configService.get('url.frontend')}`);

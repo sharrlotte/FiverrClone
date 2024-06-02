@@ -112,7 +112,7 @@ export class PostService {
     }
   }
   async visit(id: number, session: SessionDto) {
-    return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { updatedAt: new Date() } });
+    return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { createdAt: new Date(), updatedAt: new Date() } });
   }
 
   async findAll(session: SessionDto | null, { title, page, size, sort }: PostPaginationQueryDto): Promise<PostResponse[]> {

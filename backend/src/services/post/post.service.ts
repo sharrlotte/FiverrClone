@@ -95,16 +95,15 @@ export class PostService {
 
   async favorite(id: number, session: SessionDto) {
     try {
-      const favorite = await this.prisma.favoritePost.findFirst({ where: { postId: id, userId: session.id } });
+      this.prisma.$transaction(async (cx) => {
+        const favorite = await cx.favoritePost.findFirst({ where: { postId: id, userId: session.id } });
 
-      if (favorite) {
-        this.prisma.$transaction(async (cx) => {
+        if (favorite) {
           await cx.post.update({ where: { id }, data: { favorites: { decrement: 1 } } });
           await cx.favoritePost.deleteMany({ where: { postId: id, userId: session.id } });
           return favorite;
-        });
-      }
-      this.prisma.$transaction(async (cx) => {
+        }
+
         await cx.post.update({ where: { id }, data: { favorites: { increment: 1 } } });
         return await cx.favoritePost.create({ data: { postId: id, userId: session.id, createdAt: new Date() } });
       });

@@ -130,19 +130,19 @@ export class PostService {
   }
   async findAllByMe(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, userId }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } });
+    const result = await this.prisma.post.findMany({ orderBy: { createdAt: 'desc' }, where: { title: { contains: title }, userId }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } });
 
     return result.map(({ favoritePosts, postImages, ...data }) => ({ isFavorite: favoritePosts.length > 0, images: postImages.map((item) => item.link), ...data }));
   }
   async findAllByMeFavorite(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
+    const result = await this.prisma.post.findMany({ orderBy: { createdAt: 'desc' }, where: { title: { contains: title }, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
     return result.map(({ postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: true, ...data }));
   }
   async findAllByMeBrowsingHistory(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.postBrowsingHistory.findMany({ where: { post: { title: { contains: title } } }, select: { post: { include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
+    const result = await this.prisma.postBrowsingHistory.findMany({ orderBy: { createdAt: 'desc' }, where: { post: { title: { contains: title } } }, select: { post: { include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
 
     return result.map(({ post: { postImages, ...post }, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: post.favoritePosts.length > 0, ...post, ...data }));
   }

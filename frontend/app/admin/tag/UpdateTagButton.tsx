@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import { UpdateSkillCategoryRequest, createSkillCategorySchema } from '@/schema/skill-category.schema';
 import { Tag, updaterTag } from '@/api/tag.api';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';

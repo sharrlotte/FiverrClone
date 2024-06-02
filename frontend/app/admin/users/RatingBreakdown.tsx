@@ -2,7 +2,7 @@
 import StarIcon from '@heroicons/react/24/solid/StarIcon';
 import React from 'react'
 
-export default function () {
+export default function Rating() {
     return (
         <div className='mt-12 flex flex-col'>
             <div>

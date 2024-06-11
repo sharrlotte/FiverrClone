@@ -8,7 +8,7 @@ import Link from 'next/link';
 import env from '@/constant/env';
 import { HistoryIcon, HomeIcon, UserCircle } from 'lucide-react';
 import ProtectedElement from '@/components/layout/protected-element';
-import { cn } from '@/lib/utils';
+import Navigation from '@/app/Navigation';
 
 type Tab = {
   icon: ReactNode;
@@ -92,7 +92,12 @@ async function Header({ className }: Props) {
   const user = await getSession();
 
   return (
-    <div className={cn('flex items-center gap-x-5 gap-y-2 w-full', className)}>
+    <div className="flex items-center gap-x-5 sticky w-full top-4 py-2 px-4 rounded-2xl shadow-3xl z-40 bg-white">
+      <Link className="text-3xl font-extrabold" href="/">
+        NiceWork
+      </Link>
+      <Navigation />
+
       <div className="flex w-full items-center gap-2">
         <div className="absolute w-full flex items-center ps-3 pointer-events-none">
           <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -101,13 +106,13 @@ async function Header({ className }: Props) {
         </div>
         <input className="block w-full h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
       </div>
-      <BellIcon className="w-6 h-6" />
-      <EnvelopeIcon className="w-6 h-6" />
+      <BellIcon className="w-12 h-12" />
+      <EnvelopeIcon className="w-12 h-12" />
       {user ? (
         <Sheet>
           <SheetTrigger className="cursor-pointer" asChild>
-            <Avatar>
-              <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
+            <Avatar className="h-9">
+              <AvatarImage className="rounded-full h-9 w-9" src={user.avatar + '.png'} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </SheetTrigger>

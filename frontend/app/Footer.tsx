@@ -1,9 +1,9 @@
 import React from 'react';
-
+import Image from 'next/image';
 function Footer() {
   return (
     <div>
-      {/* <div className="mt-36  bg-blue-100/50 text-black">
+      <div className="mt-36  bg-blue-100/50 text-black">
         <div className="flex flex-row max-w-full py-20">
           <div className="w-2/4 flex flex-col gap-4 size-design text-wrap px-32 ">
             <h1 className="font-black text-2xl">The best part? Everything.</h1>
@@ -107,7 +107,7 @@ function Footer() {
             </li>
           </ul>
           <ul className="list-none transition ease-in-out delay-150 hover:scale-110">
-            <li className="flex flex-col icon absolute gap-2 text-nowrap text-nowrap">
+            <li className="flex flex-col icon absolute gap-2 text-nowrap">
               <a href="" className="pl-20">
                 <Image src="/image/camera.png" alt="Photography" height={100} width={100} />
               </a>
@@ -119,17 +119,11 @@ function Footer() {
 
       <div className="mt-36">
         <div className="text-white flex flex-col pl-10 pt-4 bg-sky-700">
-          <span className="text-xl">
-            <b>Fiverr</b>logomaker
-          </span>
           <span className="font-black mt-4">Make an incredible logo</span>
           <h3>in minutes</h3>
           <span>Pre-designed by top talent. Just add your touch.</span>
-          <a className="pb-5" href="">
-            <button className="flex text-sky-500 max-w-56 bg-white px-2 mt-4">Try Fiverr Logo Maker</button>
-          </a>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

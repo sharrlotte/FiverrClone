@@ -81,8 +81,8 @@ export default async function Page({ children }: { children: ReactNode }) {
       <div className="flex divide-x h-dvh overflow-hidden">
         <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4">
           <div>
-            <Link className="p-4 text-5xl" href="/">
-              ICON
+            <Link className="p-4 text-3xl font-extrabold" href="/">
+              NiceWork
             </Link>
             {links.map(({ links, alt, groupName }, index) => (
               <div className="w-full flex justify-start gap-4 py-2 flex-col text-gray-500" key={index}>
@@ -118,10 +118,7 @@ export default async function Page({ children }: { children: ReactNode }) {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">
-          <Header />
-          {children}
-        </div>
+        <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">{children}</div>
       </div>
     </ProtectedRoute>
   );

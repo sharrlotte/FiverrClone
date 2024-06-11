@@ -14,7 +14,7 @@ export default function PopularServices() {
   });
 
   return (
-    <main>
+    <div className="bg-red">
       <Carousel className="w-full">
         <CarouselContent className="relative">
           {isLoading
@@ -32,6 +32,6 @@ export default function PopularServices() {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-    </main>
+    </div>
   );
 }

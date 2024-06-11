@@ -78,14 +78,14 @@ export default async function Page({ children }: { children: ReactNode }) {
   return (
     <ProtectedRoute session={session} all={['ADMIN']}>
       <div className="flex divide-x h-dvh overflow-hidden">
-        <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4">
+        <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4 rounded-xl shadow-xl">
           <div>
             <Link className="p-4 text-3xl font-extrabold" href="/">
               NiceWork
             </Link>
             {links.map(({ links, alt, groupName }, index) => (
               <div className="w-full flex justify-start gap-4 py-2 flex-col text-gray-500" key={index}>
-                <div className="font-bold text-xl" title={alt}>
+                <div className="font-bold text-xl text-blue-700" title={alt}>
                   {groupName}
                 </div>
                 <div className="p-2 flex flex-col gap-2 font-bold text-lg">

@@ -101,7 +101,7 @@ export default function Page() {
   });
 
   return (
-    <div className="rounded-md border w-full h-full flex flex-col p-4">
+    <div className="rounded-md border w-full h-full flex flex-col p-4 shadow-xl">
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">

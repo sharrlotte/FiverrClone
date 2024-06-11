@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
 import { NamePaginationQueryDto } from 'src/shared/dto/name-pagination-query.dto';
-import { Category } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import Conflict from 'src/error/Conflict';
 import NotFound from 'src/error/NotFound';
@@ -41,11 +40,11 @@ export class PostCategoryService {
     let query = {};
 
     if (isParent === true) {
-      query = { name: { contains: name }, parentId: null };
+      query = { name: { contains: name }, parentId: null, isDeleted: false };
     } else if (isParent === false) {
-      query = { name: { contains: name }, parentId: { not: null } };
+      query = { name: { contains: name }, parentId: { not: null }, isDeleted: false };
     } else {
-      query = { name: { contains: name } };
+      query = { name: { contains: name }, isDeleted: false };
     }
 
     const result = await this.prisma.category.findMany({ where: query, take: size, skip: size * (page - 1), include: { parentCategory: true, childCategories: true } });
@@ -100,7 +99,7 @@ export class PostCategoryService {
       throw new BadRequestException('Category still have children');
     }
 
-    const result = await this.prisma.category.deleteMany({ where: { id } });
+    const result = await this.prisma.category.updateMany({ where: { id }, data: { isDeleted: true } });
 
     if (result.count === 0) {
       throw new NotFound('id');

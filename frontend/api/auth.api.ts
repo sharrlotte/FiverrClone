@@ -1,3 +1,5 @@
+'use server';
+
 import api from '@/api/api';
 import { Session } from '@/schema/user.schema';
 import { cookies } from 'next/headers';

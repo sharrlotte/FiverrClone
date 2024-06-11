@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
-import { AuthGuard } from 'src/services/auth/auth.guard';
 import { getUser } from 'src/services/auth/auth.utils';
 import { SessionDto } from './dto/session.dto';
 import { ConfigService } from '@nestjs/config';
@@ -11,14 +10,12 @@ import { AppConfig } from 'src/config/configuration';
 export class AuthController {
   constructor(private configService: ConfigService<AppConfig>) {}
   @Get('session')
-  @UseGuards(AuthGuard)
   getProfile(@Req() req: Request): SessionDto {
     return plainToInstance(SessionDto, getUser(req));
   }
 
   @Get('logout')
-  @UseGuards(AuthGuard)
-  logout(@Res({ passthrough: true }) res: Response) {
+  logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     res.clearCookie('jwt');
 
     return res.redirect(`${this.configService.get('url.frontend')}`);

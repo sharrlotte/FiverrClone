@@ -7,7 +7,7 @@ type Props = {
   any?: UserRole[];
   all?: UserRole[];
   show?: boolean;
-  ownerId?: string;
+  ownerId?: number;
   session: Session | null;
   alt?: ReactNode;
   passOnEmpty?: boolean;

@@ -13,7 +13,7 @@ export default function Page() {
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['post-browsing-history', page],
+    queryKey: ['post-browsing-history', 'posts', page],
     queryFn: () => getMyPostBrowsingHistory({ page, size: 40 }),
   });
 

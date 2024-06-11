@@ -30,11 +30,11 @@ export class SkillService {
   }
 
   findAll({ name, size, page }: NamePaginationQueryDto): Promise<Skill[]> {
-    return this.prisma.skill.findMany({ where: { name: { contains: name } }, take: size, skip: size * (page - 1) });
+    return this.prisma.skill.findMany({ where: { name: { contains: name }, isDeleted: false }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<Skill> {
-    const skill = await this.prisma.skill.findUnique({ where: { id } });
+    const skill = await this.prisma.skill.findUnique({ where: { id, isDeleted: false } });
 
     if (!skill) {
       throw new NotFound('id');
@@ -62,7 +62,7 @@ export class SkillService {
   }
 
   async remove(id: number): Promise<number> {
-    const result = await this.prisma.skill.deleteMany({ where: { id } });
+    const result = await this.prisma.skill.updateMany({ where: { id }, data: { isDeleted: true } });
 
     if (result.count === 0) {
       throw new NotFound('id');

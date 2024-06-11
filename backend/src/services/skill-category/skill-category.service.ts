@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateSkillCategoryDto } from './dto/create-skill-category.dto';
 import { UpdateSkillCategoryDto } from './dto/update-skill-category.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
@@ -22,11 +22,11 @@ export class SkillCategoryService {
   }
 
   findAll({ name, page, size }: NamePaginationQueryDto): Promise<SkillCategory[]> {
-    return this.prisma.skillCategory.findMany({ where: { name: { contains: name } }, orderBy: { createdAt: 'desc' }, take: size, skip: size * (page - 1) });
+    return this.prisma.skillCategory.findMany({ where: { name: { contains: name }, isDeleted: false }, orderBy: { createdAt: 'desc' }, take: size, skip: size * (page - 1) });
   }
 
   async findOne(id: number): Promise<SkillCategory> {
-    const skillCategory = await this.prisma.skillCategory.findUnique({ where: { id } });
+    const skillCategory = await this.prisma.skillCategory.findUnique({ where: { id, isDeleted: false } });
 
     if (!skillCategory) {
       throw new NotFound('id');
@@ -46,7 +46,13 @@ export class SkillCategoryService {
   }
 
   async remove(id: number): Promise<number> {
-    const result = await this.prisma.skillCategory.deleteMany({ where: { id } });
+    const skills = await this.prisma.skill.findFirst({ where: { categoryId: id, isDeleted: false } });
+
+    if (skills) {
+      throw new BadRequestException('Delete all skills before delete category');
+    }
+
+    const result = await this.prisma.skillCategory.updateMany({ where: { id }, data: { isDeleted: true } });
 
     if (result.count === 0) {
       throw new NotFound('id');

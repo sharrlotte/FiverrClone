@@ -16,7 +16,7 @@ export default async function page() {
   const profile = await getProfile(session.id);
 
   return (
-    <div className="flex">
+    <div className="flex h-full overflow-auto">
       <div className="w-1/3">
         <div className="p-4 g-2">
           <Card className=" p-4 items-center flex-col">

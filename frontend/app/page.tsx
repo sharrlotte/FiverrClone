@@ -11,11 +11,11 @@ export default function Home() {
         <div className="bg-white">
           <div className="space-y-8 p-12">
             <div>
-              <h1 className="text-4xl text-black">Mới</h1>
+              <h1 className="text-3xl text-black">Mới</h1>
               <NewServices />
             </div>
             <div>
-              <h1 className="text-4xl text-black">Đề cử</h1>
+              <h1 className="text-3xl text-black">Đề cử</h1>
               <PopularServices />
             </div>
           </div>

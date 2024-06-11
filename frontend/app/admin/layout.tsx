@@ -1,5 +1,4 @@
 import NavLink from '@/app/admin/NavLink';
-import Header from '@/app/Header';
 import ProtectedRoute from '@/components/layout/protected-route';
 import { getSession } from '@/api/auth.api';
 import { Button } from '@/components/ui/button';

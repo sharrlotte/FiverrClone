@@ -17,7 +17,7 @@ function Footer() {
               <span>Hand your project over to a talented freelancer in minutes, get long-lasting results.</span>
             </div>
             <div>
-              <h4 className="font-black">Pay when you're happy</h4>
+              <h4 className="font-black">Pay when you re happy</h4>
               <span>Upfront quotes mean no surprises. Payments only get released when you approve.</span>
             </div>
             <div>
@@ -29,7 +29,7 @@ function Footer() {
       </div>
       <div className="bg-white text-black py-20">
         <div>
-          <span className="text-2xl px-32 font-black">You need it, we've got it</span>
+          <span className="text-2xl px-32 font-black">You need it, we ve got it</span>
         </div>
         <div className="grid grid-cols-5 px-12 relative mt-20">
           <ul className="list-none transition ease-in-out delay-150 hover:scale-110 hover:border-l-4">

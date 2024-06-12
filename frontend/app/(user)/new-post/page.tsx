@@ -63,9 +63,9 @@ export default function Page() {
   }
 
   return (
-    <div className="h-full overflow-hidden">
+    <div className="h-full overflow-hidden pt-10">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8 h-full overflow-y-auto p-4">
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-4 h-full overflow-y-auto p-4">
           <FormMessage />
           <FormField
             control={form.control}

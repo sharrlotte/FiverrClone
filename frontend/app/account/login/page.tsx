@@ -32,9 +32,9 @@ const images: Post[] = [
 
 export default function Page() {
   return (
-    <main className="h-full w-full flex justify-center items-center">
-      <div className="flex lg:flex-row border lg:h-3/5 w-full h-full flex-col lg:w-3/5 shadow-2xl rounded-lg ">
-        <div className="hidden lg:flex flex-col px-10 gap-5 bg-rose-600 flex-1 rounded-lg">
+    <main className="h-full w-full flex justify-center items-center bg-login">
+      <div className="flex lg:flex-row lg:h-3/5 w-full h-full flex-col lg:w-3/5 shadow-2xl rounded-lg overflow-hidden">
+        <div className="hidden lg:flex flex-col px-10 gap-5 bg-rose-600 flex-1">
           <h1 className="text-nowrap font-black mt-10 text-white">Bắt đầu ngay bây giờ</h1>
           <ul className="text-white">
             <li className="list-item">

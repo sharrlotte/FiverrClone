@@ -29,7 +29,7 @@ export default function Navigation() {
 
   return (
     <NavigationMenu className="w-full shadow-sm">
-      <NavigationMenuList className="gap-7">
+      <NavigationMenuList className="gap-2">
         {data?.map((parent, index) => (
           <NavigationMenuItem key={parent.id}>
             <NavigationMenuTrigger>{parent.name}</NavigationMenuTrigger>

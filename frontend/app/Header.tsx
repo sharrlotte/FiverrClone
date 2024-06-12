@@ -26,8 +26,8 @@ async function Header({ className }: Props) {
         </div>
         <input className="block w-full h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
       </div>
-      <BellIcon className="w-12 h-12" />
-      <EnvelopeIcon className="w-12 h-12" />
+      <BellIcon className="w-12 h-12 min-h-12" />
+      <EnvelopeIcon className="w-12 h-12 min-h-12" />
       <UserSheet />
     </div>
   );

@@ -9,7 +9,7 @@ export async function getPost(id: number): Promise<PostDetail> {
 }
 
 export async function visitPost(postId: number) {
-  const result = await api.post(`/posts/${postId}/visit`, { headers: { Cookie: cookies().toString() } });
+  const result = await api.post(`/posts/${postId}/visit`, undefined, { headers: { Cookie: cookies().toString() } });
 
   return result.data;
 }

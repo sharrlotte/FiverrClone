@@ -16,7 +16,7 @@ export default async function page() {
   const profile = await getProfile(session.id);
 
   return (
-    <div className="flex h-full overflow-auto">
+    <div className="flex h-full overflow-auto p-4">
       <div className="w-1/3">
         <div className="p-4 g-2">
           <Card className=" p-4 items-center flex-col">
@@ -140,7 +140,7 @@ export default async function page() {
         <div className="p-4 g-2">
           <Card className=" p-4 items-center flex-col">
             <CardHeader className="flex-col items-center gap-2">
-              <CardDescription>Troong</CardDescription>
+              <CardDescription>Trong</CardDescription>
               <Separator orientation="vertical" />
               <Button className="bg-green-500">Become a seller</Button>
             </CardHeader>

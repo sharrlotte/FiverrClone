@@ -69,8 +69,6 @@ export async function createPost({ content, images, ...request }: CreatePostRequ
     ...request,
   });
 
-  console.log(images);
-
   images.forEach((file) => form.append('images', file));
   content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));
 

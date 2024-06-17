@@ -6,7 +6,6 @@ import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 import rehypeSanitize from 'rehype-sanitize';
 import env from '@/constant/env';
-import Image from 'next/image';
 interface MarkdownProps {
   className?: string;
   children: string;
@@ -29,7 +28,8 @@ function MarkdownImage({ src, alt }: any) {
     src = 'blob:' + src;
   }
 
-  return <Image className="markdown-image h-full w-full" alt={alt} src={src} width={1024} height={800} loader={({ src }) => `${src}`} />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img className="markdown-image" alt={alt} src={src} />;
 }
 
 export default function Markdown({ className, children }: MarkdownProps) {

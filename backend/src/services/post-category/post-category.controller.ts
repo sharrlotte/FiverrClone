@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { PostCategoryService } from './post-category.service';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
@@ -23,18 +23,18 @@ export class PostCategoryController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return plainToInstance(PostCategoryResponse, this.postCategoryService.findOne(+id));
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return plainToInstance(PostCategoryResponse, this.postCategoryService.findOne(id));
   }
 
   @ApiBody({ type: UpdatePostCategoryDto })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostCategoryDto: UpdatePostCategoryDto) {
-    return plainToInstance(PostCategoryResponse, this.postCategoryService.update(+id, updatePostCategoryDto));
+  update(@Param('id', ParseIntPipe) id: number, @Body() updatePostCategoryDto: UpdatePostCategoryDto) {
+    return plainToInstance(PostCategoryResponse, this.postCategoryService.update(id, updatePostCategoryDto));
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postCategoryService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.postCategoryService.remove(id);
   }
 }

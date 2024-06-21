@@ -25,13 +25,16 @@ function NoPermission() {
 function LoginToContinue() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      <span className="text-2xl font-bold">Vui lòng đăng nhập để tiếp tục</span>
-      <Link className="min-w-[100px] border p-2 rounded-md bg-blue-500 text-white" title="login" href="/account/login">
-        Đến trang đăng nhập
-      </Link>
-      <Link className="min-w-[100px] border p-2 rounded-md bg-blue-500 text-white" title="home" href="/">
-        Về trang chủ
-      </Link>
+      <h1>Chào mừng đến với NiceWorks</h1>
+      <span>Vui lòng đăng nhập để tiếp tục</span>
+      <div className="grid grid-cols-2 gap-2">
+        <Link className="min-w-[100px] border p-2 rounded-md bg-blue-500 text-white text-center" title="login" href="/account/login">
+          Đăng nhập
+        </Link>
+        <Link className="min-w-[100px] border p-2 rounded-md border-border text-center" title="home" href="/">
+          Quay lại
+        </Link>
+      </div>
     </div>
   );
 }

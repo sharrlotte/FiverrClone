@@ -127,7 +127,6 @@ export default async function Page({ children }: { children: ReactNode }) {
           </div>
           {children}
         </div>
-        <Footer />
       </div>
     </ProtectedRoute>
   );

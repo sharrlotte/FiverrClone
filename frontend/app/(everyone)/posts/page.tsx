@@ -3,6 +3,7 @@
 import { getPosts } from '@/api/post.api';
 import PageSelector from '@/components/common/PageSelector';
 import PostCard from '@/components/post/PostCard';
+import PostCardSkeleton from '@/components/post/PostCardSkeleton';
 import { searchParamsSchema } from '@/schema/pagination.schema';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
@@ -20,8 +21,11 @@ export default function Page() {
   return (
     <div className="p-4 h-full flex justify-between flex-col overflow-hidden mt-6">
       <div className="h-full overflow-y-auto flex flex-col gap-4">
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
-        {isLoading && <div className="w-full text-center">Đang tải</div>}
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">
+          {data && data.map((post) => <PostCard key={post.id} post={post} />)}
+          {isLoading && new Array(20).fill(1).map((_, index) => <PostCardSkeleton key={index} />)}
+          {data && data.length === 0 && !isLoading && <div className="col-span-full text-center">Không có kết quả</div>}
+        </div>
       </div>
 
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />

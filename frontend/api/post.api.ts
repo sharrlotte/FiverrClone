@@ -3,7 +3,9 @@ import { DurationType } from '@/constant/enum';
 import { CreatePostRequest, GetPostRequest, PostOrderRequest } from '@/schema/post.schema';
 import { toFormData } from 'axios';
 
-export type Package = { id: number; title: string; description: string; revision: number; deliveryTime: number; durationType: DurationType; price: number };
+export type Package = { title: string; description: string; revision: number; deliveryTime: number; durationType: DurationType; price: number };
+
+export type PackageResponse = { id: number; title: string; description: string; revision: number; deliveryTime: number; durationType: DurationType; price: number };
 
 export type Post = {
   id: number;
@@ -39,7 +41,7 @@ export type PostDetail = {
     username: string;
     avatar: string;
   };
-  packages: Package[];
+  packages: PackageResponse[];
 };
 
 export type PostInOrderResponse = Pick<Post, 'title' | 'id' | 'createdAt' | 'user'>;

@@ -1,6 +1,6 @@
 'use client';
 
-import { createPostOrder, Package, PostDetail } from '@/api/post.api';
+import { createPostOrder, PackageResponse, PostDetail } from '@/api/post.api';
 import PackageCard from '@/components/post/PackageCard';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 
 type Props = {
   post: PostDetail;
-  postPackage: Package;
+  postPackage: PackageResponse;
 };
 
 export default function PostOrderButton({ post, postPackage }: Props) {

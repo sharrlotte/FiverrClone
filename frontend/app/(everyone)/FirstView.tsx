@@ -22,7 +22,7 @@ export default function FirstView() {
     if (checkFirstVisit()) {
       router.replace('/promopage');
     }
-  }, []);
+  }, [router]);
 
   return <></>;
 }

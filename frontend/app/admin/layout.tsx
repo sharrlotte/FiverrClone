@@ -7,9 +7,7 @@ import { ChartBarSquareIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon }
 import React, { ReactNode } from 'react';
 import env from '@/constant/env';
 import Link from 'next/link';
-import { Sheet, SheetClose } from '@/components/ui/sheet';
 import UserSheet from '../UserSheet';
-import Footer from '../Footer';
 
 type LinkType = {
   links: { name: string; icon?: ReactNode; href: { name: string; href: string }[] | string }[];

@@ -15,6 +15,8 @@ import appConfig from 'src/config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthMiddleware } from 'src/services/auth/auth.middleware';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
+import { OrderModule } from './services/order/order.module';
+import { PackagesModule } from './services/packages/packages.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
     MulterModule.register({
       dest: './upload',
     }),
+    OrderModule,
+    PackagesModule,
     ],
   providers: [CloudinaryService],
 })

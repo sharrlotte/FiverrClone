@@ -184,6 +184,7 @@ model User {
     roles               UserRole[]
     postBrowsingHistory PostBrowsingHistory[]
     userSkill           UserSkill[]
+    Order               Order[]
 }
 
 model UserAuthority {
@@ -224,19 +225,19 @@ model UserSkill {
 
 model Order {
     id           Int          @id @default(autoincrement())
+    userId       Int
     postId       Int
-    title        String
-    description  String?
     revision     Int          @default(0)
     deliveryTime DateTime     @db.Time(6)
     price        BigInt       @default(0)
-    special      Json?        @db.Json
     status       OrderStatus? @default(Pending)
     createdAt    DateTime     @db.Timestamp(6)
     post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user         User         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
     @@index([postId])
     @@index([status])
+    @@index([userId])
 }
 
 model PostBrowsingHistory {
@@ -275,7 +276,7 @@ model SkillCategory {
     updatedAt   DateTime? @db.Timestamp(6)
     createdAt   DateTime  @db.Timestamp(6)
     isDeleted   Boolean   @default(false)
-    skills Skill[]
+    skills      Skill[]
 
     @@index([name])
 }

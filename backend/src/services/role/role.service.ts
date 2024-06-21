@@ -10,6 +10,21 @@ const defaultRoles = [
     createdAt: new Date(),
   },
   {
+    name: 'RECRUITER',
+    description: 'Recruiter role',
+    createdAt: new Date(),
+  },
+  {
+    name: 'CANDIDATE',
+    description: 'Candidate role',
+    createdAt: new Date(),
+  },
+  {
+    name: 'EMPLOYEE',
+    description: 'Employee role',
+    createdAt: new Date(),
+  },
+  {
     name: 'ADMIN',
     description: 'Admin role',
     createdAt: new Date(),

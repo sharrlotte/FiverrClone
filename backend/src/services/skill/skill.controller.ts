@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
@@ -23,18 +23,18 @@ export class SkillController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return plainToInstance(SkillResponse, this.skillService.findOne(+id));
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return plainToInstance(SkillResponse, this.skillService.findOne(id));
   }
 
   @Patch(':id')
   @ApiBody({ type: UpdateSkillDto })
-  update(@Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto) {
-    return plainToInstance(SkillResponse, this.skillService.update(+id, updateSkillDto));
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateSkillDto: UpdateSkillDto) {
+    return plainToInstance(SkillResponse, this.skillService.update(id, updateSkillDto));
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.skillService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.skillService.remove(id);
   }
 }

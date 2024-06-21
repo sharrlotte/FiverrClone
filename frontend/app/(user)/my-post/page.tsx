@@ -27,7 +27,8 @@ export default function Page() {
           </Link>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
-        {isLoading && <div className="w-full text-center">Đang tải</div>}
+        {isLoading && <span className="w-full text-center">Đang tải</span>}
+        {!isLoading && data && data.length === 0 && <span className="w-full text-center">Không có kết quả</span>}
       </div>
 
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />

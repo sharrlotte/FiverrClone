@@ -17,14 +17,12 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />
       <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
       <Link href={`/posts/${id}`} className="space-y-2 p-2">
-        <div>
-          <div className="flex gap-2 items-center">
-            <Avatar>
-              <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <span>{user.username}</span>
-          </div>
+        <div className="flex gap-2 items-center">
+          <Avatar>
+            <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <span>{user.username}</span>
         </div>
         <h3 className="text-wrap overflow-hidden w-full text-ellipsis">{title}</h3>
         <div className="flex text-lg gap-1">

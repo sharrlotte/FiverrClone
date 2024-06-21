@@ -6,11 +6,11 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsInt()
   @Min(0)
-  postId: string;
+  postId: number;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsInt()
   @Min(0)
-  packageId: string;
+  packageId: number;
 }

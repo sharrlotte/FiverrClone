@@ -75,7 +75,7 @@ export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
-  const { data, isLoading } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['tags', page],
     queryFn: () => getTag({ size: 20, page }),
   });
@@ -110,7 +110,7 @@ export default function Page() {
             <AddTagButton />
           </div>
         </div>
-        {isLoading ? (
+        {isPending ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -151,7 +151,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isPending} />
       </div>
     </div>
   );

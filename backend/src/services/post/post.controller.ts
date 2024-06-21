@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -28,16 +28,16 @@ export class PostController {
   @Post(':id/favorite')
   @Roles(['USER'])
   @UseGuards(RolesGuard)
-  favorite(@Param('id') id: string, @Req() req: Request) {
+  favorite(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.favorite(+id, session);
+    return this.postService.favorite(id, session);
   }
   @Post(':id/visit')
   @Roles(['USER'])
   @UseGuards(RolesGuard)
-  visit(@Param('id') id: string, @Req() req: Request) {
+  visit(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getAuthUser(req);
-    return this.postService.visit(+id, session);
+    return this.postService.visit(id, session);
   }
 
   @Get()
@@ -47,18 +47,18 @@ export class PostController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Req() req: Request) {
+  findOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getUser(req);
-    return plainToInstance(PostDetailResponse, this.postService.findOne(+id, session));
+    return plainToInstance(PostDetailResponse, this.postService.findOne(id, session));
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return plainToInstance(PostResponse, this.postService.update(+id, updatePostDto));
+  update(@Param('id', ParseIntPipe) id: number, @Body() updatePostDto: UpdatePostDto) {
+    return plainToInstance(PostResponse, this.postService.update(id, updatePostDto));
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.remove(id);
   }
 }

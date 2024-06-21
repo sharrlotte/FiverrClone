@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { PackagesService } from './packages.service';
 import { CreatePackageDto } from './dto/create-package.dto';
 import { UpdatePackageDto } from './dto/update-package.dto';
@@ -18,17 +18,17 @@ export class PackagesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.packagesService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.packagesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePackageDto: UpdatePackageDto) {
-    return this.packagesService.update(+id, updatePackageDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updatePackageDto: UpdatePackageDto) {
+    return this.packagesService.update(id, updatePackageDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.packagesService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.packagesService.remove(id);
   }
 }

@@ -64,3 +64,10 @@ export const getPostSchema = z.object({
 });
 
 export type GetPostRequest = z.infer<typeof getPostSchema>;
+
+export const postOrderSchema = z.object({
+  postId: z.number().min(1),
+  packageId: z.number().min(1),
+});
+
+export type PostOrderRequest = z.infer<typeof postOrderSchema>;

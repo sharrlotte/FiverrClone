@@ -225,18 +225,18 @@ model UserSkill {
 }
 
 model Order {
-    id           Int          @id @default(autoincrement())
+    id           Int         @id @default(autoincrement())
     userId       Int
     postId       Int
     packageId    Int
-    revision     Int          @default(0)
-    deliveryTime DateTime     @db.Time(6)
-    price        BigInt       @default(0)
-    status       OrderStatus? @default(Pending)
-    createdAt    DateTime     @db.Timestamp(6)
-    post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    user         User         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    package      Package      @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    revision     Int         @default(0)
+    deliveryTime DateTime    @db.Time(6)
+    price        BigInt      @default(0)
+    status       OrderStatus @default(Pending)
+    createdAt    DateTime    @db.Timestamp(6)
+    post         Post        @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user         User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    package      Package     @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
     @@index([postId])
     @@index([status])

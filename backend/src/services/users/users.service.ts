@@ -125,12 +125,35 @@ export class UsersService {
         userId: session.id,
       },
       include: {
-        post: true,
+        package: true,
+        post: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+            postImages: {
+              select: {
+                link: true,
+              },
+            },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                avatar: true,
+              },
+            },
+          },
+        },
       },
       take: size,
       skip: size * (page - 1),
     });
 
-    return result.map((item) => ({ ...item }));
+    return result.map((item) => {
+      const post = { ...item.post, images: item.post.postImages.map(({ link }) => link) };
+
+      return { ...item, post };
+    });
   }
 }

@@ -33,6 +33,9 @@ export class PostResponse {
   @Expose()
   @Type(() => UserResponse)
   user: UserResponse;
+
+  @Expose()
+  createdAt: Date;
 }
 
 export class PostDetailResponse extends PostResponse {

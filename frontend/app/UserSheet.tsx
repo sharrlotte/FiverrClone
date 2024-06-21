@@ -3,15 +3,17 @@ import ProtectedElement from '@/components/layout/protected-element';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { HistoryIcon, HomeIcon, UserCircle } from 'lucide-react';
-import Link from 'next/link';
 import React, { ReactNode } from 'react';
+import Link from 'next/link';
 
 import { ArrowLeftEndOnRectangleIcon, BookOpenIcon, Cog6ToothIcon, HeartIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/24/outline';
 import env from '@/constant/env';
+import { UserRole } from '@/constant/enum';
 
 type Tab = {
   icon: ReactNode;
   action: ReactNode;
+  roles?: UserRole[];
 }[][];
 
 const tabs: Tab = [
@@ -36,7 +38,11 @@ const tabs: Tab = [
     },
     {
       icon: <ShoppingCartIcon className="w-5 h-5" />,
-      action: 'Đơn của bạn',
+      action: (
+        <Link className="w-full" href="/my-order">
+          Đơn của bạn
+        </Link>
+      ),
     },
   ],
   [
@@ -66,6 +72,14 @@ const tabs: Tab = [
     },
   ],
   [
+    {
+      icon: <UserCircle className="w-5 h-5" />,
+      action: (
+        <Link className="w-full" href="/admin">
+          Quản trị
+        </Link>
+      ),
+    },
     {
       icon: <Cog6ToothIcon className="w-5 h-5" />,
       action: 'Cài đặt',
@@ -101,7 +115,7 @@ export default async function UserSheet() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </SheetTrigger>
-      <SheetContent className="space-y-2 p-2">
+      <SheetContent className="space-y-2 p-2 h-full flex flex-col">
         <div className="flex gap-2 items-end">
           <Avatar>
             <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
@@ -110,24 +124,21 @@ export default async function UserSheet() {
           <span>{user.username}</span>
         </div>
         <div className="pt-6">
-          {tabs.map((tab, index) => (
-            <React.Fragment key={index}>
-              {tab.map(({ action, icon }, index) => (
-                <div className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md" key={index}>
-                  {icon}
-                  {action}
-                </div>
-              ))}
-              <div className="border-b pt-1 mb-1 w-full" />
-            </React.Fragment>
-          ))}
-          <ProtectedElement session={user} all={['ADMIN']}>
-            <Link className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md" href="/admin">
-              <UserCircle className="w-5 h-5" />
-              Quản trị
-            </Link>
-            <div className="border-b pt-1 mb-1 w-full" />
-          </ProtectedElement>
+          <div>
+            {tabs.map((tab, index) => (
+              <React.Fragment key={index}>
+                {tab.map(({ action, icon, roles }, index) => (
+                  <ProtectedElement key={index} session={user} all={roles} passOnEmpty>
+                    <div className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md">
+                      {icon}
+                      {action}
+                    </div>
+                  </ProtectedElement>
+                ))}
+                <div className="border-b pt-1 mb-1 w-full" />
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </SheetContent>
     </Sheet>

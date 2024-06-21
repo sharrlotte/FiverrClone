@@ -6,6 +6,7 @@ import { SessionDto } from 'src/services/auth/dto/session.dto';
 import { OrderDetailResponse, OrderResponse } from 'src/services/order/dto/order.response';
 import NotFound from 'src/error/NotFound';
 import { getDeliveryDate } from 'src/shared/utils/date.utils';
+import Conflict from 'src/error/Conflict';
 
 @Injectable()
 export class OrderService {
@@ -13,6 +14,17 @@ export class OrderService {
 
   async create(session: SessionDto, createOrderDto: CreateOrderDto) {
     const { packageId, postId } = createOrderDto;
+
+    const order = await this.prisma.order.findFirst({
+      where: {
+        userId: session.id,
+        postId,
+      },
+    });
+
+    if (order) {
+      throw new Conflict('Order already exists');
+    }
 
     const post = await this.prisma.post.findUnique({
       where: {
@@ -34,8 +46,6 @@ export class OrderService {
       throw new NotFound<CreateOrderDto>('packageId');
     }
 
-    const deliveryTime = getDeliveryDate(postPackage.durationType, postPackage.deliveryTime);
-
     const result = await this.prisma.order.create({
       data: {
         ...createOrderDto,
@@ -43,7 +53,7 @@ export class OrderService {
         price: postPackage.price,
         revision: postPackage.revision,
         createdAt: new Date(),
-        deliveryTime,
+        deliveryTime: new Date(),
       },
     });
 
@@ -58,13 +68,36 @@ export class OrderService {
         },
       },
       include: {
-        post: true,
+        package: true,
+        post: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+            postImages: {
+              select: {
+                link: true,
+              },
+            },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                avatar: true,
+              },
+            },
+          },
+        },
       },
       take: size,
       skip: size * (page - 1),
     });
 
-    return result.map((item) => ({ ...item }));
+    return result.map((item) => {
+      const post = { ...item.post, images: item.post.postImages.map(({ link }) => link) };
+
+      return { ...item, post };
+    });
   }
 
   async findOne(id: number): Promise<OrderDetailResponse> {
@@ -73,8 +106,26 @@ export class OrderService {
         id,
       },
       include: {
-        post: true,
         package: true,
+        post: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+            postImages: {
+              select: {
+                link: true,
+              },
+            },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                avatar: true,
+              },
+            },
+          },
+        },
         user: true,
       },
     });
@@ -83,7 +134,9 @@ export class OrderService {
       throw new NotFound('id');
     }
 
-    return result;
+    const post = { ...result.post, images: result.post.postImages.map(({ link }) => link) };
+
+    return { ...result, post };
   }
 
   async cancel(session: SessionDto, id: number) {
@@ -159,6 +212,7 @@ export class OrderService {
       },
       include: {
         post: true,
+        package: true,
       },
     });
 
@@ -180,12 +234,15 @@ export class OrderService {
       });
     }
 
+    const deliveryTime = getDeliveryDate(order.package.durationType, order.package.deliveryTime);
+
     const result = await this.prisma.order.update({
       where: {
         id,
       },
       data: {
         status: 'Accepted',
+        deliveryTime,
       },
     });
 

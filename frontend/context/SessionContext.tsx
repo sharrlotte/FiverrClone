@@ -2,7 +2,7 @@
 
 import api from '@/api/api';
 import { Session } from '@/schema/user.schema';
-import React, { ReactNode, useLayoutEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useLayoutEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 
 export type SessionState = 'loading' | 'authenticated' | 'unauthenticated';
@@ -17,12 +17,17 @@ type SessionContextType =
       state: 'authenticated';
     };
 
-const defaultContextValue: SessionContextType = {
+const defaultContextValue: SessionContextType & { refresh: () => void } = {
   session: null,
   state: 'loading',
+  refresh: async () => {},
 };
 
-export const SessionContext = React.createContext<SessionContextType>(defaultContextValue);
+export const SessionContext = React.createContext<
+  SessionContextType & {
+    refresh: () => void;
+  }
+>(defaultContextValue);
 
 export function useSession(): SessionContextType {
   const context = React.useContext(SessionContext);
@@ -40,33 +45,30 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     session: null,
   });
 
+  const getSession = useCallback(
+    async () =>
+      api
+        .get<any, { data: Session }>('/auth/session')
+        .then(({ data }) => data)
+        .then((session) =>
+          session
+            ? setSession((prev) => ({
+                ...prev,
+                session,
+                state: 'authenticated',
+              }))
+            : setSession((prev) => ({ ...prev, state: 'unauthenticated', session: null })),
+        ),
+    [],
+  );
+
   useLayoutEffect(() => {
-    api
-      .get<any, { data: Session }>('/auth/session')
-      .then(({ data }) => data)
-      .then((session) =>
-        session
-          ? setSession({
-              session,
-              state: 'authenticated',
-            })
-          : setSession({ state: 'unauthenticated', session: null }),
-      );
-  }, [setSession]);
+    getSession();
+  }, [getSession]);
 
   useInterval(() => {
-    api
-      .get<any, { data: Session }>('/auth/session')
-      .then(({ data }) => data)
-      .then((session) =>
-        session
-          ? setSession({
-              session,
-              state: 'authenticated',
-            })
-          : setSession({ state: 'unauthenticated', session: null }),
-      );
+    getSession();
   }, 300000);
 
-  return <SessionContext.Provider value={auth}>{children}</SessionContext.Provider>;
+  return <SessionContext.Provider value={{ ...auth, refresh: getSession }}>{children}</SessionContext.Provider>;
 }

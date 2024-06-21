@@ -1,12 +1,16 @@
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useSession } from '@/context/SessionContext';
 import React from 'react';
 
 export default function PickRoleModal() {
   const { session } = useSession();
 
-  if (session && !session.rolePicked){
-    
-  }
+  const open = !!session && !session.rolePicked;
 
-  return <div>PickRoleModal</div>;
+  return (
+    <Dialog open={open}>
+      <DialogTitle>Bạn đang tìm kiếm điều gì?</DialogTitle>
+      <DialogContent></DialogContent>
+    </Dialog>
+  );
 }

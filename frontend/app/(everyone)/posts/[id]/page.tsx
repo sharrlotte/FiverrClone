@@ -1,4 +1,5 @@
 import { getPost, visitPost } from '@/api/post.server-api';
+import PostOrderButton from '@/app/(everyone)/posts/[id]/PostOrderButton';
 import FavoriteButton from '@/components/post/FavoriteButton';
 import PackageCard from '@/components/post/PackageCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,7 +20,8 @@ type Props = {
 };
 
 export default async function Page({ params: { id } }: Props) {
-  const { title, starsCount, totalStars, user, images, content, packages, isFavorite } = await getPost(id);
+  const post = await getPost(id);
+  const { title, starsCount, totalStars, user, images, content, packages, isFavorite } = post;
   visitPost(id);
 
   return (
@@ -73,14 +75,17 @@ export default async function Page({ params: { id } }: Props) {
                 ))}
               </TabsList>
               {packages.map((item) => (
-                <TabsContent key={item.title} value={item.title}>
+                <TabsContent className="space-y-2" key={item.title} value={item.title}>
                   <PackageCard data={item} />
+                  <div className="grid gap-2">
+                    <PostOrderButton post={post} postPackage={item} />
+                    <div className="grid grid-cols-2 gap-1">
+                      <Button variant="secondary">Liên hệ</Button>
+                      <Button variant="secondary">So sánh</Button>
+                    </div>
+                  </div>
                 </TabsContent>
               ))}
-              <div className="grid gap-2">
-                <Button>Đặt</Button>
-                <Button variant="secondary">Liên hệ</Button>
-              </div>
             </Tabs>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { favoritePost } from '@/api/post.api';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { useSession } from '@/context/SessionContext';
 import { cn } from '@/lib/utils';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -14,7 +15,16 @@ type Props = {
   isFavorite: boolean;
 };
 
-export default function FavoriteButton({ className, postId, isFavorite }: Props) {
+export default function FavoriteButton(props: Props) {
+  const { session } = useSession();
+
+  if (session) {
+    return <FavoriteButtonInner {...props} />;
+  }
+
+  return <></>;
+}
+function FavoriteButtonInner({ className, postId, isFavorite }: Props) {
   const queryClient = useQueryClient();
   const [expected, setExpected] = useState(isFavorite);
   const { toast } = useToast();

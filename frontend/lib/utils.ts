@@ -1,3 +1,4 @@
+import { OrderStatus } from '@/api/post.api';
 import { DurationType } from '@/constant/enum';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -22,6 +23,26 @@ export function translateDuration(duration: DurationType) {
 
     case 'Year':
       return 'Năm';
+
+    default:
+  }
+}
+export function translateOrderStatus(status: OrderStatus) {
+  switch (status) {
+    case 'Pending':
+      return 'Đang chờ';
+
+    case 'Accepted':
+      return 'Đã nhận';
+
+    case 'Rejected':
+      return 'Đã từ chối';
+
+    case 'Cancelled':
+      return 'Đã hủy';
+
+    case 'Finished':
+      return 'Đã hoàn thành';
 
     default:
   }

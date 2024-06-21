@@ -26,9 +26,7 @@ export default function Testimonials() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h2 className="h2 mb-4">Kết nối FreeLance và Doanh nghiệp</h2>
-            <p className="text-xl text-gray-600" data-aos="zoom-y-out">
-              Chúng tôi có mặt trên nhiều mạng xã hội với mục tiêu kết nối mọi người có nhu cầu việc làm lại với nhau
-            </p>
+            <p className="text-xl text-gray-600">Chúng tôi có mặt trên nhiều mạng xã hội với mục tiêu kết nối mọi người có nhu cầu việc làm lại với nhau</p>
           </div>
 
           {/* Items */}
@@ -70,7 +68,7 @@ export default function Testimonials() {
           </div>
 
           {/* Testimonials */}
-          <div className="max-w-3xl mx-auto mt-20" data-aos="zoom-y-out">
+          <div className="max-w-3xl mx-auto mt-20">
             <div className="relative flex items-start border-2 border-gray-200 rounded bg-white">
               {/* Testimonial */}
               <div className="text-center px-12 py-8 pt-20 mx-4 md:mx-0">

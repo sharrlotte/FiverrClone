@@ -2,7 +2,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 
-export function getUser(req: Request): SessionDto | null {
+export function getSessionOrNull(req: Request): SessionDto | null {
   //@ts-ignore
   const user = req.user as unknown as SessionDto;
 
@@ -13,7 +13,7 @@ export function getUser(req: Request): SessionDto | null {
   return { id: user.id, username: user.username, avatar: user.avatar, authorities: user.authorities, roles: user.roles };
 }
 
-export function getAuthUser(req: Request): SessionDto {
+export function getSession(req: Request): SessionDto {
   //@ts-ignore
   const user = req.user as unknown as SessionDto;
 

@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
-import { getUser } from 'src/services/auth/auth.utils';
+import { getSessionOrNull } from 'src/services/auth/auth.utils';
 import { SessionDto } from './dto/session.dto';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'src/config/configuration';
@@ -11,7 +11,7 @@ export class AuthController {
   constructor(private configService: ConfigService<AppConfig>) {}
   @Get('session')
   getProfile(@Req() req: Request): SessionDto {
-    return plainToInstance(SessionDto, getUser(req));
+    return plainToInstance(SessionDto, getSessionOrNull(req));
   }
 
   @Get('logout')

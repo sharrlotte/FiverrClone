@@ -288,6 +288,8 @@ enum OrderStatus {
     Pending
     Accepted
     Rejected
+    Cancelled
+    Finished
 }
 
 enum DurationType {

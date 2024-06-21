@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
@@ -87,11 +86,187 @@ export class OrderService {
     return result;
   }
 
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async cancel(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Cancelled',
+      },
+    });
+
+    return result;
+  }
+  async sellerCancel(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.post.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'Accepted') {
+      throw new BadRequestException({
+        message: 'Can not cancel this request',
+        reason: {
+          current: order.status,
+          accept: 'Accepted',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Cancelled',
+      },
+    });
+
+    return result;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} order`;
+  async accept(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.post.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'Pending') {
+      throw new BadRequestException({
+        message: 'Can not accept this request',
+        reason: {
+          current: order.status,
+          accept: 'Pending',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Accepted',
+      },
+    });
+
+    return result;
+  }
+  async reject(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.post.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'Pending') {
+      throw new BadRequestException({
+        message: 'Can not reject this request',
+        reason: {
+          current: order.status,
+          accept: 'Pending',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Rejected',
+      },
+    });
+
+    return result;
+  }
+  async finish(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.post.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'Accepted') {
+      throw new BadRequestException({
+        message: 'Can not finish this request',
+        reason: {
+          current: order.status,
+          accept: 'Accepted',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Finished',
+      },
+    });
+
+    return result;
   }
 }

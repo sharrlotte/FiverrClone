@@ -7,6 +7,8 @@ import NotFound from 'src/error/NotFound';
 import { UserProfileResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
+import { OrderResponse } from 'src/services/order/dto/order.response';
+import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 
 type UserWithAuthoritiesAndRoles = Prisma.UserGetPayload<{}> & { roles: string[]; authorities: string[] };
 
@@ -115,5 +117,20 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findAllOrder(session: SessionDto, { size, page }: PaginationQueryDto): Promise<OrderResponse[]> {
+    const result = await this.prisma.order.findMany({
+      where: {
+        userId: session.id,
+      },
+      include: {
+        post: true,
+      },
+      take: size,
+      skip: size * (page - 1),
+    });
+
+    return result.map((item) => ({ ...item }));
   }
 }

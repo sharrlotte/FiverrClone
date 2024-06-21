@@ -2,7 +2,7 @@ import { getSession } from '@/api/auth.api';
 import ProtectedElement from '@/components/layout/protected-element';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { HistoryIcon, HomeIcon, UserCircle } from 'lucide-react';
+import { HistoryIcon, HomeIcon, PackageCheckIcon, UserCircle } from 'lucide-react';
 import React, { ReactNode } from 'react';
 import Link from 'next/link';
 
@@ -41,6 +41,14 @@ const tabs: Tab = [
       action: (
         <Link className="w-full" href="/my-order">
           Đơn của bạn
+        </Link>
+      ),
+    },
+    {
+      icon: <PackageCheckIcon className="w-5 h-5" />,
+      action: (
+        <Link className="w-full" href="/customer-order">
+          Đơn của khách hàng
         </Link>
       ),
     },

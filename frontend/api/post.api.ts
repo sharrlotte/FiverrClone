@@ -86,6 +86,12 @@ export async function getMyPostOrder(request: GetPostRequest & { status: OrderSt
   return result.data;
 }
 
+export async function getCustomerPostOrder(request: GetPostRequest & { status: OrderStatus[] }): Promise<Order[]> {
+  const result = await api.get('/orders', { params: request });
+
+  return result.data;
+}
+
 export async function createPost({ content, images, ...request }: CreatePostRequest) {
   const form = toFormData({
     content: content.text,

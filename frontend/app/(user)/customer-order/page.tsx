@@ -1,12 +1,14 @@
 'use client';
 
-import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/post.api';
-import CancelOrderButton from '@/app/(user)/my-order/CancelOrderButton';
+import { getCustomerPostOrder, OrderStatus, orderStatuses } from '@/api/post.api';
 import PageSelector from '@/components/common/PageSelector';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { translateOrderStatus } from '@/lib/utils';
 import { searchParamsSchema } from '@/schema/pagination.schema';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { SquareArrowOutUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -20,7 +22,7 @@ export default function Page() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
-    queryFn: () => getMyPostOrder({ page, size: 20, status: filter }),
+    queryFn: () => getCustomerPostOrder({ page, size: 20, status: filter }),
   });
 
   function handleFilter(data: OrderStatus[]) {
@@ -45,7 +47,6 @@ export default function Page() {
           <TableHeader>
             <TableRow>
               <TableHead>Bài viết</TableHead>
-              <TableHead>Tác giả</TableHead>
               <TableHead>Gói</TableHead>
               <TableHead>Hạn chót</TableHead>
               <TableHead>Tình trạng</TableHead>
@@ -62,16 +63,26 @@ export default function Page() {
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>
-                    <Link className="flex gap-1" href={`/posts/${order.post.id}`}>
-                      {order.post.user.username}
-                      <SquareArrowOutUpRightIcon className="h-4 w-4" />
-                    </Link>
-                  </TableCell>
                   <TableCell>{order.package.title}</TableCell>
                   <TableCell>{order.status === 'Accepted' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
-                  <TableCell>{order.status === 'Pending' ? <CancelOrderButton order={order} /> : ''}</TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <DotsHorizontalIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>View customer</DropdownMenuItem>
+                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

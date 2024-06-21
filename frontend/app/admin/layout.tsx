@@ -7,6 +7,8 @@ import { ChartBarSquareIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon }
 import React, { ReactNode } from 'react';
 import env from '@/constant/env';
 import Link from 'next/link';
+import { Sheet, SheetClose } from '@/components/ui/sheet';
+import UserSheet from '../UserSheet';
 
 type LinkType = {
   links: { name: string; icon?: ReactNode; href: { name: string; href: string }[] | string }[];
@@ -117,7 +119,13 @@ export default async function Page({ children }: { children: ReactNode }) {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">{children}</div>
+        <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">
+          <div className="p-2 gap-2 flex rounded-lg">
+            <input className="block w-full h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
+            <UserSheet />
+          </div>
+          {children}
+        </div>
       </div>
     </ProtectedRoute>
   );

@@ -9,6 +9,7 @@ import env from '@/constant/env';
 import Link from 'next/link';
 import { Sheet, SheetClose } from '@/components/ui/sheet';
 import UserSheet from '../UserSheet';
+import Footer from '../Footer';
 
 type LinkType = {
   links: { name: string; icon?: ReactNode; href: { name: string; href: string }[] | string }[];
@@ -126,6 +127,7 @@ export default async function Page({ children }: { children: ReactNode }) {
           </div>
           {children}
         </div>
+        <Footer />
       </div>
     </ProtectedRoute>
   );

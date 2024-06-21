@@ -4,6 +4,7 @@ import { getSessionOrNull } from 'src/services/auth/auth.utils';
 import { SessionResponseDto } from './dto/session.dto';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'src/config/configuration';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('auth')
 export class AuthController {
@@ -16,10 +17,10 @@ export class AuthController {
       return null;
     }
 
-    return {
+    return plainToInstance(SessionResponseDto, {
       ...session,
       rolePicked: !session.roles.some((role) => role === 'CANDIDATE' || role === 'RECRUITER'),
-    };
+    });
   }
 
   @Get('logout')

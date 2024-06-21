@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselAutoScroll, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '@/api/post.api';
 import PostCard from '@/components/post/PostCard';
 import PostCardSkeleton from '@/components/post/PostCardSkeleton';
+import Link from 'next/link';
 
 export default function PopularServices() {
   const { data, isLoading } = useQuery({
@@ -14,7 +15,7 @@ export default function PopularServices() {
   });
 
   return (
-    <div className="bg-red">
+    <div>
       <Carousel className="w-full">
         <CarouselContent className="relative">
           {isLoading
@@ -28,10 +29,14 @@ export default function PopularServices() {
                   <PostCard post={post} />
                 </CarouselItem>
               ))}
+          <CarouselAutoScroll />
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      <Link className="w-full text-center flex justify-center" href="/posts?sort=popular">
+        Xem thêm
+      </Link>
     </div>
   );
 }

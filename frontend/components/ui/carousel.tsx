@@ -5,6 +5,7 @@ import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-reac
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useInterval } from 'usehooks-ts';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -164,4 +165,36 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 });
 CarouselNext.displayName = 'CarouselNext';
 
-export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext };
+type CarouselAutoScrollProps = {
+  delay?: number;
+};
+
+function CarouselAutoScroll({ delay = 5000 }: CarouselAutoScrollProps) {
+  const { scrollNext, scrollPrev, canScrollNext, canScrollPrev } = useCarousel();
+  const [direction, setDirection] = React.useState(true);
+
+  useInterval(
+    () => {
+      if (direction) {
+        if (canScrollNext) {
+          scrollNext();
+        } else {
+          setDirection(false);
+          scrollPrev();
+        }
+      } else {
+        if (canScrollPrev) {
+          scrollPrev();
+        } else {
+          setDirection(true);
+          scrollNext();
+        }
+      }
+    },
+    delay + Math.random() * 3000,
+  );
+
+  return <></>;
+}
+
+export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselAutoScroll };

@@ -1,6 +1,6 @@
 'use client';
 
-import { getMyPostBrowsingHistory } from '@/api/post.api';
+import { getPosts } from '@/api/post.api';
 import PageSelector from '@/components/common/PageSelector';
 import PostCard from '@/components/post/PostCard';
 import { searchParamsSchema } from '@/schema/pagination.schema';
@@ -13,8 +13,8 @@ export default function Page() {
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['post-browsing-history', 'posts', page],
-    queryFn: () => getMyPostBrowsingHistory({ page, size: 40 }),
+    queryKey: ['posts', page],
+    queryFn: () => getPosts({ page, size: 20 }),
   });
 
   return (

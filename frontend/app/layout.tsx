@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import NextTopLoader from 'nextjs-toploader';
 
 import './globals.css';
+import { SessionProvider } from '@/context/SessionContext';
 
 const inter = Font({ subsets: ['latin'], weight: '400' });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster />
         <NextTopLoader height={2} showSpinner={false} color="blue" />
-        <QueryProvider>{children}</QueryProvider>
+        <SessionProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

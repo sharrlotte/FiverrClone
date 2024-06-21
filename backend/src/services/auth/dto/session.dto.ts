@@ -16,3 +16,8 @@ export class SessionDto {
   @Expose()
   authorities: string[];
 }
+
+export class SessionResponseDto extends SessionDto {
+  @Expose()
+  rolePicked: boolean;
+}

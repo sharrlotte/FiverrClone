@@ -6,6 +6,7 @@ export interface Session {
   avatar: string;
   roles: string[];
   authorities: string[];
+  rolePicked: boolean;
 }
 
 export interface UserProfile {

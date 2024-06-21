@@ -36,7 +36,7 @@ export default function Features() {
           {/* Section content */}
           <div className="md:grid md:grid-cols-12 md:gap-6">
             {/* Content */}
-            <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-7 lg:col-span-6 md:mt-6" data-aos="fade-right">
+            <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-7 lg:col-span-6 md:mt-6">
               <div className="md:pr-4 lg:pr-12 xl:pr-16 mb-8">
                 <h3 className="h3 mb-3">Nâng tầm giá trị</h3>
                 <p className="text-xl text-gray-600">Cùng chúng tôi tạo nên thành công cho lựa chọn của bạn</p>
@@ -103,7 +103,7 @@ export default function Features() {
             {/* Tabs items */}
             <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 md:mb-0 md:order-1">
               <div className="transition-all">
-                <div className="relative flex flex-col text-center lg:text-right" data-aos="zoom-y-out" ref={tabs}>
+                <div className="relative flex flex-col text-center lg:text-right" ref={tabs}>
                   {/* Item 1 */}
                   <Transition
                     show={tab === 1}

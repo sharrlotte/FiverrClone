@@ -62,7 +62,7 @@ export default async function Page({ params: { id } }: Props) {
               <Button variant="outline">
                 <LucideShare2 className="w-4 h-4"></LucideShare2>
               </Button>
-              <FavoriteButton className="block border rounded-md p-1" postId={id} isFavorite={isFavorite} />
+              <FavoriteButton className="block border rounded-md p-1" postId={+id} isFavorite={isFavorite} />
             </div>
             <Tabs defaultValue={packages[0].title} className="min-w-[350px] space-y-2 shadow-md p-2 rounded-md bg-white border">
               <TabsList className="flex gap-2">

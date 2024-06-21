@@ -10,7 +10,7 @@ type Props = {
   className?: string;
 };
 
-async function Header({ className }: Props) {
+function Header({ className }: Props) {
   return (
     <div className="flex items-center gap-x-5 sticky w-full top-4 py-2 px-4 rounded-2xl shadow-3xl z-40 bg-white">
       <Link className="text-3xl font-extrabold" href="/">

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { OrderStatus } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
 
@@ -17,4 +18,8 @@ export class PaginationQueryDto {
   @IsNotEmpty()
   @ApiProperty({ default: 20, maximum: 50, minimum: 20 })
   size: number;
+}
+
+export class OrderPaginationQueryDto extends PaginationQueryDto {
+  status?: OrderStatus[];
 }

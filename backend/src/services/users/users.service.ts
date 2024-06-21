@@ -8,7 +8,7 @@ import { UserProfileResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 import { OrderResponse } from 'src/services/order/dto/order.response';
-import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
+import { OrderPaginationQueryDto, PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 
 type UserWithAuthoritiesAndRoles = Prisma.UserGetPayload<{}> & { roles: string[]; authorities: string[] };
 
@@ -119,10 +119,13 @@ export class UsersService {
     return user;
   }
 
-  async findAllOrder(session: SessionDto, { size, page }: PaginationQueryDto): Promise<OrderResponse[]> {
+  async findAllOrder(session: SessionDto, { size, page, status }: OrderPaginationQueryDto): Promise<OrderResponse[]> {
     const result = await this.prisma.order.findMany({
       where: {
         userId: session.id,
+        status: {
+          in: status,
+        },
       },
       include: {
         package: true,

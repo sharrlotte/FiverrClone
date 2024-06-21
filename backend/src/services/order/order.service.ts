@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
+import { OrderPaginationQueryDto, PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 import { OrderDetailResponse, OrderResponse } from 'src/services/order/dto/order.response';
@@ -60,9 +60,12 @@ export class OrderService {
     return result;
   }
 
-  async findAll(session: SessionDto, { size, page }: PaginationQueryDto): Promise<OrderResponse[]> {
+  async findAll(session: SessionDto, { size, page, status }: OrderPaginationQueryDto): Promise<OrderResponse[]> {
     const result = await this.prisma.order.findMany({
       where: {
+        status: {
+          in: status,
+        },
         post: {
           userId: session.id,
         },

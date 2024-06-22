@@ -28,7 +28,7 @@ export default async function Page({ params: { id } }: Props) {
     <div className="h-full md:px-40 p-10 space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
       <div className="grid grid-cols-[1fr,500px] relative">
         <div className="space-y-4 overflow-x-hidden">
-          <h1 className="text-wrap break-all">{title}</h1>
+          <h1 className="text-wrap">{title}</h1>
           <div className="flex gap-2 justify-between">
             <div>
               <div className="flex gap-2 items-end">
@@ -44,12 +44,12 @@ export default async function Page({ params: { id } }: Props) {
                 <span>({starsCount})</span>
               </div>
             </div>
-            <Carousel className="w-full max-h-[400px] bg-gray-200">
+            <Carousel className="w-full max-h-[400px] bg-gray-200 overflow-hidden rounded-2xl">
               <CarouselPrevious />
               <CarouselContent className="relative w-full h-full">
                 {images.map((image) => (
                   <CarouselItem key={image} className="basis-full h-full w-full">
-                    <Image className="w-full h-full flex" height={400} width={400} src={image} alt={title} />
+                    <Image className="w-full h-full flex object-cover" height={400} width={400} src={image} alt={title} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

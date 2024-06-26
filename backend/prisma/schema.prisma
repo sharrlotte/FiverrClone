@@ -1,14 +1,301 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Account {
+    id         Int       @id @default(autoincrement())
+    userId     Int
+    provider   String
+    providerId String
+    updatedAt  DateTime? @db.Timestamp(6)
+    createdAt  DateTime  @db.Timestamp(6)
+    user       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@index([providerId])
+    @@index([provider])
+    @@index([userId])
+}
+
+model Authority {
+    id              Int             @id @default(autoincrement())
+    name            String          @unique
+    description     String
+    updatedAt       DateTime?       @db.Timestamp(6)
+    createdAt       DateTime        @db.Timestamp(6)
+    userAuthorities UserAuthority[]
+
+    @@index([name])
+}
+
+model Category {
+    id              Int            @id @default(autoincrement())
+    name            String         @unique
+    description     String
+    parentId        Int?
+    updatedAt       DateTime?      @db.Timestamp(6)
+    createdAt       DateTime       @db.Timestamp(6)
+    parentCategory  Category?      @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    childCategories Category[]     @relation("CategoryToCategory")
+    postCategories  PostCategory[]
+    isDeleted       Boolean        @default(false)
+
+    @@index([name])
+    @@index([parentId])
+}
+
+model FavoritePost {
+    userId    Int
+    postId    Int
+    createdAt DateTime @db.Timestamp(6)
+    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, postId])
+    @@index([postId])
+    @@index([userId])
+}
+
+model Package {
+    id           Int          @id @default(autoincrement())
+    postId       Int
+    title        String
+    description  String
+    revision     Int          @default(0)
+    deliveryTime Int          @default(0)
+    durationType DurationType @default(Day)
+    price        BigInt       @default(0)
+    special      Json?        @db.Json
+    updatedAt    DateTime?    @db.Timestamp(6)
+    createdAt    DateTime     @db.Timestamp(6)
+    post         Post         @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    Order        Order[]
+
+    @@index([postId, title])
+}
+
+model Post {
+    id                    Int                   @id @default(autoincrement())
+    userId                Int
+    title                 String
+    content               String
+    totalStars            Int                   @default(0)
+    starsCount            Int                   @default(0)
+    favorites             Int                   @default(0)
+    updatedAt             DateTime?             @db.Timestamp(6)
+    createdAt             DateTime              @db.Timestamp(6)
+    favoritePosts         FavoritePost[]
+    orders                Order[]
+    packages              Package[]
+    user                  User                  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    postBrowsingHistories PostBrowsingHistory[]
+    postCategories        PostCategory[]
+    postImages            PostImage[]
+    postTags              PostTag[]
+    previews              Preview[]
+}
+
+model PostCategory {
+    postId     Int
+    categoryId Int
+    createdAt  DateTime @db.Timestamp(6)
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    post       Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([postId, categoryId])
+    @@index([categoryId])
+    @@index([postId])
+}
+
+model PostImage {
+    id        Int      @id @default(autoincrement())
+    postId    Int
+    link      String
+    createdAt DateTime @db.Timestamp(6)
+    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@index([postId])
+}
+
+model PostTag {
+    tagId     Int
+    postId    Int
+    createdAt DateTime @db.Timestamp(6)
+    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([tagId, postId])
+    @@index([postId])
+    @@index([tagId])
+}
+
+model Preview {
+    userId    Int
+    postId    Int
+    star      Int
+    comment   String
+    createdAt DateTime @db.Timestamp(6)
+    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, postId])
+    @@index([postId])
+    @@index([userId])
+}
+
+model Role {
+    id          Int        @id @default(autoincrement())
+    name        String     @unique
+    description String
+    updatedAt   DateTime?  @db.Timestamp(6)
+    createdAt   DateTime   @db.Timestamp(6)
+    userRoles   UserRole[]
+
+    @@index([name])
+}
+
+model Tag {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String
+    updatedAt   DateTime? @db.Timestamp(6)
+    createdAt   DateTime  @db.Timestamp(6)
+    isDeleted   Boolean   @default(false)
+    postTags    PostTag[]
+
+    @@index([name])
+}
+
+model User {
+    id                  Int                   @id @default(autoincrement())
+    username            String
+    about               String
+    updatedAt           DateTime?             @db.Timestamp(6)
+    createdAt           DateTime              @db.Timestamp(6)
+    avatar              String?
+    accounts            Account[]
+    favoritePosts       FavoritePost[]
+    posts               Post[]
+    previews            Preview[]
+    authorities         UserAuthority[]
+    roles               UserRole[]
+    postBrowsingHistory PostBrowsingHistory[]
+    userSkill           UserSkill[]
+    Order               Order[]
+}
+
+model UserAuthority {
+    userId      Int
+    authorityId Int
+    createdAt   DateTime  @db.Timestamp(6)
+    authority   Authority @relation(fields: [authorityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, authorityId])
+    @@index([authorityId])
+    @@index([userId])
+}
+
+model UserRole {
+    userId    Int
+    roleId    Int
+    createdAt DateTime @db.Timestamp(6)
+    role      Role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, roleId])
+    @@index([roleId])
+    @@index([userId])
+}
+
+model UserSkill {
+    userId    Int
+    skillId   Int
+    createdAt DateTime @db.Timestamp(6)
+    skill     Skill    @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, skillId])
+    @@index([skillId])
+    @@index([userId])
+}
+
+model Order {
+    id           Int         @id @default(autoincrement())
+    userId       Int
+    postId       Int
+    packageId    Int
+    revision     Int         @default(0)
+    deliveryTime DateTime    @db.Time(6)
+    price        BigInt      @default(0)
+    status       OrderStatus @default(Pending)
+    createdAt    DateTime    @db.Timestamp(6)
+    post         Post        @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user         User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    package      Package     @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@index([postId])
+    @@index([status])
+    @@index([userId])
+}
+
+model PostBrowsingHistory {
+    postId    Int
+    userId    Int
+    createdAt DateTime @db.Timestamp(6)
+    updatedAt DateTime @db.Timestamp(6)
+    post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([userId, postId])
+    @@index([postId])
+    @@index([userId])
+    @@index([updatedAt])
+}
+
+model Skill {
+    id            Int           @id @default(autoincrement())
+    categoryId    Int
+    name          String
+    description   String
+    updatedAt     DateTime?     @db.Timestamp(6)
+    createdAt     DateTime      @db.Timestamp(6)
+    isDeleted     Boolean       @default(false)
+    skillCategory SkillCategory @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    UserSkill     UserSkill[]
+
+    @@index([categoryId])
+    @@index([name])
+}
+
+model SkillCategory {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String
+    updatedAt   DateTime? @db.Timestamp(6)
+    createdAt   DateTime  @db.Timestamp(6)
+    isDeleted   Boolean   @default(false)
+    skills      Skill[]
+
+    @@index([name])
+}
+
+enum OrderStatus {
+    Pending
+    Accepted
+    Rejected
+    Cancelled
+    Finished
+}
+
+enum DurationType {
+    Hour
+    Day
+    Week
+    Month
+    Year
 }

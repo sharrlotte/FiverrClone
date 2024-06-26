@@ -2,140 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
   }
 }
 
-main {
-  color: rgb(var(--foreground-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  * {
+    @apply border-border;
   }
-}
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
-}
+  body {
+    @apply w-full h-full bg-background text-foreground overflow-hidden;
+  }
 
-.header {
-  max-height: 1070px;
-}
+  html {
+    @apply w-full h-full overflow-hidden;
+  }
 
-.main-menu {
-  display: flex;
-}
+  .markdown > * {
+    @apply overflow-hidden;
+  }
 
-.main-menu li a {
-  position: relative;
-}
+  h1 {
+    @apply text-3xl;
+  }
 
-.main-menu li a {
-  color: #f8f8f8;
-  display: block;
-  padding: 18px 20px;
-}
+  h2 {
+    @apply text-2xl;
+  }
 
-.main-menu ul.sub-menu {
-  position: absolute;
-  padding: 15px 0px;
-  width: 400px;
-  display: none;
-}
+  h3 {
+    @apply text-xl;
+  }
 
-.main-menu li:hover>ul.sub-menu {
-  display: block;
-  color: black;
-}
+  h4 {
+    @apply text-base;
+  }
 
-.main-menu ul.sub-menu a {
-  padding: 8px 15px;
-  border-bottom: 1px solid;
-}
+  blockquote {
+    @apply m-0 border-l-4 border-zinc-300 p-0 pl-2;
+  }
 
-.main-menu ul.sub-menu li:last-child a {
-  border: none;
-}
+  p > code {
+    @apply rounded-md border bg-background bg-opacity-60 p-1 text-foreground;
+  }
 
-.main-menu ul.sub-menu a img {
-  height: 80px;
-  width: 80px;
-}
+  pre {
+    @apply rounded-md border bg-background bg-opacity-60 p-1 text-foreground;
+  }
 
-.main-menu ul.sub-menu a .font-design {
-  font-size: 15px;
-  line-height: 20px;
-}
+  *::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 
-.backgroud {
-  background-image: url(image/fiverr.png);
-}
+  *::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
 
-.size-design {
-  font-size: 18px;
-  line-height: 26px;
-}
+  *::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 9999px;
+    @apply border-2 border-transparent bg-gray-500 bg-clip-padding;
+  }
 
-.icon a img {
-  height: 100px;
-  width: 100px;
-}
+  *::-webkit-scrollbar-button {
+    display: none;
+  }
 
-.nav-bar {
-  position: sticky;
-  z-index: 1000;
-  top: 0;
-  animation: stickyNav linear forwards;
-}
+  
 
-.slick-arrow {
-  @apply absolute top-1/2 transform -translate-y-1/2;
-  @apply z-50;
-  @apply bg-white rounded-full p-4 opacity-75 hover:opacity-100;
-  @apply bg-gray-300;
-}
+  body {
+    @apply bg-background text-foreground;
+  }
 
-.slick-prev {
-  @apply left-12;
-}
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
 
-.slick-next {
-  @apply right-20;
-}
+  ol {
+    list-style: decimal;
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
 
-.font-black h2 {
-  position: absolute;
+  b {
+    font-weight: bold;
+  }
 
-}
-
-.font-black h1 {
-  position: absolute;
-  top: 20px;
-}
-
-.font-black .text-shadow {
-  text-shadow: black 0.1rem 0.1rem 0.2rem;
-  color: white;
-}
-
-@keyframes stickyNav {
-  100% {
-    background-color: darkgreen;
-    color: white;
-    box-shadow: 0 0 0.75 hsl(0 0% 0%/0.3);
+  ul li {
+    list-style-position: outside;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    display: flex;
   }
 }

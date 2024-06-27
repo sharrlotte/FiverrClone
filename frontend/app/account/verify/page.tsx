@@ -1,63 +1,62 @@
 'use client';
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp"
 
-export default function Page() {
-  return (
-    <main className="h-full w-full flex justify-center items-center">
-        <div className="flex lg:flex-row lg:h-3/5 w-full h-full flex-col lg:w-3/5 shadow-2xl rounded-lg overflow-hidden">
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Xác thực tài khoản của bạn </CardTitle>
-        <CardDescription>Vui lòng xác thực địa chỉ Email của bạn và nhập mã xác minh mà chúng tôi đã gửi cho bạn </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Email</Label>
-              <Input id="name" placeholder="Vui lòng nhập" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label className="mt-10" htmlFor="framework">Mã xác nhận </Label>
-              <InputOTP maxLength={6}>
-                <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                </InputOTPGroup>
-                </InputOTP>
-            </div>
+import React, { useState } from "react";
+import 'tailwindcss/tailwind.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGooglePlusG, faFacebookF, faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+ 
+const LoginRegister: React.FC = () => {
+    const [isActive, setIsActive] = useState(false);
+
+    const handleRegisterClick = () => {
+        setIsActive(true);
+    };
+
+    const handleLoginClick = () => {
+        setIsActive(false);
+    };
+
+    return (
+        <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
+          <div id="container" className={`relative w-full max-w-3xl min-h-[500px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
+              <div className="flex justify-center items-center mt-24">
+                <form className="flex flex-col items-center justify-center h-full w-8/12">
+                          <h1 className="font-bold text-4xl mb-5">Verify account</h1>
+                          <span className="text-1xl mb-4 ">Vui lòng xác nhận địa chỉ e-mail của bạn và nhập mã xác minh mà chung tôi đã gửi cho bạn.</span>
+                          <div className="w-96">
+                            <span className="font-bold text-1xl flex">E-mail</span>
+                            <input type="email" placeholder="email@gmail.com" className="w-full px-2 py-2 mt-3 text-sm bg-gray-200 rounded" />
+                            <span className="font-bold text-1xl flex mt-3">Mã xác nhận </span>
+                            <InputOTP maxLength={6}>
+                                <InputOTPGroup>
+                                  <InputOTPSlot index={0} />
+                                  <InputOTPSlot index={1} />
+                                  <InputOTPSlot index={2} />
+                                  <InputOTPSlot index={3} />
+                                  <InputOTPSlot index={4} />
+                                  <InputOTPSlot index={5} />
+                                </InputOTPGroup>
+                            </InputOTP>
+                    
+                          </div>
+                          <div className="flex flex-row">
+                            <div className="flex flex-row gap-5">
+                            <button type="button" className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
+                                Mã gửi lại
+                            </button>
+                          <button type="button" className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
+                                Mã xác nhận 
+                          </button>
+                            </div>
+                            <div className="mt-24">
+                                
+                            </div>
+                          </div>
+                      </form>
+                </div>         
           </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button className="mt-20" variant="outline">Cancel</Button>
-        <Button className="mt-20"> Mã xác nhận </Button>
-      </CardFooter>
-    </Card>
-    </div>
-    </main>
-  )
-}
+          </div>
+    );
+  };  
+export default LoginRegister;

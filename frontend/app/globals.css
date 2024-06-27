@@ -131,8 +131,6 @@
     display: none;
   }
 
-  
-
   body {
     @apply bg-background text-foreground;
   }

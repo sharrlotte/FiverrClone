@@ -1,67 +1,97 @@
-import React from 'react';
-import Image from 'next/image';
-import env from '@/constant/env';
+'use client';
 
-type Post = {
-  link: string;
-  text: string;
-  alt: string;
-  image: string;
-};
+import React, { useState } from 'react';
+import 'tailwindcss/tailwind.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGooglePlusG, faFacebookF, faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 
-const images: Post[] = [
-  {
-    image: '/image/icons8-facebook.svg',
-    alt: 'facebook',
-    text: 'Tiếp tục với Facebook',
-    link: `${env.url.backend_url}/auth/facebook`,
-  },
-  {
-    image: '/image/icons8-google.svg',
-    alt: 'google',
-    text: 'Tiếp tục với Google',
-    link: `${env.url.backend_url}/auth/google`,
-  },
-  {
-    image: '/image/github-mark.svg',
-    alt: 'google',
-    text: 'Tiếp tục với Github',
-    link: `${env.url.backend_url}/auth/github`,
-  },
-];
+const LoginRegister: React.FC = () => {
+  const [isActive, setIsActive] = useState(false);
 
-export default function Page() {
+  const handleRegisterClick = () => {
+    setIsActive(true);
+  };
+
+  const handleLoginClick = () => {
+    setIsActive(false);
+  };
+
   return (
-    <main className="h-full w-full flex justify-center items-center bg-login">
-      <div className="flex lg:flex-row lg:h-3/5 w-full h-full flex-col lg:w-3/5 shadow-2xl rounded-lg overflow-hidden">
-        <div className="hidden lg:flex flex-col px-10 gap-5 bg-rose-600 flex-1">
-          <h1 className="text-nowrap font-black mt-10 text-white">Bắt đầu ngay bây giờ</h1>
-          <ul className="text-white">
-            <li className="list-item">
-              <span>Hơn 600 danh mục</span>
-            </li>
-            <li className="list-item">
-              <span>Trả tiền theo dự án, không phải theo giờ</span>
-            </li>
-            <li className="list-item">
-              <span>Tiếp cận với tài năng và doanh nghiệp ở mọi nơi</span>
-            </li>
-          </ul>
+    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
+      <div id="container" className={`relative w-full max-w-4xl min-h-[480px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
+        <div className={`form-container sign-in absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-10' : 'transform translate-x-0 opacity-0 z-0'}`}>
+          <form className="flex flex-col items-center justify-center h-full">
+            <h1 className="font-bold text-xl mb-5">ĐĂNG NHẬP</h1>
+            <div className="social-icons flex justify-center mb-5 space-x-2">
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faFacebookF} />
+              </a>
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faGithub} />
+              </a>
+            </div>
+            <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
+            <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <a href="#" className="text-sm text-gray-600 mt-3">
+              Quên mật khẩu của bạn?
+            </a>
+            <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleRegisterClick}>
+              Đăng nhập
+            </button>
+          </form>
         </div>
-        <div className="flex flex-col px-10 bg-white flex-1 lg:justify-start justify-center">
-          <div className="flex flex-col gap-2 justify-center items-center mt-10">
-            <span className="font-black text-3xl text-center">Đăng nhập</span>
-            <div className="flex flex-col items-center gap-4 mt-6 min-w-fit w-1/2">
-              {images.map(({ image, alt, text, link }) => (
-                <a className="w-full rounded-md flex gap-2 border p-2 text-nowrap" href={link} key={link}>
-                  <Image src={image} alt={alt} height={24} width={24} />
-                  {text}
-                </a>
-              ))}
+
+        <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+          <form className="flex flex-col items-center justify-center h-full">
+            <h1 className="font-bold text-xl mb-5">Tạo tài khoản</h1>
+            <div className="social-icons flex justify-center mb-5 space-x-2">
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faGooglePlusG} />
+              </a>
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faFacebookF} />
+              </a>
+              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+                <FontAwesomeIcon icon={faGithub} />
+              </a>
+            </div>
+            <span className="text-sm mb-3">Hoặc sửa dụng tài khoản Email của bạn</span>
+            <input type="text" placeholder="Name" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
+              Đăng ký
+            </button>
+          </form>
+        </div>
+
+        <div className={`overlay-container absolute top-0 h-full w-full flex`}>
+          <div className={`overlay absolute top-0 left-0 h-full w-1/2 bg-purple-600 text-white p-10 flex items-center justify-center transition-transform duration-600 ${isActive ? '-translate-x-full' : 'translate-x-0'}`}>
+            <div className="flex flex-col items-center text-center">
+              <h1 className="text-xl font-bold mb-3">Chào bạn !</h1>
+              <p className="text-sm mb-5">Đăng ký để bắt đầu hàng trình của bạn</p>
+              <button className="px-6 py-2 text-sm font-semibold bg-white text-purple-600 rounded uppercase" onClick={handleRegisterClick}>
+                Đăng ký
+              </button>
+            </div>
+          </div>
+          <div className={`overlay absolute top-0 right-0 h-full w-1/2 bg-purple-600 text-white p-10 flex items-center justify-center transition-transform duration-600 ${isActive ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="flex flex-col items-center text-center">
+              <h1 className="text-xl font-bold mb-3">Chào mừng trở lại!</h1>
+              <p className="text-sm mb-5">Tiếp tục hành trình của bạn</p>
+              <button className="px-6 py-2 text-sm font-semibold bg-white text-purple-600 rounded uppercase" onClick={handleLoginClick}>
+                Đăng nhập
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default LoginRegister;

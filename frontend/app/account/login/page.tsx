@@ -75,7 +75,7 @@ const LoginRegister: React.FC = () => {
               <h1 className="text-xl font-bold mb-3">Chào bạn !</h1>
               <p className="text-sm mb-5">Đăng ký để bắt đầu hàng trình của bạn</p>
               <button className="px-6 py-2 text-sm font-semibold bg-white text-purple-600 rounded uppercase" onClick={handleRegisterClick}>
-                Đăng ký
+                Đăng nhập
               </button>
             </div>
           </div>
@@ -84,7 +84,7 @@ const LoginRegister: React.FC = () => {
               <h1 className="text-xl font-bold mb-3">Chào mừng trở lại!</h1>
               <p className="text-sm mb-5">Tiếp tục hành trình của bạn</p>
               <button className="px-6 py-2 text-sm font-semibold bg-white text-purple-600 rounded uppercase" onClick={handleLoginClick}>
-                Đăng nhập
+                Đăng ký
               </button>
             </div>
           </div>

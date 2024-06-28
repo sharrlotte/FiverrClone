@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGooglePlusG, faFacebookF, faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
@@ -31,7 +29,7 @@ const LoginRegister: React.FC = () => {
               <span className="font-bold text-1xl flex mt-3">Mã xác nhận</span>
               <InputOTP maxLength={6}>
                 <InputOTPGroup>
-                  {otpSlots.map(index => (
+                  {otpSlots.map((index) => (
                     <InputOTPSlot className="h-24 w-16 text-5xl" key={index} index={index} />
                   ))}
                 </InputOTPGroup>

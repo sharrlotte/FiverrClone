@@ -5,26 +5,31 @@ import { PrismaService } from 'src/services/prisma/prisma.service';
 
 const defaultRoles = [
   {
+    id: 1,
     name: 'USER',
     description: 'User role',
     createdAt: new Date(),
   },
   {
+    id: 2,
     name: 'RECRUITER',
     description: 'Recruiter role',
     createdAt: new Date(),
   },
   {
+    id: 3,
     name: 'CANDIDATE',
     description: 'Candidate role',
     createdAt: new Date(),
   },
   {
+    id: 4,
     name: 'EMPLOYEE',
     description: 'Employee role',
     createdAt: new Date(),
   },
   {
+    id: 5,
     name: 'ADMIN',
     description: 'Admin role',
     createdAt: new Date(),

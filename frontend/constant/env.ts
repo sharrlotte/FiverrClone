@@ -9,8 +9,8 @@ const configSchema = z.object({
 
 const env = configSchema.parse({
   url: {
-    base: 'http://localhost:3000',
-    backend_url: 'http://localhost:8080/api/v1',
+    base: process.env.BASE_URL,
+    backend_url: 'process.env.BACKEND_URL',
   },
 });
 

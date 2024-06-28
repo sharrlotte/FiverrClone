@@ -9,8 +9,8 @@ const configSchema = z.object({
 
 const env = configSchema.parse({
   url: {
-    base: process.env.BASE_URL,
-    backend_url: 'process.env.BACKEND_URL',
+    base: process.env.NEXT_PUBLIC_BASE_URL,
+    backend_url: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
 });
 

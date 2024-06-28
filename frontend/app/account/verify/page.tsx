@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import 'tailwindcss/tailwind.css';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
 const LoginRegister: React.FC = () => {

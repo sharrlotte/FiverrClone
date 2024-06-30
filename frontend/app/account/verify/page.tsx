@@ -29,7 +29,6 @@ const LoginRegister: React.FC = () => {
                 <InputOTPGroup>
                   {otpSlots.map((index) => (
                     <InputOTPSlot className="h-20 w-20 text-5xl" key={index} index={index} />
-                    <InputOTPSlot className="h-20 w-20 text-5xl" key={index} index={index} />
                   ))}
                 </InputOTPGroup>
               </InputOTP>

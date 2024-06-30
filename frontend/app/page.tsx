@@ -1,4 +1,3 @@
-import '@/app/globals.css';
 import Header from './Header';
 import Footer from './Footer';
 import PopularServices from '@/app/PopularServices';

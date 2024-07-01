@@ -70,7 +70,7 @@ const LoginRegister: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
-      <div id="container" className={`relative w-full max-w-4xl min-h-[480px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
+      <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
         <div className={`form-container sign-in absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-10' : 'transform translate-x-0 opacity-0 z-0'}`}>
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">ĐĂNG NHẬP</h1>
@@ -98,8 +98,8 @@ const LoginRegister: React.FC = () => {
           </form>
         </div>
 
-        <div className={`form-container overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
-          <h1 className="font-bold text-xl mb-5">Tạo tài khoản</h1>
+        <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+          <h1 className="font-bold text-xl mb-5 flex justify-center">Tạo tài khoản</h1>
           <div className="social-icons flex justify-center mb-5 space-x-2">
             <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
               <FontAwesomeIcon icon={faGooglePlusG} />
@@ -111,7 +111,7 @@ const LoginRegister: React.FC = () => {
               <FontAwesomeIcon icon={faGithub} />
             </a>
           </div>
-          <span className="text-sm mb-7">Hoặc sửa dụng tài khoản Email của bạn</span>
+          <span className="text-sm mb-5">Hoặc sửa dụng tài khoản Email của bạn</span>
           <Form {...form} >
             <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
               <FormField

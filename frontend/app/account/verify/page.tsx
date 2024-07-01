@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { Button } from '@headlessui/react';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
@@ -22,11 +23,10 @@ const LoginRegister: React.FC = () => {
           <form className="flex flex-col items-center justify-center h-full w-8/12">
             <h1 className="font-bold text-4xl mb-5">Xác nhận tài khoản </h1>
             <span className="text-1xl mb-4"> Nhập mã xác minh mà chúng tôi đã gửi cho bạn.</span>
-            <div className="w-96">
-
+            <div className="w-96 space-y-3">
               <span className="font-bold text-1xl flex mt-3">Mã xác nhận</span>
               <InputOTP maxLength={6}>
-                <InputOTPGroup  className='flex gap-2'>
+                <InputOTPGroup className="flex gap-2">
                   {otpSlots.map((index) => (
                     <InputOTPSlot className="h-20 w-20 text-5xl outline" key={index} index={index} />
                   ))}
@@ -35,12 +35,12 @@ const LoginRegister: React.FC = () => {
             </div>
             <div className="flex flex-row">
               <div className="flex flex-row gap-5">
-                <button type="button" className="mt-20   px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleRegisterClick}>
-                  Gửi lại mã
-                </button>
-                <button type="button" className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
-                  Mã xác nhận
-                </button>
+                <li className="mt-20 px-6 py-2 text-sm font-semibold text-purple-600 rounded uppercase list-none" onClick={handleLoginClick}>
+                  <a href=""> Gửi lại mã</a>
+                </li>
+                <Button className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
+                  Xác nhận
+                </Button>
               </div>
               <div className="mt-24"></div>
             </div>

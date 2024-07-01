@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG, faFacebookF, faGithub } from '@fortawesome/free-brands-svg-icons';
-import Link from 'next/link';
+import env from '@/constant/env';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
@@ -28,8 +28,8 @@ const LoginRegister: React.FC = () => {
               </Link>
               <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </Link>
-              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </a>
+              <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
             </div>
@@ -55,8 +55,8 @@ const LoginRegister: React.FC = () => {
               </Link>
               <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </Link>
-              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </a>
+              <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
             </div>

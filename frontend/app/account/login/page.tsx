@@ -14,7 +14,7 @@ import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 
-const LoginRegister: React.FC = () => {
+export default function Page() {
   const [isActive, setIsActive] = useState(false);
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -31,7 +31,7 @@ const LoginRegister: React.FC = () => {
           <LoginPanel />
         </div>
 
-        <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+        <div className={`form-container overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
           <RegisterPanel />
         </div>
 
@@ -122,7 +122,7 @@ function RegisterPanel() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="flex flex-col gap-1">
+            <FormItem className="flex flex-col gap-1 mt-5">
               <FormLabel>Nhập email</FormLabel>
               <FormControl>
                 <Input placeholder="email" {...field} />
@@ -140,6 +140,19 @@ function RegisterPanel() {
               <FormLabel>Nhập mật khẩu</FormLabel>
               <FormControl>
                 <Input placeholder="Mật khẩu" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nhập mật khẩu</FormLabel>
+              <FormControl>
+                <Input placeholder="Nhập lại mật khẩu" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -197,7 +210,7 @@ function LoginPanel() {
 
 
   return <>
-    <h1 className="font-bold text-xl mb-5 flex justify-center mt-8">Tạo tài khoản</h1>
+    <h1 className="font-bold text-xl mb-5 flex justify-center mt-8">Đăng nhập tài khoản</h1>
     <div className="social-icons flex justify-center mb-5 space-x-2">
       <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
         <FontAwesomeIcon icon={faGooglePlusG} />
@@ -209,14 +222,14 @@ function LoginPanel() {
         <FontAwesomeIcon icon={faGithub} />
       </Link>
     </div>
-    <span className="text-sm mb-7">Hoặc sửa dụng tài khoản Email của bạn</span>
+    <span className="text-sm mb-7">Hãy đăng nhập tài khoản của bạn</span>
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="flex flex-col gap-1">
+            <FormItem className="flex flex-col gap-1 mt-5">
               <FormLabel>Nhập email</FormLabel>
               <FormControl>
                 <Input placeholder="email" {...field} />
@@ -239,24 +252,9 @@ function LoginPanel() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nhập mật khẩu</FormLabel>
-              <FormControl>
-                <Input placeholder="Nhập lại mật khẩu" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="w-full flex justify-end">
           <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
-            đăng ký
+            đăng nhập
           </Button>
         </div>
       </form>

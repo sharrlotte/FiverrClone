@@ -38,7 +38,7 @@ const LoginRegister: React.FC = () => {
             <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
             <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
-            <Link href="#" className="text-sm text-gray-600 mt-3">
+            <Link href="/account/verify" className="text-sm text-gray-600 mt-3">
               Quên mật khẩu của bạn?
             </Link>
             <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleRegisterClick}>

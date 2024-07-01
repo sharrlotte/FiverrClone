@@ -41,10 +41,10 @@ export class CreatePackageDto {
   deliveryTime: number;
 
   @ApiProperty({
-    enum: ['Day', 'Hour', 'Week', 'Year'] as const,
+    enum: ['Day', 'Hour', 'Week', 'Year', 'Month'] as const,
   })
   @IsNotEmpty()
-  @IsEnum(['Day', 'Hour', 'Week', 'Year'] as const)
+  @IsEnum(['Day', 'Hour', 'Week', 'Year', 'Month'] as const)
   durationType: DurationType;
 
   @IsNotEmpty()

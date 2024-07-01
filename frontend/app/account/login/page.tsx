@@ -24,7 +24,7 @@ const LoginRegister: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
-      confirmPassword: "",
+      confirmPassword: '',
     },
   });
 
@@ -58,8 +58,6 @@ const LoginRegister: React.FC = () => {
     },
   });
 
-
-
   const handleRegisterClick = () => {
     setIsActive(true);
   };
@@ -72,30 +70,60 @@ const LoginRegister: React.FC = () => {
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
       <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
         <div className={`form-container sign-in absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-10' : 'transform translate-x-0 opacity-0 z-0'}`}>
-          <form className="flex flex-col items-center justify-center h-full">
-            <h1 className="font-bold text-xl mb-5">ĐĂNG NHẬP</h1>
-            <div className="social-icons flex justify-center mb-5 space-x-2">
-              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
-                <FontAwesomeIcon icon={faGooglePlusG} />
-              </Link>
-              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </Link>
-              <Link href={`${env.url.backend_url}/auth/github`} className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
-                <FontAwesomeIcon icon={faGithub} />
-              </Link>
-            </div>
-
-            <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
-            <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
-            <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
-            <Link href="#" className="text-sm text-gray-600 mt-3">
-              Quên mật khẩu của bạn?
+          <h1 className="font-bold text-xl mb-5 flex justify-center">ĐĂNG NHẬP</h1>
+          <div className="social-icons flex justify-center mb-5 space-x-2">
+            <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              <FontAwesomeIcon icon={faGooglePlusG} />
             </Link>
-            <Button className='uppercase text-white bg-purple-600 w-full'>
-              <span>đăng nhập</span>
-            </Button>
-          </form>
+            <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              <FontAwesomeIcon icon={faFacebookF} />
+            </Link>
+            <Link href={`${env.url.backend_url}/auth/github`} className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              <FontAwesomeIcon icon={faGithub} />
+            </Link>
+          </div>
+
+          <span className="text-sm mb-3"></span>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-1">
+                    <FormLabel>Nhập email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nhập mật khẩu</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Mật khẩu" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="w-full flex justify-end">
+                <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
+                  đăng nhập
+                </Button>
+              </div>
+            </form>
+          </Form>
+          <Link href="#" className="text-sm text-gray-600 mt-3">
+            Quên mật khẩu của bạn?
+          </Link>
         </div>
 
         <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
@@ -111,14 +139,14 @@ const LoginRegister: React.FC = () => {
               <FontAwesomeIcon icon={faGithub} />
             </a>
           </div>
-          <span className="text-sm mb-5">Hoặc sửa dụng tài khoản Email của bạn</span>
-          <Form {...form} >
+          <span className="text-sm mb-7">Hoặc sửa dụng tài khoản Email của bạn</span>
+          <Form {...form}>
             <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className='flex flex-col gap-1'>
+                  <FormItem className="flex flex-col gap-1">
                     <FormLabel>Nhập email</FormLabel>
                     <FormControl>
                       <Input placeholder="email" {...field} />
@@ -157,7 +185,9 @@ const LoginRegister: React.FC = () => {
               />
 
               <div className="w-full flex justify-end">
-                <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">đăng ký</Button>
+                <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
+                  đăng ký
+                </Button>
               </div>
             </form>
           </Form>
@@ -192,4 +222,3 @@ export default LoginRegister;
 function setOpen(arg0: boolean) {
   throw new Error('Function not implemented.');
 }
-

@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../../components/ui/use-toast';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
+import Link from 'next/link';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);

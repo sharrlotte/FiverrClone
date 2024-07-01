@@ -5,7 +5,8 @@ import { Session } from '@/schema/user.schema';
 import { cookies } from 'next/headers';
 
 export async function getSession(): Promise<Session | null> {
-  const result = await api.get('/auth/session', { headers: { Cookie: cookies().toString() } });
+  const result = await api.get('/users/session', { headers: { Cookie: cookies().toString() } });
+
   return Object.keys(result.data).length === 0 ? null : result.data;
 }
 

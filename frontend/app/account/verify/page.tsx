@@ -28,17 +28,17 @@ const LoginRegister: React.FC = () => {
               <InputOTP maxLength={6}>
                 <InputOTPGroup className="flex gap-2">
                   {otpSlots.map((index) => (
-                    <InputOTPSlot className="h-20 w-20 text-5xl outline" key={index} index={index} />
+                    <InputOTPSlot className="h-20 w-20 text-5xl border" key={index} index={index} />
                   ))}
                 </InputOTPGroup>
               </InputOTP>
             </div>
             <div className="flex flex-row">
               <div className="flex flex-row gap-5">
-                <li className="mt-20 px-6 py-2 text-sm font-semibold text-purple-600 rounded uppercase list-none" onClick={handleLoginClick}>
+                <li className="mt-20 px-6 py-2 text-sm font-semibold text-blue-600 rounded uppercase list-none" onClick={handleLoginClick}>
                   <a href=""> Gửi lại mã</a>
                 </li>
-                <Button className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
+                <Button className="mt-20 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded uppercase" onClick={handleLoginClick}>
                   Xác nhận
                 </Button>
               </div>

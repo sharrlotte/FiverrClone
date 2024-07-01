@@ -16,7 +16,10 @@ export const registerSchema = z.object({
         .min(4, {
             message: 'Tên tài khoản phải nhiều hơn 4 kí tự',
         })
-        .max(100, { message: 'Tên tài khoản phải ít hơn 100 kí tự' }),
+        .max(100, { message: 'Tên tài khoản phải ít hơn 100 kí tự' })
+        .refine(email => email.endsWith('@gmail.com'), {
+            message: 'Email không hợp lệ. Email phải có đuôi @gmail.com',
+        }),
 
     password: z
         .string()
@@ -39,7 +42,7 @@ export const registerSchema = z.object({
         }),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Mật khẩu và xác nhận mật khẩu phải trùng khớp",
-    path: ["confirmPassword"], // Cho biết lỗi sẽ hiển thị ở trường confirmPassword
+    path: ["confirmPassword"],
 });
 
 export type RegisterRequest = z.infer<typeof registerSchema>;

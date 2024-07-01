@@ -44,12 +44,12 @@ const LoginRegister: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex flex-row gap-48 mt-20">
-                            <li className="mt-4 px-6 py-2 text-sm font-semibold text-blue-600 rounded uppercase list-none" onClick={handleLoginClick}>
+                            <li className="mt-4 px-6 py-2 text-sm font-semibold text-blue-600 rounded uppercase list-none">
                                 <a href=""> QUAY LAI</a>
                             </li>
-                            <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded uppercase" onClick={handleLoginClick}>
+                            <Button className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded uppercase">
                                 đồng ý
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>

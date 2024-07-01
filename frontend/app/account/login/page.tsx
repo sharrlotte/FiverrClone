@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG, faFacebookF, faGithub } from '@fortawesome/free-brands-svg-icons';
+import Link from 'next/link';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
@@ -22,15 +23,15 @@ const LoginRegister: React.FC = () => {
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">ĐĂNG NHẬP</h1>
             <div className="social-icons flex justify-center mb-5 space-x-2">
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGooglePlusG} />
-              </a>
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </a>
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
-              </a>
+              </Link>
             </div>
 
             <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
@@ -49,15 +50,15 @@ const LoginRegister: React.FC = () => {
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">Tạo tài khoản</h1>
             <div className="social-icons flex justify-center mb-5 space-x-2">
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGooglePlusG} />
-              </a>
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </a>
-              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
-              </a>
+              </Link>
             </div>
             <span className="text-sm mb-3">Hoặc sửa dụng tài khoản Email của bạn</span>
             <input type="text" placeholder="Name" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />

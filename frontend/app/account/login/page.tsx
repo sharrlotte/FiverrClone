@@ -66,7 +66,6 @@ function RegisterPanel() {
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -128,7 +127,7 @@ function RegisterPanel() {
         <form onSubmit={form.handleSubmit((data) => mutate(data))} className="">
           <FormField
             control={form.control}
-            name="Name"
+            name="username"
             render={({ field }) => (
               <FormItem className="flex-col justify-center items-center">
                 <div>

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import api from "../api/api";
 
 const passwordStrength = (password: string) => {
     const hasUpperCase = /[A-Z]/.test(password);

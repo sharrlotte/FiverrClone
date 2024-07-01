@@ -29,9 +29,9 @@ const LoginRegister: React.FC = () => {
                                 <input type="text" placeholder="email@gmail.com" className="w-[360px] px-3 py-3 mt-5 text-sm bg-gray-200 rounded" />
                                 <div className='mt-5'>
                                     <InputOTP maxLength={6}>
-                                        <InputOTPGroup>
+                                        <InputOTPGroup className="flex gap-2">
                                             {otpSlots.map((index) => (
-                                                <InputOTPSlot className="h-20 w-20 text-5xl" key={index} index={index} />
+                                                <InputOTPSlot className="h-20 w-20 text-5xl border" key={index} index={index} />
                                             ))}
                                         </InputOTPGroup>
                                     </InputOTP>
@@ -47,7 +47,7 @@ const LoginRegister: React.FC = () => {
                             <li className="mt-4 px-6 py-2 text-sm font-semibold text-blue-600 rounded uppercase list-none">
                                 <a href=""> QUAY LAI</a>
                             </li>
-                            <Button className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded uppercase">
+                            <Button className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
                                 đồng ý
                             </Button>
                         </div>

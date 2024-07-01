@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Query, Req, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { getSession } from 'src/services/auth/auth.utils';
+import { getSession, getSessionOrNull } from 'src/services/auth/auth.utils';
 import { PostResponse } from 'src/services/post/dto/post.response';
 import { PostService } from 'src/services/post/post.service';
 import { Roles } from 'src/shared/decorator/role.decorator';
@@ -12,6 +12,7 @@ import { PostPaginationQueryDto } from 'src/services/post/dto/post-pagination-qu
 import { RolesGuard } from 'src/shared/guard/role.guard';
 import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 import { OrderResponse } from 'src/services/order/dto/order.response';
+import { SessionResponseDto } from 'src/services/auth/dto/session.dto';
 
 @Controller('users')
 export class UsersController {
@@ -73,5 +74,19 @@ export class UsersController {
   findAll(@Query() query: PaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
     return this.userService.findAllOrder(session, query).then((items) => items.map((item) => plainToInstance(OrderResponse, item)));
+  }
+
+  @Get('session')
+  getSession(@Req() req: Request): SessionResponseDto | null {
+    const session = getSessionOrNull(req);
+
+    if (session === null) {
+      return null;
+    }
+
+    return plainToInstance(SessionResponseDto, {
+      ...session,
+      rolePicked: !session.roles.some((role) => role === 'CANDIDATE' || role === 'RECRUITER'),
+    });
   }
 }

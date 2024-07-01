@@ -1,21 +1,15 @@
-'use server';
-
 import api from '@/api/api';
+import { LoginRequest, RegisterRequest } from '@/schema/auth.schema';
 import { Session } from '@/schema/user.schema';
-import { cookies } from 'next/headers';
 
-export async function getSession(): Promise<Session | null> {
-  const result = await api.get('/users/session', { headers: { Cookie: cookies().toString() } });
-
-  return Object.keys(result.data).length === 0 ? null : result.data;
+export async function signin(request: LoginRequest): Promise<Session> {
+  return api.post('/account/signin', request, {
+    data: request,
+  });
 }
 
-export async function getAuthSession(): Promise<Session> {
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error('Session not found');
-  }
-
-  return session;
+export async function signup(request: RegisterRequest) {
+  return api.post('/account/signup', request, {
+    data: request,
+  });
 }

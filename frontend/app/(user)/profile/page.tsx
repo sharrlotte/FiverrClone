@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/api/auth.api';
+import { getAuthSession } from '@/api/auth-server.api';
 import { getProfile } from '@/api/user.server-api';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

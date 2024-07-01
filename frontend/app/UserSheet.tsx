@@ -1,4 +1,4 @@
-import { getSession } from '@/api/auth.api';
+import { getSession } from '@/api/auth-server.api';
 import ProtectedElement from '@/components/layout/protected-element';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';

@@ -1,4 +1,4 @@
-import { getSession } from '@/api/auth.api';
+import { getSession } from '@/api/auth-server.api';
 import Header from '@/app/Header';
 import ProtectedRoute from '@/components/layout/protected-route';
 import React, { ReactNode } from 'react';

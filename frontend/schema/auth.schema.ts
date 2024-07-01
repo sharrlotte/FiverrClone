@@ -48,7 +48,7 @@ export const registerSchema = z.object({
 export type RegisterRequest = z.infer<typeof registerSchema>;
 
 export async function registerRequest(request: RegisterRequest) {
-    return api.post('/login', request, {
+    return api.post('/account/signin', request, {
         data: request,
     });
 }

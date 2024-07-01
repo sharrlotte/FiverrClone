@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG, faFacebookF, faGithub } from '@fortawesome/free-brands-svg-icons';
 import env from '@/constant/env';
+import Link from 'next/link';
 
 const LoginRegister: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
@@ -28,8 +29,8 @@ const LoginRegister: React.FC = () => {
               </Link>
               <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </a>
-              <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href={`${env.url.backend_url}/auth/github`} className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
             </div>
@@ -37,16 +38,16 @@ const LoginRegister: React.FC = () => {
             <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
             <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
-            <a href="#" className="text-sm text-gray-600 mt-3">
+            <Link href="#" className="text-sm text-gray-600 mt-3">
               Quên mật khẩu của bạn?
-            </a>
+            </Link>
             <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleRegisterClick}>
               Đăng nhập
             </button>
           </form>
         </div>
 
-        <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+        <div className={`form-container sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-0' : 'transform translate-x-full opacity-100 z-10'}`}>
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">Tạo tài khoản</h1>
             <div className="social-icons flex justify-center mb-5 space-x-2">
@@ -55,8 +56,8 @@ const LoginRegister: React.FC = () => {
               </Link>
               <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
-              </a>
-              <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">
+              </Link>
+              <Link href={`${env.url.backend_url}/auth/github`} className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
             </div>
@@ -64,6 +65,7 @@ const LoginRegister: React.FC = () => {
             <input type="text" placeholder="Name" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
+            <input type="password" placeholder="Re-password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleLoginClick}>
               Đăng ký
             </button>

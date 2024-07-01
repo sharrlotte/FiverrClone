@@ -110,7 +110,7 @@ export default function Page() {
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
-            <h2>Quản lý thể loại kỹ năng</h2>
+            <h2>Quản lý thể loại bài viết</h2>
           </div>
           <div>
             <AddPostCategoryButton />

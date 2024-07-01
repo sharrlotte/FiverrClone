@@ -225,8 +225,8 @@ function LoginPanel() {
       router.push('/');
       form.reset();
       queryClient.invalidateQueries();
-      refresh();
       setTimeout(() => {
+        refresh();
         revalidate('/');
       }, 100);
     },

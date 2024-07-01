@@ -15,7 +15,7 @@ export async function signup(request: RegisterRequest) {
 }
 
 export async function changePassword(request: ChangePasswordRequest) {
-  return api.post('/account/signup', request, {
+  return api.post('/account/change-password', request, {
     data: request,
   });
 }

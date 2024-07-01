@@ -112,7 +112,7 @@ export const changePasswordSchema = z
     path: ['confirmPassword'],
   })
   .refine((data) => data.oldPassword !== data.password, {
-    message: 'Mật khẩu và xác nhận mật khẩu phải trùng khớp',
+    message: 'Mật khẩu cũ và mật khẩu mới không được trùng khớp',
     path: ['confirmPassword'],
   });
 

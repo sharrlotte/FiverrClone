@@ -40,7 +40,7 @@ export default function Page() {
         case 400:
           toast({
             title: 'Lỗi',
-            description: error.response.message,
+            description: error.response.data,
             variant: 'destructive',
           });
           break;
@@ -66,7 +66,8 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-2 overflow-hidden">
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="w-1/3 space-y-2 relative max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden p-10">
+          <h2>Thay đổi mật khẩu</h2>
           <FormField
             control={form.control}
             name="oldPassword"
@@ -75,7 +76,7 @@ export default function Page() {
                 <div>
                   <FormLabel className="font-medium text-lg">Mật khảu cũ</FormLabel>
                   <FormControl>
-                    <Input placeholder="Tên người dùng" {...field} />
+                    <Input type="password" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -90,7 +91,7 @@ export default function Page() {
                 <div>
                   <FormLabel className="font-medium text-lg">Mật khẩu mới</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input type="password" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -105,7 +106,7 @@ export default function Page() {
                 <div>
                   <FormLabel className="font-medium text-lg whitespace-nowrap">Nhập lại mật khẩu</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Mật khẩu" {...field} />
+                    <Input type="password" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />

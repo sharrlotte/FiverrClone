@@ -92,9 +92,9 @@ const LoginRegister: React.FC = () => {
             <Link href="#" className="text-sm text-gray-600 mt-3">
               Quên mật khẩu của bạn?
             </Link>
-            <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase" onClick={handleRegisterClick}>
-              Đăng nhập
-            </button>
+            <Button className='uppercase text-white bg-purple-600 w-full'>
+              <span>đăng nhập</span>
+            </Button>
           </form>
         </div>
 

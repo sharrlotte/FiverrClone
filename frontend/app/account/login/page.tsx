@@ -23,16 +23,17 @@ const LoginRegister: React.FC = () => {
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">ĐĂNG NHẬP</h1>
             <div className="social-icons flex justify-center mb-5 space-x-2">
-              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </a>
-              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
               <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGithub} />
               </a>
             </div>
+
             <span className="text-sm mb-3">Hoặc đăng nhập bằng Email của bạn</span>
             <input type="email" placeholder="Email" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
             <input type="password" placeholder="Password" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
@@ -49,10 +50,10 @@ const LoginRegister: React.FC = () => {
           <form className="flex flex-col items-center justify-center h-full">
             <h1 className="font-bold text-xl mb-5">Tạo tài khoản</h1>
             <div className="social-icons flex justify-center mb-5 space-x-2">
-              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faGooglePlusG} />
               </a>
-              <a href="#" className="icon p-2 border border-gray-300 rounded-full">
+              <a href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
               <a href={`${env.url.backend_url}/authorize/github`} className="icon p-2 border border-gray-300 rounded-full">

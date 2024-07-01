@@ -21,6 +21,20 @@ export class UsersController {
     private readonly userService: UsersService,
   ) {}
 
+  @Get('/session')
+  getSession(@Req() req: Request): SessionResponseDto | null {
+    const session = getSessionOrNull(req);
+
+    if (session === null) {
+      return null;
+    }
+
+    return plainToInstance(SessionResponseDto, {
+      ...session,
+      rolePicked: !session.roles.some((role) => role === 'CANDIDATE' || role === 'RECRUITER'),
+    });
+  }
+
   @Get('/@me/posts')
   @Roles(['USER'])
   @UseGuards(RolesGuard)
@@ -74,19 +88,5 @@ export class UsersController {
   findAll(@Query() query: PaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
     return this.userService.findAllOrder(session, query).then((items) => items.map((item) => plainToInstance(OrderResponse, item)));
-  }
-
-  @Get('session')
-  getSession(@Req() req: Request): SessionResponseDto | null {
-    const session = getSessionOrNull(req);
-
-    if (session === null) {
-      return null;
-    }
-
-    return plainToInstance(SessionResponseDto, {
-      ...session,
-      rolePicked: !session.roles.some((role) => role === 'CANDIDATE' || role === 'RECRUITER'),
-    });
   }
 }

@@ -5,7 +5,12 @@ const passwordStrength = (password: string) => {
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /\d/.test(password);
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
+  return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
   return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
 };
 
@@ -36,8 +41,29 @@ export const registerSchema = z
       .refine(passwordStrength, {
         message: 'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt',
       }),
+      .string()
+      .min(8, {
+        message: 'Mật khẩu phải nhiều hơn 8 kí tự',
+      })
+      .max(100, { message: 'Mật khẩu phải ít hơn 100 kí tự' })
+      .refine(passwordStrength, {
+        message: 'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt',
+      }),
 
     confirmPassword: z
+      .string()
+      .min(8, {
+        message: 'Mật khẩu phải nhiều hơn 8 kí tự',
+      })
+      .max(100, { message: 'Mật khẩu phải ít hơn 100 kí tự' })
+      .refine(passwordStrength, {
+        message: 'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt',
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Mật khẩu và xác nhận mật khẩu phải trùng khớp',
+    path: ['confirmPassword'],
+  });
       .string()
       .min(8, {
         message: 'Mật khẩu phải nhiều hơn 8 kí tự',

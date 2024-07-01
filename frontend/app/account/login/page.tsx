@@ -28,10 +28,11 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
       <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
-        <div className={`form-container sign-in absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
+        <div className={`overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
           <LoginPanel />
         </div>
-        <div className={`form-container overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+
+        <div className={`overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
           <RegisterPanel />
         </div>
         <div className={`overlay-container absolute top-0 h-full w-full flex`}>
@@ -65,6 +66,7 @@ function RegisterPanel() {
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -108,9 +110,9 @@ function RegisterPanel() {
   });
 
   return (
-    <>
-      <h1 className="font-bold text-xl mb-5 flex justify-center mt-8">Tạo tài khoản</h1>
-      <div className="social-icons flex justify-center mb-5 space-x-2">
+    <div className="flex-col justify-center items-center">
+      <h1 className="font-bold text-xl mb-2 flex justify-center mt-8">Tạo tài khoản</h1>
+      <div className="social-icons flex justify-center mb-2 space-x-2">
         <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
           <FontAwesomeIcon icon={faGooglePlusG} />
         </Link>
@@ -121,18 +123,20 @@ function RegisterPanel() {
           <FontAwesomeIcon icon={faGithub} />
         </Link>
       </div>
-      <span className="text-sm mb-7">Hoặc sửa dụng tài khoản Email của bạn</span>
+      <span className="flex text-sm mb-2 justify-center">Hoặc sửa dụng tài khoản Email của bạn</span>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="">
           <FormField
             control={form.control}
-            name="username"
+            name="Name"
             render={({ field }) => (
-              <FormItem className="flex flex-col gap-1 mt-5">
-                <FormLabel>Tên tài khoản</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg">Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tên người dùng" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -141,25 +145,28 @@ function RegisterPanel() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="flex flex-col gap-1 mt-5">
-                <FormLabel>Nhập email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email" {...field} />
-                </FormControl>
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg">Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="email" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nhập mật khẩu</FormLabel>
-                <FormControl>
-                  <Input placeholder="Mật khẩu" {...field} />
-                </FormControl>
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg whitespace-nowrap">Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Mật khẩu" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -168,23 +175,25 @@ function RegisterPanel() {
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nhập mật khẩu</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nhập lại mật khẩu" {...field} />
-                </FormControl>
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg whitespace-nowrap">confirmPassword</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Nhập lại mật khẩu" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-end">
+          <div className="w-full flex justify-center">
             <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
               đăng ký
             </Button>
           </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 }
 
@@ -228,8 +237,8 @@ function LoginPanel() {
 
   return (
     <>
-      <h1 className="font-bold text-xl mb-5 flex justify-center mt-8">Đăng nhập tài khoản</h1>
-      <div className="social-icons flex justify-center mb-5 space-x-2">
+      <h1 className="font-bold text-xl mb-2 flex justify-center mt-8">Đăng nhập tài khoản</h1>
+      <div className="social-icons flex justify-center mb-2 space-x-2">
         <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
           <FontAwesomeIcon icon={faGooglePlusG} />
         </Link>
@@ -240,17 +249,17 @@ function LoginPanel() {
           <FontAwesomeIcon icon={faGithub} />
         </Link>
       </div>
-      <span className="text-sm mb-7">Hãy đăng nhập tài khoản của bạn</span>
+      <span className="flex text-sm mb-2 justify-center">Hãy đăng nhập tài khoản của bạn</span>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="flex flex-col gap-1 mt-5">
-                <FormLabel>Nhập email</FormLabel>
+              <FormItem className="font-medium text-lg">
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -262,7 +271,7 @@ function LoginPanel() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nhập mật khẩu</FormLabel>
+                <FormLabel>Passwork</FormLabel>
                 <FormControl>
                   <Input placeholder="Mật khẩu" {...field} />
                 </FormControl>
@@ -270,9 +279,9 @@ function LoginPanel() {
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-end">
+          <div className="w-full flex justify-center">
             <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
-              Đăng nhập
+              đăng nhập
             </Button>
           </div>
         </form>

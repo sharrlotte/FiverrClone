@@ -48,7 +48,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const getSession = useCallback(
     async () =>
       api
-        .get<any, { data: Session }>('/auth/session')
+        .get<any, { data: Session }>('/users/session')
         .then(({ data }) => data)
         .then((session) =>
           session

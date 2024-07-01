@@ -14,9 +14,10 @@ import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 import { signin, signup } from '@/api/auth.api';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const handleRegisterClick = () => {
     setIsActive(true);
   };
@@ -28,12 +29,11 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
       <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
-        <div className={`overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
+        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
           <LoginPanel />
         </div>
-
-        <div className={`overflow-auto sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
-          <RegisterPanel />
+        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+          <RegisterPanel onRegisterSuccess={handleRegisterClick} />
         </div>
         <div className={`overlay-container absolute top-0 h-full w-full flex`}>
           <div className={`overlay absolute top-0 left-0 h-full w-1/2 bg-purple-600 text-white p-10 flex items-center justify-center transition-transform duration-600 ${isActive ? '-translate-x-full' : 'translate-x-0'}`}>
@@ -60,7 +60,11 @@ export default function Page() {
   );
 }
 
-function RegisterPanel() {
+type RegisterPanelProps = {
+  onRegisterSuccess: () => void;
+};
+
+function RegisterPanel({ onRegisterSuccess }: RegisterPanelProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const form = useForm<RegisterRequest>({
@@ -78,6 +82,10 @@ function RegisterPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries();
       form.reset();
+      onRegisterSuccess();
+      toast({
+        title: 'Đăng ký thành công',
+      });
     },
     onError: (error: any) => {
       switch (error.response.status) {
@@ -92,7 +100,7 @@ function RegisterPanel() {
         case 409:
           toast({
             title: 'Lỗi',
-            description: 'Tên tài khoản đã tồn tại, vui lòng chọn tên khác',
+            description: 'Tên tài khoản hoặc email đã tồn tại, vui lòng chọn tên khác',
             variant: 'destructive',
           });
           break;
@@ -109,8 +117,8 @@ function RegisterPanel() {
   });
 
   return (
-    <div className="flex-col justify-center items-center">
-      <h1 className="font-bold text-xl mb-2 flex justify-center mt-8">Tạo tài khoản</h1>
+    <div className="flex-col justify-center items-center overflow-hidden">
+      <h1 className="font-bold text-xl mb-2 flex justify-center">Tạo tài khoản</h1>
       <div className="social-icons flex justify-center mb-2 space-x-2">
         <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
           <FontAwesomeIcon icon={faGooglePlusG} />
@@ -124,14 +132,14 @@ function RegisterPanel() {
       </div>
       <span className="flex text-sm mb-2 justify-center">Hoặc sửa dụng tài khoản Email của bạn</span>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="">
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-2 overflow-hidden">
           <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
               <FormItem className="flex-col justify-center items-center">
                 <div>
-                  <FormLabel className="font-medium text-lg">Name</FormLabel>
+                  <FormLabel className="font-medium text-lg">Tên tài khoản</FormLabel>
                   <FormControl>
                     <Input placeholder="Tên người dùng" {...field} />
                   </FormControl>
@@ -148,7 +156,7 @@ function RegisterPanel() {
                 <div>
                   <FormLabel className="font-medium text-lg">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" {...field} />
+                    <Input placeholder="Email" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -161,7 +169,7 @@ function RegisterPanel() {
             render={({ field }) => (
               <FormItem className="flex-col justify-center items-center">
                 <div>
-                  <FormLabel className="font-medium text-lg whitespace-nowrap">Password</FormLabel>
+                  <FormLabel className="font-medium text-lg whitespace-nowrap">Mật khẩu</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="Mật khẩu" {...field} />
                   </FormControl>
@@ -176,7 +184,7 @@ function RegisterPanel() {
             render={({ field }) => (
               <FormItem className="flex-col justify-center items-center">
                 <div>
-                  <FormLabel className="font-medium text-lg whitespace-nowrap">confirmPassword</FormLabel>
+                  <FormLabel className="font-medium text-lg whitespace-nowrap">Xác nhận mật khẩu</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="Nhập lại mật khẩu" {...field} />
                   </FormControl>
@@ -198,6 +206,7 @@ function RegisterPanel() {
 
 function LoginPanel() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<LoginRequest>({
     resolver: zodResolver(loginSchema),
@@ -212,6 +221,7 @@ function LoginPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries();
       form.reset();
+      router.push('/');
     },
     onError: (error: any) => {
       switch (error.response.status) {
@@ -258,7 +268,7 @@ function LoginPanel() {
               <FormItem className="font-medium text-lg">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder="Email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

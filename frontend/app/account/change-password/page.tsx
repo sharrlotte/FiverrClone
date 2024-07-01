@@ -1,42 +1,124 @@
 'use client';
 
-import React, { useState } from 'react';
+import { changePassword } from '@/api/auth.api';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { ChangePasswordRequest, changePasswordSchema } from '@/schema/auth.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-const LoginRegister: React.FC = () => {
-  const [isActive, setIsActive] = useState(false);
+export default function Page() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const router = useRouter();
+  const form = useForm<ChangePasswordRequest>({
+    resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      oldPassword: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
 
-  const handleRegisterClick = () => {
-    setIsActive(true);
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (value: ChangePasswordRequest) => changePassword(value),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      form.reset();
+      router.push('/');
+      toast({
+        title: 'Đổi mật khẩu thành công',
+      });
+    },
+    onError: (error: any) => {
+      switch (error.response.status) {
+        case 400:
+          toast({
+            title: 'Lỗi',
+            description: error.response.message,
+            variant: 'destructive',
+          });
+          break;
 
-  const handleLoginClick = () => {
-    setIsActive(false);
-  };
+        case 409:
+          toast({
+            title: 'Lỗi',
+            description: 'Tên tài khoản hoặc email đã tồn tại, vui lòng chọn tên khác',
+            variant: 'destructive',
+          });
+          break;
 
+        default:
+          toast({
+            title: 'Lỗi',
+            description: 'Có lỗi đã xảy ra, vui lòng thử lại sau',
+            variant: 'destructive',
+          });
+          break;
+      }
+    },
+  });
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
-      <div id="container" className={`relative w-full max-w-3xl min-h-[500px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
-        <div></div>
-        <div className="flex justify-center items-center mt-24 ">
-          <form className="flex flex-col items-center justify-center h-full w-9/12 gap-5">
-            <h1 className="font-bold text-5xl mb-5">Đổi mật khẩu</h1>
-            <span className="text-sm mb-3 text-nowrap">Hãy đổi mật khẩu của bạn</span>
-            <input type="text" placeholder="Mật khẩu cũ" className="w-full px-3 py-3 mt-3 text-sm bg-gray-200 rounded" />
-            <input type="password" placeholder="Mật Khẩu mới" className="w-full px-3 py-2 mt-3 text-sm bg-gray-200 rounded" />
-            <input type="password" placeholder="Nhập lại mật khẩu mới" className="w-full px-3 py-3 mt-3 text-sm bg-gray-200 rounded" />
-            <div className="flex flex-row gap-48">
-              <li className="mt-4 px-6 py-2 text-sm font-semibold text-blue-600 rounded uppercase list-none" onClick={handleLoginClick}>
-                <a href=""> QUAY LAI</a>
-              </li>
-              <button type="button" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded uppercase" onClick={handleLoginClick}>
-                đồng ý
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-2 overflow-hidden">
+          <FormField
+            control={form.control}
+            name="oldPassword"
+            render={({ field }) => (
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg">Mật khảu cũ</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tên người dùng" {...field} />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg">Mật khẩu mới</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Email" {...field} />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem className="flex-col justify-center items-center">
+                <div>
+                  <FormLabel className="font-medium text-lg whitespace-nowrap">Nhập lại mật khẩu</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Mật khẩu" {...field} />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="w-full flex justify-center">
+            <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
+              Đăng ký
+            </Button>
+          </div>
+        </form>
+      </Form>{' '}
     </div>
   );
-};
-
-export default LoginRegister;
+}

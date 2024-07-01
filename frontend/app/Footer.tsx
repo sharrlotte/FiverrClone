@@ -116,7 +116,7 @@ function Footer() {
             </div>
 
             <div className="sm:col-span-6 md:col-span-3 lg:col-span-3">
-              <h6 className="text-gray-800 font-medium ml-0 mb-2">Đăng Ký</h6>
+              <h6 className="text-gray-800 font-medium ml-0 mb-2">Đăng ký</h6>
               <p className="text-sm text-gray-600 mb-4">Nhận tin tức và bài viết mới nhất vào hộp thư của bạn hàng tháng.</p>
               <form>
                 <div className="flex flex-wrap mb-4 ">

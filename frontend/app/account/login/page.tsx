@@ -15,6 +15,8 @@ import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 import { signin, signup } from '@/api/auth.api';
 import { useRouter } from 'next/navigation';
+import { useSession } from '@/context/SessionContext';
+import { revalidate } from '@/action/action';
 
 export default function Page() {
   const [isActive, setIsActive] = useState(true);
@@ -29,10 +31,10 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
       <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
-        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
+        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 overflow-auto transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
           <LoginPanel />
         </div>
-        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
+        <div className={`sign-up absolute top-0 h-full w-1/2 p-10 overflow-auto transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
           <RegisterPanel onRegisterSuccess={handleRegisterClick} />
         </div>
         <div className={`overlay-container absolute top-0 h-full w-full flex`}>
@@ -195,7 +197,7 @@ function RegisterPanel({ onRegisterSuccess }: RegisterPanelProps) {
           />
           <div className="w-full flex justify-center">
             <Button type="submit" className="mt-4 px-6 py-2 text-sm font-semibold text-white bg-purple-600 rounded uppercase">
-              đăng ký
+              Đăng ký
             </Button>
           </div>
         </form>
@@ -208,6 +210,7 @@ function LoginPanel() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { toast } = useToast();
+  const { refresh } = useSession();
   const form = useForm<LoginRequest>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -219,9 +222,13 @@ function LoginPanel() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: LoginRequest) => signin(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
-      form.reset();
       router.push('/');
+      form.reset();
+      queryClient.invalidateQueries();
+      refresh();
+      setTimeout(() => {
+        revalidate('/');
+      }, 100);
     },
     onError: (error: any) => {
       switch (error.response.status) {
@@ -280,9 +287,9 @@ function LoginPanel() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Passwork</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Mật khẩu" {...field} />
+                  <Input placeholder="Mật khẩu" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

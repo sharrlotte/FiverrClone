@@ -1,5 +1,5 @@
 import api from '@/api/api';
-import { LoginRequest, RegisterRequest } from '@/schema/auth.schema';
+import { ChangePasswordRequest, LoginRequest, RegisterRequest } from '@/schema/auth.schema';
 import { Session } from '@/schema/user.schema';
 
 export async function signin(request: LoginRequest): Promise<Session> {
@@ -9,6 +9,12 @@ export async function signin(request: LoginRequest): Promise<Session> {
 }
 
 export async function signup(request: RegisterRequest) {
+  return api.post('/account/signup', request, {
+    data: request,
+  });
+}
+
+export async function changePassword(request: ChangePasswordRequest) {
   return api.post('/account/signup', request, {
     data: request,
   });

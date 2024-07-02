@@ -15,7 +15,7 @@ export type Order = {
   packageData: Package;
   deliveryTime: number;
   status: OrderStatus;
-  user: { username: string };
+  user: { username: string; avatar: string; id: string };
 };
 
 export async function createPostOrder(request: PostOrderRequest) {

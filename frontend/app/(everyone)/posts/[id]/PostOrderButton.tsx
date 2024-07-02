@@ -1,6 +1,7 @@
 'use client';
 
-import { createPostOrder, PackageResponse, PostDetail } from '@/api/post.api';
+import { createPostOrder } from '@/api/order.api';
+import { PackageResponse, PostDetail } from '@/api/post.api';
 import PackageCard from '@/components/post/PackageCard';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -26,7 +27,7 @@ export default function PostOrderButton({ post, postPackage }: Props) {
     mutationFn: async (value: PostOrderRequest) => createPostOrder(value),
     onSuccess: () => {
       queryClient.invalidateQueries();
-      setTimeout(() => router.push('/my-order'), 200);
+      setTimeout(() => router.push('/my-order'), 400);
       toast({
         title: 'Đơn hàng đã được đặt thành công',
       });

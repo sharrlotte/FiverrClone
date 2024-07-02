@@ -30,7 +30,7 @@ export default function AddSkillCategoryButton() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreateSkillCategoryRequest) => createSkillCategory(value),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
 
       form.reset();
     },

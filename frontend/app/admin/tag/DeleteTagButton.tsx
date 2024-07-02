@@ -18,7 +18,7 @@ export default function DeleteTagButton({ tag: { id, name } }: Props) {
   const { mutate } = useMutation({
     mutationFn: async () => deleteTag(id),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
     onError: (error: any) => {
       switch (error.response.status) {

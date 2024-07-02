@@ -33,7 +33,7 @@ export default function AddPostCategoryButton() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreatePostCategoryRequest) => createPostCategory(value),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
 
       form.reset();
     },

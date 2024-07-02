@@ -1,4 +1,4 @@
-import { cancelPostOrder, Order } from '@/api/order.api';
+import { Order, sellerCancelPostOrder } from '@/api/order.api';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
@@ -9,13 +9,13 @@ type Props = {
   order: Order;
 };
 
-export default function CancelOrderButton({ order: { id } }: Props) {
+export default function SellerCancelOrderButton({ order: { id } }: Props) {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => cancelPostOrder(id),
+    mutationFn: async () => sellerCancelPostOrder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
@@ -40,7 +40,7 @@ export default function CancelOrderButton({ order: { id } }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" disabled={isPending}>
+        <Button className="w-full" variant="destructive" disabled={isPending}>
           Hủy đơn
         </Button>
       </AlertDialogTrigger>

@@ -1,6 +1,6 @@
 'use client';
 
-import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/post.api';
+import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/order.api';
 import CancelOrderButton from '@/app/(user)/my-order/CancelOrderButton';
 import PageSelector from '@/components/common/PageSelector';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

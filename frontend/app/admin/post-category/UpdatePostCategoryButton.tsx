@@ -36,7 +36,7 @@ export default function UpdatePostCategoryButton({ postCategory: { id, name, des
       setOpen(false);
     },
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
 
     onError: (error: any) => {

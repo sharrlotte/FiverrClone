@@ -1,4 +1,4 @@
-import { OrderStatus } from '@/api/post.api';
+import { OrderStatus } from '@/api/order.api';
 import { DurationType } from '@/constant/enum';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';

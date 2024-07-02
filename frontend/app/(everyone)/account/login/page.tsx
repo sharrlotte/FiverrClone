@@ -81,7 +81,7 @@ function RegisterPanel() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: RegisterRequest) => signup(value),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
 
       form.reset();
       router.push('/account/verify-email');
@@ -225,12 +225,12 @@ function LoginPanel() {
     onSuccess: () => {
       router.push('/');
       form.reset();
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
 
       setTimeout(() => {
         refresh();
         revalidate('/');
-      }, 100);
+      }, 400);
     },
     onError: (error: any) => {
       switch (error.response.status) {

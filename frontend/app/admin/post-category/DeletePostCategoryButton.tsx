@@ -16,7 +16,7 @@ export default function DeletePostCategoryButton({ postCategory: { id, name } }:
   const { mutate } = useMutation({
     mutationFn: async () => deletePostCategory(id),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
     onError: (error: any) => {
       switch (error.response.status) {

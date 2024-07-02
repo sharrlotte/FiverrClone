@@ -38,7 +38,7 @@ export default function Page() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreatePostRequest) => createPost(value),
     onSuccess: () => {
-      setTimeout(() => queryClient.invalidateQueries(), 200);
+      setTimeout(() => queryClient.invalidateQueries(), 400);
 
       form.reset();
       toast({

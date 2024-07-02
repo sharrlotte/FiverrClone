@@ -1,6 +1,7 @@
 'use client';
 
 import { changePassword } from '@/api/auth.api';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -65,6 +66,7 @@ export default function Page() {
   });
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
+      {isPending && <LoadingOverlay />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutate(data))} className="w-1/3 space-y-2 relative max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden p-10">
           <h2>Thay đổi mật khẩu</h2>

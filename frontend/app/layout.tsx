@@ -7,6 +7,7 @@ import NextTopLoader from 'nextjs-toploader';
 
 import './globals.css';
 import { SessionProvider } from '@/context/SessionContext';
+import VerifyAccountChecker from '@/app/VerifyAccountCheck';
 
 const inter = Font({ subsets: ['latin'], weight: '400' });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <NextTopLoader height={2} showSpinner={false} color="blue" />
         <SessionProvider>
           <QueryProvider>{children}</QueryProvider>
+          <VerifyAccountChecker />
         </SessionProvider>
       </body>
     </html>

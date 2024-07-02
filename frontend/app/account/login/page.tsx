@@ -17,6 +17,7 @@ import { signin, signup } from '@/api/auth.api';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/context/SessionContext';
 import { revalidate } from '@/action/action';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 
 export default function Page() {
   const [isActive, setIsActive] = useState(true);
@@ -35,7 +36,7 @@ export default function Page() {
           <LoginPanel />
         </div>
         <div className={`sign-up absolute top-0 h-full w-1/2 p-10 overflow-auto transition-transform duration-600 ${isActive ? 'transform translate-x-0 opacity-0 z-10' : 'transform translate-x-full opacity-100 z-10'}`}>
-          <RegisterPanel onRegisterSuccess={handleRegisterClick} />
+          <RegisterPanel />
         </div>
         <div className={`overlay-container absolute top-0 h-full w-full flex`}>
           <div className={`overlay absolute top-0 left-0 h-full w-1/2 bg-purple-600 text-white p-10 flex items-center justify-center transition-transform duration-600 ${isActive ? '-translate-x-full' : 'translate-x-0'}`}>
@@ -62,12 +63,9 @@ export default function Page() {
   );
 }
 
-type RegisterPanelProps = {
-  onRegisterSuccess: () => void;
-};
-
-function RegisterPanel({ onRegisterSuccess }: RegisterPanelProps) {
+function RegisterPanel() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerSchema),
@@ -84,7 +82,7 @@ function RegisterPanel({ onRegisterSuccess }: RegisterPanelProps) {
     onSuccess: () => {
       queryClient.invalidateQueries();
       form.reset();
-      onRegisterSuccess();
+      router.push("/account/verify-email")
       toast({
         title: 'Đăng ký thành công',
       });
@@ -120,6 +118,7 @@ function RegisterPanel({ onRegisterSuccess }: RegisterPanelProps) {
 
   return (
     <div className="flex-col justify-center items-center overflow-hidden">
+      {isPending && <LoadingOverlay />}
       <h1 className="font-bold text-xl mb-2 flex justify-center">Tạo tài khoản</h1>
       <div className="social-icons flex justify-center mb-2 space-x-2">
         <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">
@@ -253,6 +252,7 @@ function LoginPanel() {
 
   return (
     <>
+      {isPending && <LoadingOverlay />}
       <h1 className="font-bold text-xl mb-2 flex justify-center mt-8">Đăng nhập tài khoản</h1>
       <div className="social-icons flex justify-center mb-2 space-x-2">
         <Link href="#" className="icon flex items-center justify-center w-10 h-10 p-2 border border-gray-300 rounded-full">

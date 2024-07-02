@@ -117,3 +117,17 @@ export const changePasswordSchema = z
   });
 
 export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
+
+export const verifyEmailSchema = z.object({
+  otp: z
+    .string()
+    .min(6, {
+      message: 'OTP phải có 6 kí tự',
+    })
+    .max(6, { message: 'OTP phải có 6 kí tự' })
+    .refine((otp) => /[0-9]{6}/g.test(otp), {
+      message: 'Otp phải là các ký tự số',
+    }),
+});
+
+export type VerifyEmailRequest = z.infer<typeof verifyEmailSchema>;

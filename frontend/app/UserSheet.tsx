@@ -87,6 +87,7 @@ const tabs: Tab = [
           Quản trị
         </Link>
       ),
+      roles: ['ADMIN'],
     },
     {
       icon: <Cog6ToothIcon className="w-5 h-5" />,

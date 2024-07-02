@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getPostCategory, PostCategory } from '@/api/post-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
@@ -16,6 +16,7 @@ import AddPostCategoryButton from './AddPostCategoryButton';
 import UpdatePostCategoryButton from './UpdatePostCategoryButton';
 import DeletePostCategoryButton from '@/app/admin/post-category/DeletePostCategoryButton';
 import PageSelector from '@/components/common/PageSelector';
+import PostCategoryNameById from '@/components/common/PostCategoryNameById';
 
 const columns: ColumnDef<PostCategory>[] = [
   {
@@ -48,7 +49,21 @@ const columns: ColumnDef<PostCategory>[] = [
     accessorKey: 'parent',
     header: () => <div>Thể Loại cha</div>,
     cell: ({ row }) => {
-      return <div className="font-medium px-0">{row.getValue<PostCategory['parent']>('parent')?.name}</div>;
+      const parent = row.getValue<PostCategory['parent']>('parent');
+
+      if (parent) {
+        return <div className="font-medium px-0">{parent.name}</div>;
+      }
+
+      if (row.original.parentId) {
+        return (
+          <div className="font-medium px-0">
+            <PostCategoryNameById id={row.original.parentId} />
+          </div>
+        );
+      }
+
+      return <></>;
     },
   },
   {
@@ -82,9 +97,10 @@ export default function Page() {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const { data, isFetching } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['post-category', page],
     queryFn: () => getPostCategory({ size: 20, page }),
+    placeholderData: keepPreviousData,
   });
 
   const table = useReactTable({
@@ -116,7 +132,7 @@ export default function Page() {
             <AddPostCategoryButton />
           </div>
         </div>
-        {isFetching ? (
+        {isPending ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -157,7 +173,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isPending} />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import PostCardSkeleton from '@/components/post/PostCardSkeleton';
 import Link from 'next/link';
 
 export default function PopularServices() {
-  const { data, isLoading } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['posts', 'popular-service', 0],
     queryFn: () => getPosts({ page: 1, size: 12, sort: 'favorites' }),
   });
@@ -18,7 +18,7 @@ export default function PopularServices() {
     <div>
       <Carousel className="w-full">
         <CarouselContent className="relative">
-          {isLoading
+          {isPending
             ? new Array(12).fill(1).map((_, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80">
                   <PostCardSkeleton />

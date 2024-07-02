@@ -4,20 +4,21 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGooglePlusG, faFacebookF, faGithub } from '@fortawesome/free-brands-svg-icons';
 import env from '@/constant/env';
-import { LoginRequest, loginSchema, RegisterRequest, registerSchema } from '../../../schema/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '../../../components/ui/use-toast';
-import { Input } from '../../../components/ui/input';
-import { Button } from '../../../components/ui/button';
+
 import Link from 'next/link';
 import { signin, signup } from '@/api/auth.api';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/context/SessionContext';
 import { revalidate } from '@/action/action';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { RegisterRequest, registerSchema, LoginRequest, loginSchema } from '@/schema/auth.schema';
+import { Input } from '@/components/ui/input';
 
 export default function Page() {
   const [isActive, setIsActive] = useState(true);
@@ -31,7 +32,7 @@ export default function Page() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
-      <div id="container" className={`relative w-full max-w-4xl min-h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
+      <div id="container" className={`relative w-full max-w-4xl min-h-[520px] h-1/2 bg-white rounded-2xl shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
         <div className={`sign-up absolute top-0 h-full w-1/2 p-10 overflow-auto transition-transform duration-600 ${isActive ? 'transform translate-x-2/2 opacity-100 z-50' : 'transform translate-x-0 opacity-0 z-0'}`}>
           <LoginPanel />
         </div>
@@ -77,12 +78,13 @@ function RegisterPanel() {
     },
   });
 
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: RegisterRequest) => signup(value),
     onSuccess: () => {
       queryClient.invalidateQueries();
       form.reset();
-      router.push("/account/verify-email")
+      router.push('/account/verify-email');
       toast({
         title: 'Đăng ký thành công',
       });

@@ -12,10 +12,12 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import { useRouter } from 'next/navigation';
+import { revalidate } from '@/action/action';
+import { useSession } from '@/context/SessionContext';
 
 export default function LoginRegister() {
   const otpSlots = Array.from({ length: 6 }, (_, index) => index);
-
+  const { refresh } = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { toast } = useToast();
@@ -32,6 +34,10 @@ export default function LoginRegister() {
       queryClient.invalidateQueries();
       form.reset();
       router.push('/');
+      setTimeout(() => {
+        refresh();
+        revalidate('/');
+      }, 100);
       toast({
         title: 'Xác nhận thành công',
       });
@@ -66,7 +72,7 @@ export default function LoginRegister() {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-gray-300 to-blue-200 fixed inset-0">
       {isPending && <LoadingOverlay />}
       <div id="container" className={`relative w-full max-w-3xl min-h-[500px] bg-white rounded-2xl shadow-lg overflow-hidden`}>
         <div className="flex justify-center items-center mt-24">
@@ -78,7 +84,7 @@ export default function LoginRegister() {
                 control={form.control}
                 name="otp"
                 render={({ field }) => (
-                  <FormItem className="flex-col justify-center items-center">
+                  <FormItem className="flex-col justify-center items-center p-1">
                     <span className="font-bold text-1xl flex mt-3">Mã xác nhận</span>
                     <div className="flex flex-col gap-5">
                       <InputOTP {...field} maxLength={6}>

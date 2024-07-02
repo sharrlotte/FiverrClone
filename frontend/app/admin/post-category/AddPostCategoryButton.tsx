@@ -70,7 +70,7 @@ export default function AddPostCategoryButton() {
             <span>Thêm</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="overflow-auto h-full">
+        <DialogContent className="overflow-auto h-fit">
           <Form {...form}>
             <h3 className="text-xl font-semibold">Thêm thể loại bài viết</h3>
             <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">

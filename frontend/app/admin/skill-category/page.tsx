@@ -79,7 +79,6 @@ export default function Page() {
   const { data, isPending } = useQuery({
     queryKey: ['skill-categories', page],
     queryFn: () => getSkillCategory({ size: 20, page }),
-    placeholderData: keepPreviousData,
   });
 
   const table = useReactTable({

@@ -34,7 +34,7 @@ export default function UpdateSkillCategoryButton({ skillCategory: { id, name, d
       setOpen(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 200);
     },
 
     onError: (error: any) => {

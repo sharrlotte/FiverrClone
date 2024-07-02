@@ -49,7 +49,7 @@ export function translateOrderStatus(status: OrderStatus) {
 }
 
 export function calculateStar(starsCount: number, totalStars: number): string {
-  if (starsCount === 0) {
+  if (starsCount === 0 || totalStars === 0) {
     return '0.0';
   }
 

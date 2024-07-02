@@ -31,7 +31,8 @@ export default function LoginRegister() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: VerifyEmailRequest) => verifyEmail(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 200);
+
       form.reset();
       router.push('/');
       setTimeout(() => {

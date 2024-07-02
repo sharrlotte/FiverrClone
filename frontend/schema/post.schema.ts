@@ -34,10 +34,7 @@ export const createPostSchema = z.object({
 
   content: z.object({
     text: z
-      .string()
-      .min(100, {
-        message: 'Nội dung phải nhiều hơn 100 kí tự',
-      })
+      .string() //
       .max(10000, { message: 'Nộ dung phải ít hơn 10000 kí tự' }),
     images: z.array(z.any()),
   }),

@@ -94,10 +94,20 @@ export async function getCustomerPostOrder(request: GetPostRequest & { status: O
   return result.data;
 }
 
-export async function createPost({ content, images, ...request }: CreatePostRequest) {
-  const form = toFormData({
-    content: content.text,
-    ...request,
+export async function createPost({ content, images, packages, ...request }: CreatePostRequest) {
+  const form = toFormData(
+    {
+      content: content.text,
+      ...request,
+    },
+    new FormData(),
+    {
+      dots: true,
+    },
+  );
+
+  packages.forEach((packageData, index) => {
+    Object.entries(packageData).forEach(([key, value]) => form.append(`packages[${index}].${key}`, value));
   });
 
   images.forEach((file) => form.append('images', file));

@@ -18,7 +18,7 @@ export default function DeleteSkillCategoryButton({ skillCategory: { id, name } 
   const { mutate } = useMutation({
     mutationFn: async () => deleteSkillCategory(id),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 200);
     },
     onError: (error: any) => {
       switch (error.response.status) {

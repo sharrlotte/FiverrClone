@@ -18,7 +18,7 @@ import React, { useState } from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [filter, setFilter] = useState<OrderStatus[]>(['Pending']);
+  const [filter, setFilter] = useState<OrderStatus[]>(['PENDING']);
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
@@ -63,8 +63,8 @@ export default function Page() {
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.package.title}</TableCell>
-                  <TableCell>{order.status === 'Accepted' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
+                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>
                     <DropdownMenu>

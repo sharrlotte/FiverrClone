@@ -25,10 +25,8 @@ export default function PostOrderButton({ post, postPackage }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: PostOrderRequest) => createPostOrder(value),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['orders'],
-      });
-      router.push('/my-order');
+      queryClient.invalidateQueries();
+      setTimeout(() => router.push('/my-order'), 200);
       toast({
         title: 'Đơn hàng đã được đặt thành công',
       });

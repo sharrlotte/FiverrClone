@@ -29,19 +29,19 @@ export function translateDuration(duration: DurationType) {
 }
 export function translateOrderStatus(status: OrderStatus) {
   switch (status) {
-    case 'Pending':
+    case 'PENDING':
       return 'Đang chờ';
 
-    case 'Accepted':
+    case 'ACCEPTED':
       return 'Đã nhận';
 
-    case 'Rejected':
+    case 'REJECTED':
       return 'Đã từ chối';
 
-    case 'Cancelled':
+    case 'CANCELLED':
       return 'Đã hủy';
 
-    case 'Finished':
+    case 'FINISHED':
       return 'Đã hoàn thành';
 
     default:

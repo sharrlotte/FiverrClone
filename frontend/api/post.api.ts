@@ -46,7 +46,7 @@ export type PostDetail = {
 
 export type PostInOrderResponse = Pick<Post, 'title' | 'id' | 'createdAt' | 'user'>;
 
-export const orderStatuses = ['Pending', 'Accepted', 'Rejected', 'Cancelled', 'Finished'] as const;
+export const orderStatuses = ['PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'FINISHED'] as const;
 
 export type OrderStatus = (typeof orderStatuses)[number];
 
@@ -54,7 +54,7 @@ export type Order = {
   id: number;
   postId: number;
   post: PostInOrderResponse;
-  package: Package;
+  packageData: Package;
   deliveryTime: number;
   status: OrderStatus;
 };

@@ -29,6 +29,9 @@ export default function PostOrderButton({ post, postPackage }: Props) {
         queryKey: ['orders'],
       });
       router.push('/my-order');
+      toast({
+        title: 'Đơn hàng đã được đặt thành công',
+      });
     },
     onError: (error: any) => {
       switch (error.response.status) {

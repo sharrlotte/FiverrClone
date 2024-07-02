@@ -83,7 +83,12 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
 }
 
 export async function getMyPostOrder(request: GetPostRequest & { status: OrderStatus[] }): Promise<Order[]> {
-  const result = await api.get('/users/@me/orders', { params: request });
+  const result = await api.get('/users/@me/orders', {
+    params: request,
+    paramsSerializer: {
+      indexes: null,
+    },
+  });
 
   return result.data;
 }

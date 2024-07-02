@@ -12,6 +12,8 @@ type Props = {
 };
 
 export default function PostCard({ post: { id, title, isFavorite, user, starsCount, totalStars, images } }: Props) {
+  images = images ?? [''];
+
   return (
     <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl h-full m-2 bg-white">
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />

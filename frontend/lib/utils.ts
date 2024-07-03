@@ -9,19 +9,19 @@ export function cn(...inputs: ClassValue[]) {
 
 export function translateDuration(duration: DurationType) {
   switch (duration) {
-    case 'Day':
+    case 'DAY':
       return 'Ngày';
 
-    case 'Hour':
+    case 'HOUR':
       return 'Giờ';
 
-    case 'Month':
+    case 'MONTH':
       return 'Tháng';
 
-    case 'Week':
+    case 'WEEK':
       return 'Tuần';
 
-    case 'Year':
+    case 'YEAR':
       return 'Năm';
 
     default:

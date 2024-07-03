@@ -25,7 +25,7 @@ export default function AddPackageButton({ onSubmit }: Props) {
       description: '',
       price: 100000,
       revision: 0,
-      durationType: 'Day',
+      durationType: 'DAY',
       deliveryTime: 1,
     },
   });

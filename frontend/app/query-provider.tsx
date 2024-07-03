@@ -1,6 +1,6 @@
 'use client';
 
-import { keepPreviousData, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HTMLAttributes, useState } from 'react';
 
 export default function QueryProvider({ children }: HTMLAttributes<HTMLDivElement>) {
@@ -11,7 +11,6 @@ export default function QueryProvider({ children }: HTMLAttributes<HTMLDivElemen
           queries: {
             refetchOnWindowFocus: false,
             retry: 3,
-            placeholderData: keepPreviousData,
           },
         },
       }),

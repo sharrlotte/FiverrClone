@@ -83,30 +83,21 @@ export default function Page() {
                   <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>
-                    {(order.status === 'ACCEPTED' || order.status === 'PENDING') && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <DotsHorizontalIcon className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="space-y-2">
-                          {order.status === 'ACCEPTED' && (
-                            <>
-                              <SellerCancelOrderButton order={order} />
-                              <FinishOrderButton order={order} />
-                            </>
-                          )}
-                          {order.status === 'PENDING' && (
-                            <>
-                              <AcceptOrderButton order={order} />
-                              <RejectOrderButton order={order} />
-                            </>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <DotsHorizontalIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Tùy chọn</DropdownMenuLabel>
+                        <DropdownMenuItem>Đồng ý hợp tác</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Chi tiết khách hàng</DropdownMenuItem>
+                        <DropdownMenuItem>Thông tin điều khoản</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}

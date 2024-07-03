@@ -40,7 +40,7 @@ export default function FinishOrderButton({ order: { id } }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="w-full" variant="destructive" disabled={isPending}>
+        <Button className="w-full" disabled={isPending}>
           Hoành thành
         </Button>
       </AlertDialogTrigger>
@@ -49,7 +49,7 @@ export default function FinishOrderButton({ order: { id } }: Props) {
         <p>Bạn có chắn chắn là muốn hoàn thành đơn này?</p>
         <div className="grid grid-cols-2 gap-1">
           <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} onClick={() => mutate()}>
+          <AlertDialogAction className='bg-blue-500' disabled={isPending} onClick={() => mutate()}>
             Hoàn thành
           </AlertDialogAction>
         </div>

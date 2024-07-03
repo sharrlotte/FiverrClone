@@ -1,14 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getPostCategory, PostCategory } from '@/api/post-category.api';
 import { useSearchParams } from 'next/navigation';
 import { searchParamsSchema } from '@/schema/pagination.schema';
@@ -55,7 +55,9 @@ const columns: ColumnDef<PostCategory>[] = [
         return <div className="font-medium px-0">{parent.name}</div>;
       }
 
-      if (row.original.parentId) {
+      const id = row?.original?.parentId;
+
+      if (id) {
         return (
           <div className="font-medium px-0">
             <PostCategoryNameById id={row.original.parentId} />
@@ -90,35 +92,19 @@ const columns: ColumnDef<PostCategory>[] = [
 ];
 
 export default function Page() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const { data, isPending } = useQuery({
-    queryKey: ['post-category', page],
+    queryKey: ['post-categories', page],
     queryFn: () => getPostCategory({ size: 20, page }),
-    placeholderData: keepPreviousData,
   });
 
   const table = useReactTable({
     data: data ?? [],
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
+    state: {},
   });
 
   return (

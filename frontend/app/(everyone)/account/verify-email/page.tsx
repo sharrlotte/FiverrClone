@@ -31,13 +31,14 @@ export default function LoginRegister() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: VerifyEmailRequest) => verifyEmail(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
+
       form.reset();
       router.push('/');
       setTimeout(() => {
         refresh();
         revalidate('/');
-      }, 100);
+      }, 400);
       toast({
         title: 'Xác nhận thành công',
       });

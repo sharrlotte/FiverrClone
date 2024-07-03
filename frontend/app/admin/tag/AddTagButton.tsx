@@ -30,7 +30,8 @@ export default function AddTagButton() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreateTagRequest) => createTag(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
+
       form.reset();
     },
     onError: (error: any) => {

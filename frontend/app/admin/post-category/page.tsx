@@ -97,7 +97,7 @@ export default function Page() {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const { data, isPending } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['post-category', page],
     queryFn: () => getPostCategory({ size: 20, page }),
     placeholderData: keepPreviousData,
@@ -132,7 +132,7 @@ export default function Page() {
             <AddPostCategoryButton />
           </div>
         </div>
-        {isPending ? (
+        {isLoading ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -173,7 +173,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isPending} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
       </div>
     </div>
   );

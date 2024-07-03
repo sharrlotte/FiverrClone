@@ -1,8 +1,9 @@
 'use client';
 
-import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/post.api';
+import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/order.api';
 import CancelOrderButton from '@/app/(user)/my-order/CancelOrderButton';
 import PageSelector from '@/components/common/PageSelector';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { translateOrderStatus } from '@/lib/utils';
@@ -16,7 +17,7 @@ import React, { useState } from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [filter, setFilter] = useState<OrderStatus[]>(['Pending']);
+  const [filter, setFilter] = useState<OrderStatus[]>(['PENDING']);
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
@@ -63,15 +64,18 @@ export default function Page() {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link className="flex gap-1" href={`/posts/${order.post.id}`}>
+                    <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
+                      <Avatar>
+                        <AvatarImage src={order.user.avatar} />
+                      </Avatar>
                       {order.post.user.username}
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.package.title}</TableCell>
-                  <TableCell>{order.status === 'Accepted' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
+                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
-                  <TableCell>{order.status === 'Pending' ? <CancelOrderButton order={order} /> : ''}</TableCell>
+                  <TableCell>{order.status === 'PENDING' ? <CancelOrderButton order={order} /> : ''}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

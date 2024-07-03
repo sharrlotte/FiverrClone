@@ -38,7 +38,8 @@ export default function Page() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreatePostRequest) => createPost(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
+
       form.reset();
       toast({
         title: 'Thành công',

@@ -34,7 +34,7 @@ export default function UpdateTagButton({ tag: { id, name, description } }: Prop
       setOpen(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
 
     onError: (error: any) => {

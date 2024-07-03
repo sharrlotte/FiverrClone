@@ -1,9 +1,15 @@
 'use client';
 
-import { getCustomerPostOrder, OrderStatus, orderStatuses } from '@/api/post.api';
+import { getCustomerPostOrder } from '@/api/order.api';
+import { OrderStatus, orderStatuses } from '@/api/order.api';
+import AcceptOrderButton from '@/app/(user)/customer-order/AcceptOrderButton';
+import FinishOrderButton from '@/app/(user)/customer-order/FinishOrderButton';
+import RejectOrderButton from '@/app/(user)/customer-order/RejectOrderButton';
+import SellerCancelOrderButton from '@/app/(user)/customer-order/SellerCancelOrderButton';
 import PageSelector from '@/components/common/PageSelector';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { translateOrderStatus } from '@/lib/utils';
@@ -18,7 +24,7 @@ import React, { useState } from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [filter, setFilter] = useState<OrderStatus[]>(['Pending']);
+  const [filter, setFilter] = useState<OrderStatus[]>(['PENDING']);
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
@@ -47,6 +53,7 @@ export default function Page() {
           <TableHeader>
             <TableRow>
               <TableHead>Bài viết</TableHead>
+              <TableHead>Khách hàng</TableHead>
               <TableHead>Gói</TableHead>
               <TableHead>Hạn chót</TableHead>
               <TableHead>Tình trạng</TableHead>
@@ -63,8 +70,17 @@ export default function Page() {
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.package.title}</TableCell>
-                  <TableCell>{order.status === 'Accepted' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
+                  <TableCell>
+                    <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
+                      <Avatar>
+                        <AvatarImage src={order.user.avatar} />
+                      </Avatar>
+                      {order.user.username}
+                      <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                    </Link>
+                  </TableCell>
+                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>
                     <DropdownMenu>

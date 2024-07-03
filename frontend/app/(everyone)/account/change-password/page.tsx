@@ -29,7 +29,7 @@ export default function Page() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: ChangePasswordRequest) => changePassword(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
       form.reset();
       router.push('/');
       toast({

@@ -25,12 +25,12 @@ export default async function Page({ params: { id } }: Props) {
   visitPost(id);
 
   return (
-    <div className="h-full md:px-[500px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
+    <div className="h-full md:px-[200px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
       <div className="grid grid-cols-[1fr,500px] relative">
         <div className="space-y-4 overflow-x-hidden">
           <h1 className="text-wrap">{title}</h1>
-          <div className="flex gap-2 justify-between">
-            <div>
+          <div className="flex gap-2 flex-col ">
+            <div className="w-full h-full">
               <div className="flex gap-2 items-end">
                 <Avatar>
                   <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
@@ -49,7 +49,7 @@ export default async function Page({ params: { id } }: Props) {
               <CarouselContent className="relative w-full h-full">
                 {images.map((image) => (
                   <CarouselItem key={image} className="basis-full h-full w-full">
-                    <Image className="w-full h-full flex object-cover" height={400} width={400} src={image} alt={title} />
+                    <Image className="w-full h-full flex min-w-[400px] object-cover" height={400} width={400} src={image} alt={title} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

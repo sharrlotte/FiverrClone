@@ -120,7 +120,6 @@ export default function Page() {
       rowSelection,
     },
   });
-  console.log(data);
 
   return (
     <div className="rounded-md border w-full h-full flex flex-col p-4 shadow-xl">

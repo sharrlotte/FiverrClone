@@ -75,11 +75,11 @@ export default function Page() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
+                        <DropdownMenuLabel>Tùy chọn</DropdownMenuLabel>
+                        <DropdownMenuItem>Đồng ý hợp tác</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem>Chi tiết khách hàng</DropdownMenuItem>
+                        <DropdownMenuItem>Thông tin điều khoản</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

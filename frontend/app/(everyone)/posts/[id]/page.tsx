@@ -25,7 +25,7 @@ export default async function Page({ params: { id } }: Props) {
   visitPost(id);
 
   return (
-    <div className="h-full md:px-40 p-10 space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
+    <div className="h-full md:px-[500px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
       <div className="grid grid-cols-[1fr,500px] relative">
         <div className="space-y-4 overflow-x-hidden">
           <h1 className="text-wrap">{title}</h1>

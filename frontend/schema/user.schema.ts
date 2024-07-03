@@ -1,11 +1,15 @@
+import { UserRole, userRoles } from '@/constant/enum';
 import { z } from 'zod';
 
-export interface Session {
+export interface User {
   id: number;
   username: string;
   avatar: string;
-  roles: string[];
+  roles: UserRole[];
   authorities: string[];
+}
+
+export interface Session extends User {
   isVerified: boolean;
   rolePicked: boolean;
 }
@@ -34,3 +38,11 @@ export const updateProfileSchema = z.object({
 });
 
 export type UpdateProfileRequest = z.infer<typeof updateProfileSchema>;
+
+export const getUsersSchema = z.object({
+  role: z.enum(userRoles),
+  page: z.number().min(1),
+  size: z.number().max(50),
+});
+
+export type GetUsersRequest = z.infer<typeof getUsersSchema>;

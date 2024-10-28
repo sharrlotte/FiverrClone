@@ -78,7 +78,7 @@ export default async function Page({ children }: { children: ReactNode }) {
   const session = await getSession();
 
   return (
-    <ProtectedRoute session={session} all={['ADMIN']}>
+    <ProtectedRoute session={session} filter={{ any: [{ role: 'ADMIN' }, { authority: 'MANAGE_USER' }] }}>
       <div className="flex divide-x h-dvh overflow-hidden">
         <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4 rounded-xl shadow-xl">
           <div>

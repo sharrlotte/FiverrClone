@@ -15,7 +15,7 @@ export class AuthMiddleware implements NestMiddleware {
     const token = req?.cookies?.jwt;
 
     if (!token) {
-      //@ts-ignore
+      //@ts-expect-error This is not an error
       request['user'] = null;
       return next();
     }

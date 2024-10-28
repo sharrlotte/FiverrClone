@@ -8,12 +8,12 @@ import Link from 'next/link';
 
 import { ArrowLeftEndOnRectangleIcon, BookOpenIcon, Cog6ToothIcon, HeartIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/24/outline';
 import env from '@/constant/env';
-import { UserRole } from '@/constant/enum';
+import { Filter } from '@/lib/utils';
 
 type Tab = {
   icon: ReactNode;
   action: ReactNode;
-  roles?: UserRole[];
+  filter?: Filter;
 }[][];
 
 const tabs: Tab = [
@@ -87,7 +87,7 @@ const tabs: Tab = [
           Quản trị
         </Link>
       ),
-      roles: ['ADMIN'],
+      filter: { any: [{ role: 'ADMIN' }, { authority: 'MANAGE_USER' }] },
     },
     {
       icon: <Cog6ToothIcon className="w-5 h-5" />,
@@ -136,8 +136,8 @@ export default async function UserSheet() {
           <div>
             {tabs.map((tab, index) => (
               <React.Fragment key={index}>
-                {tab.map(({ action, icon, roles }, index) => (
-                  <ProtectedElement key={index} session={user} all={roles} passOnEmpty>
+                {tab.map(({ action, icon, filter }, index) => (
+                  <ProtectedElement key={index} session={user} filter={filter}>
                     <div className="flex gap-2 hover:bg-blue-500 hover:text-white p-2 rounded-md">
                       {icon}
                       {action}

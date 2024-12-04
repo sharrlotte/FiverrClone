@@ -1,20 +1,26 @@
-'use server';
-
 import api from '@/api/api';
+import { ChangePasswordRequest, LoginRequest, RegisterRequest, VerifyEmailRequest } from '@/schema/auth.schema';
 import { Session } from '@/schema/user.schema';
-import { cookies } from 'next/headers';
 
-export async function getSession(): Promise<Session | null> {
-  const result = await api.get('/auth/session', { headers: { Cookie: cookies().toString() } });
-  return Object.keys(result.data).length === 0 ? null : result.data;
+export async function signin(request: LoginRequest): Promise<Session> {
+  return api.post('/account/signin', request, {
+    data: request,
+  });
 }
 
-export async function getAuthSession(): Promise<Session> {
-  const session = await getSession();
+export async function signup(request: RegisterRequest) {
+  return api.post('/account/signup', request, {
+    data: request,
+  });
+}
 
-  if (!session) {
-    throw new Error('Session not found');
-  }
-
-  return session;
+export async function changePassword(request: ChangePasswordRequest) {
+  return api.post('/account/change-password', request, {
+    data: request,
+  });
+}
+export async function verifyEmail(request: VerifyEmailRequest) {
+  return api.post('/account/verify', request, {
+    data: request,
+  });
 }

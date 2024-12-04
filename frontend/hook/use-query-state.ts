@@ -41,7 +41,7 @@ export default function useQueryState<T extends string>(name: string, initialSta
     }
 
     setState(value);
-    setTimeout(() => router.replace(`${pathname}?${queryParams.toString()}`), 100);
+    setTimeout(() => router.replace(`${pathname}?${queryParams.toString()}`), 400);
   };
 
   return [state, setter] as const;

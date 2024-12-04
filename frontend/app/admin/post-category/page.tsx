@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import AddPostCategoryButton from './AddPostCategoryButton';
 import UpdatePostCategoryButton from './UpdatePostCategoryButton';
 import DeletePostCategoryButton from '@/app/admin/post-category/DeletePostCategoryButton';
 import PageSelector from '@/components/common/PageSelector';
+import PostCategoryNameById from '@/components/common/PostCategoryNameById';
 
 const columns: ColumnDef<PostCategory>[] = [
   {
@@ -48,7 +49,23 @@ const columns: ColumnDef<PostCategory>[] = [
     accessorKey: 'parent',
     header: () => <div>Thể Loại cha</div>,
     cell: ({ row }) => {
-      return <div className="font-medium px-0">{row.getValue<PostCategory['parent']>('parent')?.name}</div>;
+      const parent = row.getValue<PostCategory['parent']>('parent');
+
+      if (parent) {
+        return <div className="font-medium px-0">{parent.name}</div>;
+      }
+
+      const id = row?.original?.parentId;
+
+      if (id) {
+        return (
+          <div className="font-medium px-0">
+            <PostCategoryNameById id={row.original.parentId} />
+          </div>
+        );
+      }
+
+      return <></>;
     },
   },
   {
@@ -75,34 +92,19 @@ const columns: ColumnDef<PostCategory>[] = [
 ];
 
 export default function Page() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
-  const { data, isFetching } = useQuery({
-    queryKey: ['post-category', page],
+  const { data, isPending } = useQuery({
+    queryKey: ['post-categories', page],
     queryFn: () => getPostCategory({ size: 20, page }),
   });
 
   const table = useReactTable({
     data: data ?? [],
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onRowSelectionChange: setRowSelection,
-    manualPagination: true,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
+    state: {},
   });
 
   return (
@@ -110,13 +112,13 @@ export default function Page() {
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center py-4 gap-2">
           <div className="font-bold flex justify-between w-full">
-            <h2>Quản lý thể loại kỹ năng</h2>
+            <h2>Quản lý thể loại bài viết</h2>
           </div>
           <div>
             <AddPostCategoryButton />
           </div>
         </div>
-        {isFetching ? (
+        {isPending ? (
           <div className="w-full text-center">Đang tải</div>
         ) : (
           <Table>
@@ -157,7 +159,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isFetching} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isPending} />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
-import { getSessionOrNull } from 'src/services/auth/auth.utils';
 import { GithubOauthGuard } from 'src/services/github/github.guard';
 import { JwtAuthService } from 'src/services/jwt/jwt.service';
 import { AppConfig } from 'src/config/configuration';

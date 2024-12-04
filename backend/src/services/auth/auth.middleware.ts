@@ -1,7 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Request, Response, NextFunction, request } from 'express';
 import { AppConfig } from 'src/config/configuration';
 
 @Injectable()
@@ -11,11 +10,11 @@ export class AuthMiddleware implements NestMiddleware {
     private configService: ConfigService<AppConfig>,
   ) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: any, res: any, next: any) {
     const token = req?.cookies?.jwt;
 
     if (!token) {
-      //@ts-ignore
+      //@ts-expect-error This is not an error
       request['user'] = null;
       return next();
     }

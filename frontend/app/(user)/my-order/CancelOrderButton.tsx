@@ -1,4 +1,4 @@
-import { cancelPostOrder, Order } from '@/api/post.api';
+import { cancelPostOrder, Order } from '@/api/order.api';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';

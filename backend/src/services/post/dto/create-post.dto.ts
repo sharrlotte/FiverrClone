@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsNotEmpty, IsNumber, IsOptional, IsUrl, MaxLength, MinLength, ValidateNested } from 'class-validator';
-import { HasMimeType, IsFile, IsFiles, MaxFileSize, MemoryStoredFile } from 'nestjs-form-data';
+import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsNotEmpty, IsNumber, IsOptional, MaxLength, MinLength, ValidateNested } from 'class-validator';
+import { HasMimeType, IsFiles, MaxFileSize, MemoryStoredFile } from 'nestjs-form-data';
 import { CreatePackageDto } from 'src/services/post/dto/create-package.dto';
 
 export class CreatePostDto {
@@ -52,12 +52,12 @@ export class CreatePostDto {
 
   @IsFiles()
   @MaxFileSize(1e6, { each: true })
-  @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
+  // @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
   images: Array<MemoryStoredFile>;
 
   @IsFiles()
   @IsOptional()
   @MaxFileSize(1e6, { each: true })
-  @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
+  // @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
   markdownImages: Array<MemoryStoredFile>;
 }

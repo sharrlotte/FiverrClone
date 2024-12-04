@@ -9,7 +9,6 @@ export default function QueryProvider({ children }: HTMLAttributes<HTMLDivElemen
       new QueryClient({
         defaultOptions: {
           queries: {
-            refetchOnMount: false,
             refetchOnWindowFocus: false,
             retry: 3,
           },

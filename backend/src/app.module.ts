@@ -17,6 +17,8 @@ import { AuthMiddleware } from 'src/services/auth/auth.middleware';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { OrderModule } from './services/order/order.module';
 import { PackagesModule } from './services/packages/packages.module';
+import { AuthoritiesModule } from './services/authorities/authorities.module';
+import { RoleAuthoritiesModule } from './services/role-authorities/role-authorities.module';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { PackagesModule } from './services/packages/packages.module';
     }),
     OrderModule,
     PackagesModule,
+    AuthoritiesModule,
+    RoleAuthoritiesModule,
     ],
   providers: [CloudinaryService],
 })

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { getSession } from '../../../../api/auth.api';
+import { getSession } from '../../../../api/auth-server.api';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../../components/ui/avatar';
 import { Button } from '../../../../components/ui/button';
 import PopularServices from '../../../PopularServices';

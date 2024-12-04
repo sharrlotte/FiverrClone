@@ -30,7 +30,8 @@ export default function AddTagButton() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (value: CreateTagRequest) => createTag(value),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
+
       form.reset();
     },
     onError: (error: any) => {
@@ -67,7 +68,7 @@ export default function AddTagButton() {
             <span>Thêm</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="overflow-auto h-full">
+        <DialogContent className="overflow-auto h-fit">
           <Form {...form}>
             <h3 className="text-xl font-semibold">Thêm thể loại</h3>
             <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">

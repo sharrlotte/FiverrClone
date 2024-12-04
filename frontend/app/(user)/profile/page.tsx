@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/api/auth.api';
+import { getAuthSession } from '@/api/auth-server.api';
 import { getProfile } from '@/api/user.server-api';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import Link from 'next/link';
 import React from 'react';
 
 export default async function page() {
@@ -29,6 +30,7 @@ export default async function page() {
               <CardDescription>Deploy your new project in one-click.</CardDescription>
               <Separator orientation="vertical" />
               <Button>Cập nhật</Button>
+              <Link href="/account/change-password">Thay đôi mật khẩu</Link>
             </CardHeader>
           </Card>
         </div>

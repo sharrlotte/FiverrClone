@@ -1,6 +1,6 @@
 import api from '@/api/api';
 import { DurationType } from '@/constant/enum';
-import { CreatePostRequest, GetPostRequest, PostOrderRequest } from '@/schema/post.schema';
+import { GetPostRequest, CreatePostRequest } from '@/schema/post.schema';
 import { toFormData } from 'axios';
 
 export type Package = { title: string; description: string; revision: number; deliveryTime: number; durationType: DurationType; price: number };
@@ -44,21 +44,6 @@ export type PostDetail = {
   packages: PackageResponse[];
 };
 
-export type PostInOrderResponse = Pick<Post, 'title' | 'id' | 'createdAt' | 'user'>;
-
-export const orderStatuses = ['Pending', 'Accepted', 'Rejected', 'Cancelled', 'Finished'] as const;
-
-export type OrderStatus = (typeof orderStatuses)[number];
-
-export type Order = {
-  id: number;
-  postId: number;
-  post: PostInOrderResponse;
-  package: Package;
-  deliveryTime: number;
-  status: OrderStatus;
-};
-
 export async function getPosts(request: GetPostRequest): Promise<Post[]> {
   const result = await api.get('/posts', { params: request });
 
@@ -82,22 +67,20 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
   return result.data;
 }
 
-export async function getMyPostOrder(request: GetPostRequest & { status: OrderStatus[] }): Promise<Order[]> {
-  const result = await api.get('/users/@me/orders', { params: request });
+export async function createPost({ content, images, packages, ...request }: CreatePostRequest) {
+  const form = toFormData(
+    {
+      content: content.text,
+      ...request,
+    },
+    new FormData(),
+    {
+      dots: true,
+    },
+  );
 
-  return result.data;
-}
-
-export async function getCustomerPostOrder(request: GetPostRequest & { status: OrderStatus[] }): Promise<Order[]> {
-  const result = await api.get('/orders', { params: request });
-
-  return result.data;
-}
-
-export async function createPost({ content, images, ...request }: CreatePostRequest) {
-  const form = toFormData({
-    content: content.text,
-    ...request,
+  packages.forEach((packageData, index) => {
+    Object.entries(packageData).forEach(([key, value]) => form.append(`packages[${index}].${key}`, value));
   });
 
   images.forEach((file) => form.append('images', file));
@@ -109,17 +92,6 @@ export async function createPost({ content, images, ...request }: CreatePostRequ
 
 export async function favoritePost(postId: number) {
   const result = await api.post(`/posts/${postId}/favorite`);
-
-  return result.data;
-}
-
-export async function createPostOrder(request: PostOrderRequest) {
-  const result = await api.post(`/orders`, request);
-
-  return result.data;
-}
-export async function cancelPostOrder(orderId: number) {
-  const result = await api.post(`/orders/${orderId}/cancel`);
 
   return result.data;
 }

@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
 import { Prisma, User } from '@prisma/client';
@@ -8,7 +8,7 @@ import { UserProfileResponse } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 import { OrderResponse } from 'src/services/order/dto/order.response';
-import { OrderPaginationQueryDto, PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
+import { OrderPaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 
 type UserWithAuthoritiesAndRoles = Prisma.UserGetPayload<{}> & { roles: string[]; authorities: string[] };
 

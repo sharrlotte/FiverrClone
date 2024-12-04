@@ -8,11 +8,12 @@ import { UpdatePostCategoryRequest, createPostCategorySchema } from '@/schema/po
 import { PostCategory, updaterPostCategory } from '@/api/post-category.api';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PostCategoryNameById from '@/components/common/PostCategoryNameById';
+import PostCategorySelector from '@/components/common/PostCategorySelector';
 
 type Props = { postCategory: PostCategory };
 
@@ -35,7 +36,7 @@ export default function UpdatePostCategoryButton({ postCategory: { id, name, des
       setOpen(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
 
     onError: (error: any) => {
@@ -67,7 +68,7 @@ export default function UpdatePostCategoryButton({ postCategory: { id, name, des
           <span>Cập nhật</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="overflow-auto h-full">
+      <DialogContent className="overflow-auto h-fit">
         <Form {...form}>
           <h3 className="text-xl font-semibold">Cập nhật thể loại bài viết</h3>
           <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">
@@ -102,24 +103,16 @@ export default function UpdatePostCategoryButton({ postCategory: { id, name, des
             <FormField
               control={form.control}
               name="parentId"
-              render={({ field }) => (
-                <FormItem>
+              render={({ field: { value, onChange } }) => (
+                <FormItem className="flex flex-col">
                   <FormLabel>Thể loại cha</FormLabel>
                   <FormControl>
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Chọn thể loại" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Fruits</SelectLabel>
-
-                          <SelectItem value="apple">Apple</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <PostCategorySelector selected={value} onSelect={(provider) => onChange(provider(value))} isParent>
+                      {value && <PostCategoryNameById id={value} />}
+                    </PostCategorySelector>
                   </FormControl>
                   <FormMessage />
+                  <FormDescription>Nếu không có thể loại cha thì đây là một thể loại cha</FormDescription>
                 </FormItem>
               )}
             />

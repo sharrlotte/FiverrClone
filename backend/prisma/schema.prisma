@@ -28,6 +28,7 @@ model Authority {
     updatedAt       DateTime?       @db.Timestamp(6)
     createdAt       DateTime        @db.Timestamp(6)
     userAuthorities UserAuthority[]
+    roleAuthorities RoleAuthority[]
 
     @@index([name])
 }
@@ -38,7 +39,7 @@ model Category {
     description     String
     parentId        Int?
     updatedAt       DateTime?      @db.Timestamp(6)
-    createdAt       DateTime       @db.Timestamp(6)
+    createdAt       DateTime       @default(now()) @db.Timestamp(6)
     parentCategory  Category?      @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     childCategories Category[]     @relation("CategoryToCategory")
     postCategories  PostCategory[]
@@ -51,7 +52,7 @@ model Category {
 model FavoritePost {
     userId    Int
     postId    Int
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -115,7 +116,7 @@ model PostImage {
     id        Int      @id @default(autoincrement())
     postId    Int
     link      String
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
     @@index([postId])
@@ -124,7 +125,7 @@ model PostImage {
 model PostTag {
     tagId     Int
     postId    Int
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     tag       Tag      @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -138,7 +139,7 @@ model Preview {
     postId    Int
     star      Int
     comment   String
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -148,12 +149,13 @@ model Preview {
 }
 
 model Role {
-    id          Int        @id @default(autoincrement())
-    name        String     @unique
-    description String
-    updatedAt   DateTime?  @db.Timestamp(6)
-    createdAt   DateTime   @db.Timestamp(6)
-    userRoles   UserRole[]
+    id              Int             @id @default(autoincrement())
+    name            String          @unique
+    description     String
+    updatedAt       DateTime?       @db.Timestamp(6)
+    createdAt       DateTime        @db.Timestamp(6)
+    userRoles       UserRole[]
+    roleAuthorities RoleAuthority[]
 
     @@index([name])
 }
@@ -200,10 +202,22 @@ model UserAuthority {
     @@index([userId])
 }
 
+model RoleAuthority {
+    roleId      Int
+    authorityId Int
+    createdAt   DateTime  @db.Timestamp(6)
+    authority   Authority @relation(fields: [authorityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    role        Role      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@id([roleId, authorityId])
+    @@index([authorityId])
+    @@index([roleId])
+}
+
 model UserRole {
     userId    Int
     roleId    Int
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     role      Role     @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -215,7 +229,7 @@ model UserRole {
 model UserSkill {
     userId    Int
     skillId   Int
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     skill     Skill    @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -246,7 +260,7 @@ model Order {
 model PostBrowsingHistory {
     postId    Int
     userId    Int
-    createdAt DateTime @db.Timestamp(6)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
     updatedAt DateTime @db.Timestamp(6)
     post      Post     @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)

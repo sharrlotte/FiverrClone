@@ -3,6 +3,7 @@ import api from './api';
 
 export type PostCategory = {
   id: number;
+  parentId: number
   name: string;
   description: string;
   createdAt: Date;

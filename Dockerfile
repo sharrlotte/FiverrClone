@@ -7,6 +7,12 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+WORKDIR /prod/backend
+RUN pnpm prisma generate
+
+WORKDIR /usr/src/app
+
 RUN pnpm run -r build
 RUN pnpm install --filter=backend -g @nestjs/cli
 RUN pnpm deploy --filter=frontend --prod /prod/frontend

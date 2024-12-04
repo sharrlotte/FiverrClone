@@ -34,7 +34,7 @@ export default function UpdateTagButton({ tag: { id, name, description } }: Prop
       setOpen(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      setTimeout(() => queryClient.invalidateQueries(), 400);
     },
 
     onError: (error: any) => {
@@ -66,7 +66,7 @@ export default function UpdateTagButton({ tag: { id, name, description } }: Prop
           <span>Cập nhật</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="overflow-auto h-full">
+      <DialogContent className="overflow-auto h-fit">
         <Form {...form}>
           <h3 className="text-xl font-semibold">Cập nhật thể loại kỹ năng</h3>
           <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-8">

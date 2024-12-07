@@ -1,0 +1,13 @@
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  // ... thêm các status khác nếu cần
+}
+
+enum DurationType {
+  DAY
+  HOUR
+  MINUTE
+  // ... thêm các type khác nếu cần
+} 

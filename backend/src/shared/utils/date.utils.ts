@@ -4,26 +4,13 @@ export function getDeliveryDate(durationType: DurationType, duration: number): D
   const now = new Date();
 
   switch (durationType) {
-    case 'Day':
+    case 'DAY':
       now.setDate(now.getDate() + duration);
       break;
 
-    case 'Hour':
+    case 'HOUR':
       now.setHours(now.getHours() + duration);
       break;
-
-    case 'Month':
-      now.setMonth(now.getMonth() + duration);
-      break;
-
-    case 'Week':
-      now.setDate(now.getDate() + duration * 7);
-      break;
-
-    case 'Year':
-      now.setFullYear(now.getFullYear() + duration);
-      break;
-
     default:
       throw new Error(`Invalid duration type: ${durationType}`);
   }

@@ -7,6 +7,7 @@ import { OrderDetailResponse, OrderResponse } from 'src/services/order/dto/order
 import NotFound from 'src/error/NotFound';
 import { getDeliveryDate } from 'src/shared/utils/date.utils';
 import Conflict from 'src/error/Conflict';
+import { OrderStatus } from '@prisma/client';
 
 @Injectable()
 export class OrderService {
@@ -61,10 +62,14 @@ export class OrderService {
   }
 
   async findAll(session: SessionDto, { size, page, status }: OrderPaginationQueryDto): Promise<OrderResponse[]> {
+    status = !status ? [] : Array.isArray(status) ? status : [status];
+
+    const statusEnum = status?.map((item) => OrderStatus[item]);
+
     const result = await this.prisma.order.findMany({
       where: {
         status: {
-          in: status,
+          in: statusEnum,
         },
         post: {
           userId: session.id,
@@ -162,7 +167,7 @@ export class OrderService {
         id,
       },
       data: {
-        status: 'Cancelled',
+        status: 'CANCELLED',
       },
     });
 
@@ -186,12 +191,12 @@ export class OrderService {
       throw new ForbiddenException();
     }
 
-    if (order.status !== 'Accepted') {
+    if (order.status !== 'ACCEPTED') {
       throw new BadRequestException({
         message: 'Can not cancel this request',
         reason: {
           current: order.status,
-          accept: 'Accepted',
+          accept: 'ACCEPTED',
         },
       });
     }
@@ -201,7 +206,7 @@ export class OrderService {
         id,
       },
       data: {
-        status: 'Cancelled',
+        status: 'CANCELLED',
       },
     });
 
@@ -227,12 +232,12 @@ export class OrderService {
       throw new ForbiddenException();
     }
 
-    if (order.status !== 'Pending') {
+    if (order.status !== 'PENDING') {
       throw new BadRequestException({
         message: 'Can not accept this request',
         reason: {
           current: order.status,
-          accept: 'Pending',
+          accept: 'PENDING',
         },
       });
     }
@@ -244,7 +249,7 @@ export class OrderService {
         id,
       },
       data: {
-        status: 'Accepted',
+        status: 'ACCEPTED',
         deliveryTime,
       },
     });
@@ -269,12 +274,12 @@ export class OrderService {
       throw new ForbiddenException();
     }
 
-    if (order.status !== 'Pending') {
+    if (order.status !== 'PENDING') {
       throw new BadRequestException({
         message: 'Can not reject this request',
         reason: {
           current: order.status,
-          accept: 'Pending',
+          accept: 'PENDING',
         },
       });
     }
@@ -284,7 +289,7 @@ export class OrderService {
         id,
       },
       data: {
-        status: 'Rejected',
+        status: 'REJECTED',
       },
     });
 
@@ -308,12 +313,12 @@ export class OrderService {
       throw new ForbiddenException();
     }
 
-    if (order.status !== 'Accepted') {
+    if (order.status !== 'ACCEPTED') {
       throw new BadRequestException({
         message: 'Can not finish this request',
         reason: {
           current: order.status,
-          accept: 'Accepted',
+          accept: 'ACCEPTED',
         },
       });
     }
@@ -323,7 +328,7 @@ export class OrderService {
         id,
       },
       data: {
-        status: 'Finished',
+        status: 'FINISHED',
       },
     });
 

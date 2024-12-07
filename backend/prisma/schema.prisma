@@ -68,7 +68,7 @@ model Package {
     description  String
     revision     Int          @default(0)
     deliveryTime Int          @default(0)
-    durationType DurationType @default(Day)
+    durationType DurationType @default(HOUR)
     price        BigInt       @default(0)
     special      Json?        @db.Json
     updatedAt    DateTime?    @db.Timestamp(6)
@@ -246,7 +246,7 @@ model Order {
     revision     Int         @default(0)
     deliveryTime DateTime    @db.Time(6)
     price        BigInt      @default(0)
-    status       OrderStatus @default(Pending)
+    status       OrderStatus @default(PENDING)
     createdAt    DateTime    @db.Timestamp(6)
     post         Post        @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user         User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -299,17 +299,14 @@ model SkillCategory {
 }
 
 enum OrderStatus {
-    Pending
-    Accepted
-    Rejected
-    Cancelled
-    Finished
+    PENDING
+    ACCEPTED
+    REJECTED
+    CANCELLED
+    FINISHED
 }
 
 enum DurationType {
-    Hour
-    Day
-    Week
-    Month
-    Year
+    HOUR
+    DAY
 }

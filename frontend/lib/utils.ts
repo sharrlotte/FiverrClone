@@ -62,15 +62,6 @@ export function translateDuration(duration: DurationType) {
     case 'HOUR':
       return 'Giờ';
 
-    case 'MONTH':
-      return 'Tháng';
-
-    case 'WEEK':
-      return 'Tuần';
-
-    case 'YEAR':
-      return 'Năm';
-
     default:
   }
 }

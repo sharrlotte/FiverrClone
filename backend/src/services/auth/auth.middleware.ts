@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Request, Response, NextFunction, request } from 'express';
 import { AppConfig } from 'src/config/configuration';
+import { Request, Response, NextFunction, request } from 'express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -26,6 +26,7 @@ export class AuthMiddleware implements NestMiddleware {
 
       //@ts-ignore
       request['user'] = { ...payload, id: +sub };
+      req['user'] = { ...payload, id: +sub };
     } catch (error) {
       //TODO: Secure
       res.clearCookie('jwt');

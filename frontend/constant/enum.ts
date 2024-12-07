@@ -2,6 +2,6 @@ export const userRoles = ['ADMIN', 'USER', 'EMPLOYEE', 'CANDIDATE', 'RECRUITER']
 
 export type UserRole = (typeof userRoles)[number];
 
-export const durationTypes = ['HOUR', 'DAY', 'WEEK', 'MONTH', 'YEAR'] as const;
+export const durationTypes = ['HOUR', 'DAY'] as const;
 
 export type DurationType = (typeof durationTypes)[number];

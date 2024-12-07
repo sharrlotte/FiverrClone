@@ -7,7 +7,7 @@ function Footer() {
         <div className="w-full mx-auto px-4 sm:px-6 bg-white rounded-xl">
           <div className="grid sm:grid-cols-12 gap-8 py-8 md:py-12 border-t border-gray-200 p-12">
             <div className="sm:col-span-12 lg:col-span-3">
-              <div className="ml-0 mb-2 font-bold">
+              <div className="ml-0 mb-2 mx-0 p-0 font-bold">
                 <Link href="/" className="block " aria-label="">
                   NiceWork
                 </Link>
@@ -24,29 +24,29 @@ function Footer() {
             </div>
 
             <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-              <h6 className="text-gray-800 font-medium ml-0 mb-2">Sản phẩm</h6>
+              <h6 className="text-gray-800 font-medium ml-0 mb-2 mx-0 p-0">Sản phẩm</h6>
               <ul className="flex-col text-sm">
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Website
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Thiết kế Logo
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Phẩm mền
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Dịch thuật
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     DataBase
                   </a>
@@ -55,29 +55,29 @@ function Footer() {
             </div>
 
             <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-              <h6 className="text-gray-800 font-medium ml-0 mb-2">Tài Nguyên</h6>
+              <h6 className="text-gray-800 font-medium ml-0 mb-2 mx-0 p-0">Tài Nguyên</h6>
               <ul className="text-sm">
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Tài liệu
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Hướng dẫn & chỉ dẫn
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Blog
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Trung tâm hỗ trợ
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Đối tác
                   </a>
@@ -85,29 +85,29 @@ function Footer() {
               </ul>
             </div>
             <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-              <h6 className="text-gray-800 font-medium ml-0 mb-2">Công Ty</h6>
+              <h6 className="text-gray-800 font-medium ml-0 mb-2 mx-0 p-0">Công Ty</h6>
               <ul className="text-sm">
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Trang chủ
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Về chúng tôi
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Giá trị công ty
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Giá cả
                   </a>
                 </li>
-                <li className="ml-0 mb-2">
+                <li className="ml-0 mb-2 mx-0 p-0">
                   <a href="#0" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">
                     Chính sách bảo mật
                   </a>
@@ -116,7 +116,7 @@ function Footer() {
             </div>
 
             <div className="sm:col-span-6 md:col-span-3 lg:col-span-3">
-              <h6 className="text-gray-800 font-medium ml-0 mb-2">Đăng ký</h6>
+              <h6 className="text-gray-800 font-medium ml-0 mb-2 mx-0 p-0">Đăng ký</h6>
               <p className="text-sm text-gray-600 mb-4">Nhận tin tức và bài viết mới nhất vào hộp thư của bạn hàng tháng.</p>
               <form>
                 <div className="flex flex-wrap mb-4 ">

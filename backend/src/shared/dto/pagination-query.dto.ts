@@ -23,3 +23,7 @@ export class PaginationQueryDto {
 export class OrderPaginationQueryDto extends PaginationQueryDto {
   status?: OrderStatus[];
 }
+
+export class UserPaginationQueryDto extends PaginationQueryDto {
+  role?: string;
+}

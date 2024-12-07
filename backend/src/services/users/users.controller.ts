@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { getSession, getSessionOrNull } from 'src/services/auth/auth.utils';
 import { PostResponse } from 'src/services/post/dto/post.response';
@@ -6,13 +6,14 @@ import { PostService } from 'src/services/post/post.service';
 import { Roles } from 'src/shared/decorator/role.decorator';
 import { Request } from 'express';
 import { UsersService } from 'src/services/users/users.service';
-import { UserProfileResponse, UserResponse } from 'src/services/users/dto/user.response';
+import { UserProfileResponse, UserResponse, UserWithRolesAndAuthorities } from 'src/services/users/dto/user.response';
 import { UpdateProfileDto } from 'src/services/users/dto/update-profile.dto';
 import { PostPaginationQueryDto } from 'src/services/post/dto/post-pagination-query.dto';
 import { RolesGuard } from 'src/shared/guard/role.guard';
-import { PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
+import { PaginationQueryDto, UserPaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 import { OrderResponse } from 'src/services/order/dto/order.response';
 import { SessionResponseDto } from 'src/services/auth/dto/session.dto';
+import { UpdateUserDto } from 'src/services/users/dto/user.update.dto';
 
 @Controller('users')
 export class UsersController {
@@ -33,6 +34,13 @@ export class UsersController {
       ...session,
       rolePicked: !session.roles.some((role) => role === 'CANDIDATE' || role === 'RECRUITER'),
     });
+  }
+
+  @Get('')
+  @Roles(['ADMIN'])
+  @UseGuards(RolesGuard)
+  findAllUser(@Query() query: UserPaginationQueryDto) {
+    return this.userService.findAll(query).then((items) => items.map((item) => plainToInstance(UserWithRolesAndAuthorities, item)));
   }
 
   @Get('/@me/posts')
@@ -88,5 +96,10 @@ export class UsersController {
   findAll(@Query() query: PaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
     return this.userService.findAllOrder(session, query).then((items) => items.map((item) => plainToInstance(OrderResponse, item)));
+  }
+
+  @Put(':id')
+  put(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    return plainToInstance(UserResponse, this.userService.update(id, updateUserDto));
   }
 }

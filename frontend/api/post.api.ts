@@ -67,7 +67,7 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
   return result.data;
 }
 
-export async function createPost({ content, images, packages, ...request }: CreatePostRequest) {
+export async function createPost({ content, images, ...request }: CreatePostRequest) {
   const form = toFormData(
     {
       content: content.text,
@@ -75,13 +75,9 @@ export async function createPost({ content, images, packages, ...request }: Crea
     },
     new FormData(),
     {
-      dots: true,
+      indexes: true,
     },
   );
-
-  packages.forEach((packageData, index) => {
-    Object.entries(packageData).forEach(([key, value]) => form.append(`packages[${index}].${key}`, value));
-  });
 
   images.forEach((file) => form.append('images', file));
   content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));

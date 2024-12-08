@@ -50,7 +50,7 @@ export default function RejectOrderButton({ order: { id } }: Props) {
         <div className="grid grid-cols-2 gap-1">
           <AlertDialogCancel>Hủy</AlertDialogCancel>
           <AlertDialogAction disabled={isPending} onClick={() => mutate()}>
-            Tùy chối
+            Từ chối
           </AlertDialogAction>
         </div>
       </AlertDialogContent>

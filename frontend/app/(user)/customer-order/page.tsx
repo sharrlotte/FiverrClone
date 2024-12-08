@@ -114,7 +114,7 @@ export default function Page() {
         </Table>
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
-      <PageSelector className="justify-end" defaultPage={page ?? 1} maxPage={100} enabled={!isLoading} />
+      <PageSelector className="justify-end" defaultPage={page ?? 1} size={20} currentSize={data ? data.length : 0} maxPage={100} enabled={!isLoading} />
     </div>
   );
 }

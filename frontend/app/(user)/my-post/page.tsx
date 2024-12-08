@@ -31,7 +31,7 @@ export default function Page() {
         {!isLoading && data && data.length === 0 && <span className="w-full text-center">Không có kết quả</span>}
       </div>
 
-      <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
+      <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={40} currentSize={data ? data.length : 0} enabled={!isLoading} />
     </div>
   );
 }

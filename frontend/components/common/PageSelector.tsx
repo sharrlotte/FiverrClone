@@ -11,12 +11,16 @@ type Props = {
   defaultPage: number;
   maxPage: number;
   enabled: boolean;
+  currentSize: number;
+  size: number;
 };
 
-export default function PageSelector({ className, defaultPage, maxPage, enabled }: Props) {
+export default function PageSelector({ className, defaultPage, maxPage, enabled, size, currentSize }: Props) {
   const [page, setPage] = useQueryState('page', '' + defaultPage);
   const [goTo, setGoTo] = useState(0);
   const [open, setOpen] = useState(false);
+
+  maxPage = size === currentSize ? maxPage : +page;
 
   const previousPage = +page <= 1 ? 1 : +page - 1;
   const nextPage = +page >= maxPage ? +page : +page + 1;
@@ -39,11 +43,17 @@ export default function PageSelector({ className, defaultPage, maxPage, enabled 
           </PaginationItem>
         )}
         <PaginationItem>
-          <PaginationLink isActive>{page}</PaginationLink>
+          <PaginationLink isActive>
+            <span className="text-xs">{page}</span>
+          </PaginationLink>
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink onClick={() => handlePageChange(nextPage)}>{nextPage}</PaginationLink>
-        </PaginationItem>
+        {nextPage !== +page && (
+          <PaginationItem>
+            <PaginationLink onClick={() => handlePageChange(nextPage)}>
+              <span className="text-xs">{nextPage}</span>
+            </PaginationLink>
+          </PaginationItem>
+        )}
         <PaginationItem>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>

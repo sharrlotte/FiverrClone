@@ -78,7 +78,7 @@ export default function PostOrderButton({ post, postPackage }: Props) {
         <div className="grid grid-cols-2 gap-1">
           <AlertDialogCancel>Hủy</AlertDialogCancel>
           <AlertDialogAction className="bg-blue-500 hover:bg-blue-500" disabled={isPending} onClick={handleSubmit}>
-            Xác nhận
+            Xác nhận và Thanh toán
           </AlertDialogAction>
         </div>
       </AlertDialogContent>

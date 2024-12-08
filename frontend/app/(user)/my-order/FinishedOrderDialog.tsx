@@ -3,7 +3,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React from 'react';
 
 type FinishedOrderDialogProps = {
   order: Order;

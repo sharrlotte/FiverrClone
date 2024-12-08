@@ -30,15 +30,17 @@ const dataTransactions = {
 
 export default function page() {
   return (
-    <div style={{overflowY: 'auto' }}>
-      <div className='flex p-2'>
-        <div className=''>
-        <h2>Biểu đồ người truy cập</h2>
+    <div style={{ overflowY: 'auto', padding: '20px', backgroundColor: '#f9f9f9' }}>
+      <div className='flex flex-col md:flex-row justify-between items-center'>
+        <div className='w-full md:w-1/2 p-4'>
+        <h2 className='text-xl font-semibold text-center'>Biểu đồ người truy cập</h2>
         <Bar data={dataVisitors} />
+        <button className='mt-4 bg-blue-500 text-white py-2 px-4 rounded'>Xuất dữ liệu</button>
         </div>
-        <div className=''>
-        <h2>Biểu đồ số giao dịch</h2>
+        <div className='w-full md:w-1/2 p-4'>
+        <h2 className='text-xl font-semibold text-center'>Biểu đồ số giao dịch</h2>
         <Bar data={dataTransactions} />
+        <button className='mt-4 bg-blue-500 text-white py-2 px-4 rounded'>Xuất dữ liệu</button>
         </div>
       </div>
     </div>

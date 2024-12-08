@@ -2,6 +2,7 @@
 
 import { getMyPostOrder, OrderStatus, orderStatuses } from '@/api/order.api';
 import CancelOrderButton from '@/app/(user)/my-order/CancelOrderButton';
+import FinishedOrderDialog from '@/app/(user)/my-order/FinishedOrderDialog';
 import PageSelector from '@/components/common/PageSelector';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -17,7 +18,7 @@ import React, { useState } from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [filter, setFilter] = useState<OrderStatus[]>(['PENDING']);
+  const [filter, setFilter] = useState<OrderStatus[]>([]);
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
@@ -35,7 +36,7 @@ export default function Page() {
   return (
     <div className="p-4 h-full flex justify-between flex-col overflow-hidden mt-6">
       <div className="h-full overflow-y-auto flex flex-col gap-4">
-        <ToggleGroup className="justify-start border rounded-md divide-x gap-0 w-fit" type="multiple" value={filter} onValueChange={handleFilter}>
+        <ToggleGroup className="justify-start border rounded-md divide-x gap-0 w-fit overflow-hidden" type="multiple" value={filter} onValueChange={handleFilter}>
           {orderStatuses.map((status) => (
             <ToggleGroupItem className="data-[state=on]:bg-blue-500 rounded-none data-[state=on]:text-white" key={status} value={status}>
               {translateOrderStatus(status)}
@@ -46,7 +47,7 @@ export default function Page() {
           <TableHeader>
             <TableRow>
               <TableHead>Bài viết</TableHead>
-              <TableHead>Tác giả</TableHead>
+              <TableHead>Người thực hiện</TableHead>
               <TableHead>Gói</TableHead>
               <TableHead>Hạn chót</TableHead>
               <TableHead>Tình trạng</TableHead>
@@ -60,22 +61,26 @@ export default function Page() {
                   <TableCell>
                     <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
                       {order.post.title}
-                      <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                      <span>
+                        <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                      </span>
                     </Link>
                   </TableCell>
                   <TableCell>
                     <Link className="flex gap-1 items-center" href={`/users/${order.post.user.id}`}>
                       <Avatar>
-                        <AvatarImage src={order.post.user.avatar} />
+                        <AvatarImage src={`${order.post.user.avatar}.png`} />
                       </Avatar>
                       {order.post.user.username}
-                      <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                      <span>
+                        <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                      </span>
                     </Link>
                   </TableCell>
                   <TableCell>{order.package.title}</TableCell>
-                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
+                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : 'Chưa xác nhận'}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
-                  <TableCell>{order.status === 'PENDING' ? <CancelOrderButton order={order} /> : ''}</TableCell>
+                  <TableCell>{order.status === 'PENDING' ? <CancelOrderButton order={order} /> : order.status === 'FINISHED' ? <FinishedOrderDialog order={order} /> : <span></span>}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

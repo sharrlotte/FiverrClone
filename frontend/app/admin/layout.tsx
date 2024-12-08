@@ -121,7 +121,7 @@ export default async function Page({ children }: { children: ReactNode }) {
         </div>
         <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">
           <div className="py-2 gap-2 flex rounded-lg">
-            <Input className="block w-full h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
+            <Input className="w-full h-10 p-2 overflow-hidden ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
             <UserSheet />
           </div>
           {children}

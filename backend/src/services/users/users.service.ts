@@ -214,12 +214,18 @@ export class UsersService {
 
     const statusEnum = status?.map((item) => OrderStatus[item]);
 
+    const query = statusEnum.length
+      ? {
+          status: {
+            in: statusEnum,
+          },
+        }
+      : {};
+
     const result = await this.prisma.order.findMany({
       where: {
         userId: session.id,
-        status: {
-          in: statusEnum,
-        },
+        ...query,
       },
       include: {
         package: true,

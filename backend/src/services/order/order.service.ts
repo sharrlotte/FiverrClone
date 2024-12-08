@@ -65,12 +65,17 @@ export class OrderService {
     status = !status ? [] : Array.isArray(status) ? status : [status];
 
     const statusEnum = status?.map((item) => OrderStatus[item]);
+    const query = statusEnum.length
+      ? {
+          status: {
+            in: statusEnum,
+          },
+        }
+      : {};
 
     const result = await this.prisma.order.findMany({
       where: {
-        status: {
-          in: statusEnum,
-        },
+        ...query,
         post: {
           userId: session.id,
         },
@@ -329,6 +334,84 @@ export class OrderService {
       },
       data: {
         status: 'FINISHED',
+      },
+    });
+
+    return result;
+  }
+  async resultAccept(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'FINISHED') {
+      throw new BadRequestException({
+        message: 'Can not accept this request',
+        reason: {
+          current: order.status,
+          accept: 'FINISHED',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'RESULT_ACCEPTED',
+      },
+    });
+
+    return result;
+  }
+  async resultReject(session: SessionDto, id: number) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        post: true,
+      },
+    });
+
+    if (order === null) {
+      throw new NotFound('id');
+    }
+
+    if (order.userId !== session.id) {
+      throw new ForbiddenException();
+    }
+
+    if (order.status !== 'FINISHED') {
+      throw new BadRequestException({
+        message: 'Can not accept this request',
+        reason: {
+          current: order.status,
+          accept: 'FINISHED',
+        },
+      });
+    }
+
+    const result = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'RESULT_REJECTED',
       },
     });
 

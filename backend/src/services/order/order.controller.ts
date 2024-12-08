@@ -70,4 +70,20 @@ export class OrderController {
     const session = getSession(req);
     return this.orderService.sellerCancel(session, id);
   }
+
+  @Post(':id/resultAccept')
+  @Roles(['USER'])
+  @UseGuards(RolesGuard)
+  resultAccept(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const session = getSession(req);
+    return this.orderService.resultAccept(session, id);
+  }
+
+  @Post(':id/resultReject')
+  @Roles(['USER'])
+  @UseGuards(RolesGuard)
+  resultReject(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const session = getSession(req);
+    return this.orderService.resultReject(session, id);
+  }
 }

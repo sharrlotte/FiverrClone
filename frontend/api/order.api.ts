@@ -4,7 +4,7 @@ import { PostOrderRequest, GetPostRequest } from '@/schema/post.schema';
 
 export type PostInOrderResponse = Pick<Post, 'title' | 'id' | 'createdAt' | 'user'>;
 
-export const orderStatuses = ['PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'FINISHED'] as const;
+export const orderStatuses = ['PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'FINISHED', 'RESULT_REJECTED', 'RESULT_ACCEPTED'] as const;
 
 export type OrderStatus = (typeof orderStatuses)[number];
 
@@ -30,6 +30,16 @@ export async function rejectPostOrder(orderId: number) {
 }
 export async function acceptPostOrder(orderId: number) {
   const result = await api.post(`/orders/${orderId}/accept`);
+
+  return result.data;
+}
+export async function resultAccept(orderId: number) {
+  const result = await api.post(`/orders/${orderId}/resultAccept`);
+
+  return result.data;
+}
+export async function resultReject(orderId: number) {
+  const result = await api.post(`/orders/${orderId}/resultReject`);
 
   return result.data;
 }

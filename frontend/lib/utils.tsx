@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
 export type Filter =
   | {
       all: Filter[];
@@ -81,6 +80,12 @@ export function translateOrderStatus(status: OrderStatus) {
 
     case 'FINISHED':
       return 'Đã hoàn thành';
+
+    case 'RESULT_ACCEPTED':
+      return 'Đã kết thúc';
+
+    case 'RESULT_REJECTED':
+      return 'Sản phẩm bị từ tối';
 
     default:
   }

@@ -304,6 +304,8 @@ enum OrderStatus {
     REJECTED
     CANCELLED
     FINISHED
+    RESULT_ACCEPTED
+    RESULT_REJECTED
 }
 
 enum DurationType {

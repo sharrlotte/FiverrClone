@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { getSession } from '../../../../api/auth-server.api';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../../components/ui/avatar';
 import { Button } from '../../../../components/ui/button';
@@ -7,8 +6,9 @@ import Evaluate from '../../../admin/users/Evaluate';
 import RatingBreakdown from '../../../admin/users/RatingBreakdown';
 import StarIcon from '@heroicons/react/24/solid/StarIcon';
 
-export default async function page({ children }: { children: ReactNode }) {
+export default async function Page() {
   const user = await getSession();
+
   return (
     <div className="overflow-y-auto overflow-x-hidden h-full p-20">
       <div className="flex flex-row justify-between">

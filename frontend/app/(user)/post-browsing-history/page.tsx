@@ -24,7 +24,7 @@ export default function Page() {
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
 
-      <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isLoading} />
+      <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={40} currentSize={data ? data.length : 0} enabled={!isLoading} />
     </div>
   );
 }

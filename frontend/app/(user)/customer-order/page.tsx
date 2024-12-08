@@ -79,7 +79,7 @@ export default function Page() {
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.package.title}</TableCell>
                   <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>
@@ -114,7 +114,7 @@ export default function Page() {
         </Table>
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
-      <PageSelector className="justify-end" defaultPage={page ?? 1} maxPage={100} enabled={!isLoading} />
+      <PageSelector className="justify-end" defaultPage={page ?? 1} size={20} currentSize={data ? data.length : 0} maxPage={100} enabled={!isLoading} />
     </div>
   );
 }

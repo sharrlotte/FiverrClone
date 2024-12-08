@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
-import { Prisma, User } from '@prisma/client';
+import { OrderStatus, Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import NotFound from 'src/error/NotFound';
 import { UserProfileResponse } from 'src/services/users/dto/user.response';
@@ -210,11 +210,15 @@ export class UsersService {
   }
 
   async findAllOrder(session: SessionDto, { size, page, status }: OrderPaginationQueryDto): Promise<OrderResponse[]> {
+    status = !status ? [] : Array.isArray(status) ? status : [status];
+
+    const statusEnum = status?.map((item) => OrderStatus[item]);
+
     const result = await this.prisma.order.findMany({
       where: {
         userId: session.id,
         status: {
-          in: status,
+          in: statusEnum,
         },
       },
       include: {
@@ -246,7 +250,7 @@ export class UsersService {
     return result.map((item) => {
       const post = { ...item.post, images: item.post.postImages.map(({ link }) => link) };
 
-      return { ...item, post };
+      return { ...item, post, user: item.post.user };
     });
   }
 }

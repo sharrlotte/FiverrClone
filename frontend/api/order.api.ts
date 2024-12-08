@@ -12,7 +12,7 @@ export type Order = {
   id: number;
   postId: number;
   post: PostInOrderResponse;
-  packageData: Package;
+  package: Package;
   deliveryTime: number;
   status: OrderStatus;
   user: { username: string; avatar: string; id: string };

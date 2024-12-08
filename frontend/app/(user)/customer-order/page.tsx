@@ -79,7 +79,7 @@ export default function Page() {
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.package.title}</TableCell>
                   <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>

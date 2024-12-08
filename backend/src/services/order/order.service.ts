@@ -104,7 +104,7 @@ export class OrderService {
     return result.map((item) => {
       const post = { ...item.post, images: item.post.postImages.map(({ link }) => link) };
 
-      return { ...item, post };
+      return { ...item, post, user: item.post.user };
     });
   }
 
@@ -144,7 +144,7 @@ export class OrderService {
 
     const post = { ...result.post, images: result.post.postImages.map(({ link }) => link) };
 
-    return { ...result, post };
+    return { ...result, post, user: result.post.user };
   }
 
   async cancel(session: SessionDto, id: number) {

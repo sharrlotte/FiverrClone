@@ -58,21 +58,21 @@ export default function Page() {
               data.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell>
-                    <Link className="flex gap-1" href={`/posts/${order.post.id}`}>
+                    <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
                       {order.post.title}
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
+                    <Link className="flex gap-1 items-center" href={`/users/${order.post.user.id}`}>
                       <Avatar>
-                        <AvatarImage src={order.user.avatar} />
+                        <AvatarImage src={order.post.user.avatar} />
                       </Avatar>
                       {order.post.user.username}
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.packageData.title}</TableCell>
+                  <TableCell>{order.package.title}</TableCell>
                   <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>{order.status === 'PENDING' ? <CancelOrderButton order={order} /> : ''}</TableCell>

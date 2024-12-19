@@ -20,6 +20,10 @@ export class OrderService {
       where: {
         userId: session.id,
         postId,
+        packageId,
+        status: {
+          in: [OrderStatus.PENDING],
+        },
       },
     });
 

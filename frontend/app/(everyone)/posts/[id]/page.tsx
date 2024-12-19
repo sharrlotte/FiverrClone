@@ -12,6 +12,8 @@ import StarIcon from '@heroicons/react/24/solid/StarIcon';
 import { LucideShare2 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import { ChatButton } from './ChatButton';
+import RatingList from '../../rating/RatingList';
 
 type Props = {
   params: {
@@ -57,6 +59,7 @@ export default async function Page({ params: { id } }: Props) {
             </Carousel>
           </div>
           <Markdown>{content}</Markdown>
+          <RatingList/>
         </div>
         <div className="flex flex-col px-4 gap-4">
           <div className="sticky top-4 space-y-2">
@@ -80,13 +83,16 @@ export default async function Page({ params: { id } }: Props) {
                   <div className="grid gap-2">
                     <PostOrderButton post={post} postPackage={item} />
                     <div className="grid grid-cols-2 gap-1">
-                      <Button variant="secondary">Liên hệ</Button>
+                      <ChatButton/>
                       <Button variant="secondary">So sánh</Button>
                     </div>
                   </div>
                 </TabsContent>
               ))}
             </Tabs>
+          </div>
+          <div>
+            
           </div>
         </div>
       </div>

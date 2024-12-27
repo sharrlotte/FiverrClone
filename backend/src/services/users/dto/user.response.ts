@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { SkillCategoryResponse } from 'src/services/skill-category/dto/skill-category-response';
 
 export class UserResponse {
@@ -32,6 +32,7 @@ export class UserProfileResponse {
   avatar: string | null;
 
   @Expose()
+  @Type(() => SkillCategoryResponse)
   skills: SkillCategoryResponse[];
 }
 

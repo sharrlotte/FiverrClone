@@ -46,10 +46,11 @@ export default function EditAboutDialog({ about }: Props) {
   return (
     <AccordionItem value="item-1">
       <AccordionTrigger>Mô tả</AccordionTrigger>
-      <AccordionContent>
+      <AccordionContent className="space-y-4">
+        <p>{about}</p>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline">Edit Profile</Button>
+            <Button variant="outline">Cập nhật mô tả</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <Form {...form}>

@@ -1,5 +1,8 @@
+'use server';
+
 import api from '@/api/api';
 import { UpdateProfileRequest, UserProfile } from '@/schema/user.schema';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export async function getProfile(id: number): Promise<UserProfile> {
@@ -12,4 +15,9 @@ export async function updateProfile(id: number, payload: UpdateProfileRequest) {
   const result = await api.patch(`/users/${id}/profile`, payload, { headers: { Cookie: cookies().toString() } });
 
   return result.data;
+}
+
+export async function revalidateServer(path: string) {
+  'use server';
+  revalidatePath(path);
 }

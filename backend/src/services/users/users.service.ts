@@ -214,6 +214,20 @@ export class UsersService {
     return { ...user, skills: user.userSkill.map((v) => v.skill) };
   }
 
+  async updateSkills(id: number, skillIds: number[]) {
+    await this.prisma.userSkill.deleteMany({ where: { userId: id } });
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        userSkill: {
+          createMany: {
+            data: skillIds.map((sid) => ({ skillId: sid, createdAt: new Date() })),
+          },
+        },
+      },
+    });
+  }
+
   async updateProfile(session: SessionDto, updateProfileDto: UpdateProfileDto): Promise<UserProfileResponse> {
     const user = await this.prisma.user.update({
       where: { id: session.id },

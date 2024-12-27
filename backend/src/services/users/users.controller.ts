@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Patch, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { getSession, getSessionOrNull } from 'src/services/auth/auth.utils';
 import { PostResponse } from 'src/services/post/dto/post.response';
@@ -81,8 +81,23 @@ export class UsersController {
     return plainToInstance(UserProfileResponse, this.userService.getProfile(session.id));
   }
 
-  @Roles([])
-  @UseGuards(RolesGuard)
+  @Patch('@me/skills')
+  updateSkills(@Req() req: Request, @Body('skillIds') skillIds: string[]) {
+    const session = getSession(req);
+
+    if (!Array.isArray(skillIds)) {
+      throw new BadRequestException('Invalid skills id: ' + skillIds);
+    }
+
+    return plainToInstance(
+      UserProfileResponse,
+      this.userService.updateSkills(
+        session.id,
+        skillIds.map((id) => parseInt(id)),
+      ),
+    );
+  }
+
   @Patch('@me/profile')
   updateProfile(@Req() req: Request, @Body() updateProfileDto: UpdateProfileDto) {
     const session = getSession(req);

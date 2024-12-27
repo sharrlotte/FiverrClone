@@ -19,6 +19,11 @@ export async function updateUser(id: number, request: UserRole[]) {
   return result.data;
 }
 
+export async function updateSkills(skillIds: number[]) {
+  const result = await api.patch(`/users/@me/skills`, { skillIds });
+  return result.data;
+}
+
 export async function updateProfile(payload: UpdateProfileRequest) {
   const result = await api.patch(`/users/@me/profile`, payload);
 

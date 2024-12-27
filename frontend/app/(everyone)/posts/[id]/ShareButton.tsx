@@ -14,11 +14,11 @@ export default function ShareButton({ url }: Props) {
 
   async function handleClick() {
     await navigator.clipboard.writeText(url);
-    toast.toast({ title: 'Dã sao chép đường dẫn' });
+    toast.toast({ description: 'Dã sao chép đường dẫn' });
   }
 
   return (
-    <Button variant="outline" onClick={handleClick}>
+    <Button className="size-9 p-0" variant="outline" onClick={handleClick}>
       <LucideShare2 className="w-4 h-4"></LucideShare2>
     </Button>
   );

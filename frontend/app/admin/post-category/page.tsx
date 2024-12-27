@@ -127,7 +127,7 @@ export default function Page() {
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} className="px-4">
+                      <TableHead key={header.id} className="px-2">
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     );

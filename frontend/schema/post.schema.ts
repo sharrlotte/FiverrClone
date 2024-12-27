@@ -58,6 +58,7 @@ export const getPostSchema = z.object({
   page: z.number().min(1),
   size: z.number().max(50),
   sort: z.enum(['favorites']).optional(),
+  categoryId: z.number().optional(),
 });
 
 export type GetPostRequest = z.infer<typeof getPostSchema>;

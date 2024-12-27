@@ -27,14 +27,14 @@ export default function Navigation() {
     queryFn: () => getPostCategory({ size: 20, page: 1, isParent: true }),
   });
 
-  const categories = data ? data.filter((category) => category.children.length > 0) : [];
+  const categories = data ? data.filter((category) => category.children.length > 0).slice(0, 3) : [];
 
   return (
     <NavigationMenu className="w-full shadow-sm">
       <NavigationMenuList className="gap-2">
         {categories.map((parent, index) => (
           <NavigationMenuItem key={parent.id}>
-            <NavigationMenuTrigger>{parent.name}</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-transparent hover:bg-transparent">{parent.name}</NavigationMenuTrigger>
             <NavigationMenuContent
               className={cn({
                 'right-0 shadow-mdp': index > categories.length / 2,
@@ -42,7 +42,7 @@ export default function Navigation() {
             >
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]  bg-white rounded-sm shadow-2xl">
                 {parent.children.map((child) => (
-                  <ListItem key={child.id} title={child.name} href={`${env.url.base}/${child.name}`}>
+                  <ListItem key={child.id} title={child.name} href={`${env.url.base}/${child.id}`}>
                     {/* Add image here */}
                   </ListItem>
                 ))}

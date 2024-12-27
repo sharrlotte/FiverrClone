@@ -50,8 +50,8 @@ function FavoriteButtonInner({ className, postId, isFavorite }: Props) {
   });
 
   return (
-    <Button className={cn('w-9 h-9 p-2 drop-shadow-md', className)} variant="transparent" onClick={() => mutate()}>
-      <HeartIcon fill={expected ? 'rgb(248 113 113)' : 'transparent'} className={cn('text-red-400', { 'text-red-400': expected })} />
+    <Button className={cn('size-12 p-2 drop-shadow-md backdrop-brightness-75', className)} variant="transparent" onClick={() => mutate()}>
+      <HeartIcon fill={expected ? 'rgb(248 113 113)' : 'transparent'} className={cn('text-red-400', { 'text-red-400': expected })} strokeWidth={3} />
     </Button>
   );
 }

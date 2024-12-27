@@ -152,7 +152,7 @@ function UserList({ filter }: UserListProps) {
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="px-4">
+                  <TableHead key={header.id} className="px-2">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 );
@@ -189,8 +189,9 @@ type UserRolePickerProps = {
   user: User;
 };
 
-const debounced = debounce((id: number, roles: UserRole[]) => {
-  updateUser(id, roles);
+const debounced = debounce(async (id: number, roles: UserRole[], callback: () => void) => {
+  await updateUser(id, roles);
+  callback();
 }, 1000);
 
 function UserRolePicker({ user }: UserRolePickerProps) {
@@ -199,13 +200,13 @@ function UserRolePicker({ user }: UserRolePickerProps) {
   const { toast } = useToast();
 
   const { mutate } = useMutation({
-    mutationFn: async (data: UserRole[]) => debounced(user.id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['users'],
-      });
-    },
-
+    mutationFn: async (data: UserRole[]) =>
+      debounced(user.id, data, () =>
+        queryClient.invalidateQueries({
+          queryKey: ['users'],
+          exact: false,
+        }),
+      ),
     onError: (error: any) => {
       switch (error.response.status) {
         default:
@@ -227,11 +228,11 @@ function UserRolePicker({ user }: UserRolePickerProps) {
   return (
     <Dialog>
       <DialogTrigger className="flex gap-1">{user.roles.length > 0 ? user.roles.map((role) => <span key={role}>{role}</span>) : 'Không có quyền'}</DialogTrigger>
-      <DialogContent>
-        <ToggleGroup className="justify-start border rounded-md divide-x gap-0 w-fit" type="multiple" value={filter} onValueChange={handleUpdateRole}>
+      <DialogContent className="w-full overflow-x-hidden overflow-y-auto">
+        <ToggleGroup className="justify-start flex flex-wrap rounded-md divide-x gap-1 w-fit" type="multiple" value={filter} onValueChange={handleUpdateRole}>
           {userRoles.length > 0
             ? userRoles.map((role) => (
-                <ToggleGroupItem className="data-[state=on]:bg-blue-500 rounded-none data-[state=on]:text-white" key={role} value={role}>
+                <ToggleGroupItem className="data-[state=on]:bg-blue-500 border rounded-none overflow-visible data-[state=on]:text-white" key={role} value={role}>
                   {role}
                 </ToggleGroupItem>
               ))

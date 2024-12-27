@@ -1,4 +1,3 @@
-
 import Header from './Header';
 import Footer from './Footer';
 import PopularServices from '@/app/PopularServices';
@@ -9,7 +8,7 @@ export default function Home() {
       <div className="p-4 min-h-dvh">
         <Header />
         <div>
-          <div className="space-y-8 p-12">
+          <div className="space-y-8 py-8">
             <div>
               <h1 className="text-3xl text-black">Mới</h1>
               <NewServices />

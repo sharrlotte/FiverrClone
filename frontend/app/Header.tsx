@@ -12,8 +12,8 @@ type Props = {
 
 function Header({}: Props) {
   return (
-    <div className='pt-4'>
-      <div className="flex items-center gap-x-5 sticky w-full top-4 py-2 px-4 rounded-2xl shadow-3xl z-40 h-20">
+    <div className="pt-4 sticky top-0 z-10 backdrop-blur-lg rounded-b-2xl">
+      <div className="flex items-center gap-x-5 bg-white sticky w-full top-4 py-2 px-4 rounded-2xl shadow-3xl z-40 h-20">
         <Link className="text-3xl font-extrabold" href="/">
           NiceWork
         </Link>

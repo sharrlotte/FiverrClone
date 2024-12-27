@@ -7,6 +7,27 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model ChatRoom {
+    id        Int      @id @default(autoincrement())
+    userId1   Int
+    user1     User     @relation(name: "chatroom1", fields: [userId1], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    userId2   Int
+    user2     User     @relation(name: "chatroom2", fields: [userId2], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    createdAt DateTime @db.Timestamp(6)
+    updatedAt DateTime @db.Timestamp(6)
+
+    chat Chat[]
+}
+
+model Chat {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    roomId    Int
+    room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    createdAt DateTime @db.Timestamp(6)
+}
+
 model Account {
     id         Int       @id @default(autoincrement())
     userId     Int
@@ -187,7 +208,12 @@ model User {
     roles               UserRole[]
     postBrowsingHistory PostBrowsingHistory[]
     userSkill           UserSkill[]
-    Order               Order[]
+    order               Order[]
+    chat                Chat[]
+
+    chatRoom1 ChatRoom[] @relation(name: "chatroom1")
+
+    chatRoom2 ChatRoom[] @relation(name: "chatroom2")
 }
 
 model UserAuthority {

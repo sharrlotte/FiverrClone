@@ -33,11 +33,11 @@ export default async function Page({ params: { id } }: Props) {
   }
 
   return (
-    <div className="h-full md:px-[100px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
-      <div className="grid grid-cols-[1fr,500px] relative">
+    <div className="h-fit lg:px-[100px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
+      <div className="grid grid-rows-2 lg:grid-cols-[1fr,500px] relative gap-4">
         <div className="space-y-4 overflow-x-hidden">
           <div className="flex gap-2 flex-col ">
-            <Carousel className="w-full max-h-[400px] bg-gray-200 overflow-hidden rounded-2xl">
+            <Carousel className="w-full max-w-[900px] bg-gray-200 overflow-hidden rounded-2xl">
               <CarouselPrevious />
               <CarouselContent className="relative w-full h-full">
                 {images.map((image) => (
@@ -60,7 +60,7 @@ export default async function Page({ params: { id } }: Props) {
           <Markdown>{content}</Markdown>
           <RatingList />
         </div>
-        <div className="flex flex-col px-4 gap-4">
+        <div className="flex flex-col gap-4">
           <div className="sticky top-0 space-y-2">
             <PackageTab post={post} packages={packages} />
             <div className="flex justify-end items-end gap-1">
@@ -92,7 +92,7 @@ function PackageTab({ packages, post }: PackageTabProps) {
       </TabsList>
       {packages.map((item) => (
         <TabsContent className="space-y-2" key={item.title} value={item.title}>
-          <PackageCard data={item} />
+          <PackageCard className="max-w-none" data={item} />
           <div className="grid gap-2">
             <PostOrderButton post={post} postPackage={item} />
             <div className="grid grid-cols-2 gap-1">

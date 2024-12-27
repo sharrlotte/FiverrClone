@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
@@ -115,16 +115,26 @@ export class PostService {
     return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { createdAt: new Date(), updatedAt: new Date() } });
   }
 
-  async findAll(session: SessionDto | null, { title, page, size, sort }: PostPaginationQueryDto): Promise<PostResponse[]> {
+  async findAll(session: SessionDto | null, { title, page, size, sort, categoryId }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const sortBy: keyof Post = sort ?? 'createdAt';
 
+    let q = {};
+
+    if (categoryId) {
+      try {
+        q = { postCategories: { some: { categoryId: parseInt(categoryId) } } };
+      } catch {
+        throw new BadRequestException('Invalid category id');
+      }
+    }
+
     if (session) {
-      const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId: session.id } } } });
+      const result = await this.prisma.post.findMany({ where: { title: { contains: title }, ...q }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId: session.id } } } });
 
       return result.map(({ favoritePosts, postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: favoritePosts.length > 0, ...data }));
     }
 
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, ...q }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
     return result.map(({ postImages, ...data }) => ({ isFavorite: false, images: postImages.map((item) => item.link), ...data }));
   }

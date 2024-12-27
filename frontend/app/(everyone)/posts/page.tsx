@@ -27,7 +27,6 @@ export default function Page() {
           {data && data.length === 0 && !isPending && <div className="col-span-full text-center">Không có kết quả</div>}
         </div>
       </div>
-
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={20} currentSize={data ? data.length : 0} enabled={!isPending} />
     </div>
   );

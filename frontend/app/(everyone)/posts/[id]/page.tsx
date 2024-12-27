@@ -14,6 +14,7 @@ import Image from 'next/image';
 import React from 'react';
 import { ChatButton } from './ChatButton';
 import RatingList from '../../rating/RatingList';
+import { getSession } from '@/api/auth-server.api';
 
 type Props = {
   params: {
@@ -24,7 +25,12 @@ type Props = {
 export default async function Page({ params: { id } }: Props) {
   const post = await getPost(id);
   const { title, starsCount, totalStars, user, images, content, packages, isFavorite } = post;
-  visitPost(id);
+
+  const session = await getSession();
+
+  if (session) {
+    visitPost(id);
+  }
 
   return (
     <div className="h-full md:px-[100px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
@@ -59,7 +65,7 @@ export default async function Page({ params: { id } }: Props) {
             </Carousel>
           </div>
           <Markdown>{content}</Markdown>
-          <RatingList/>
+          <RatingList />
         </div>
         <div className="flex flex-col px-4 gap-4">
           <div className="sticky top-4 space-y-2">
@@ -83,7 +89,7 @@ export default async function Page({ params: { id } }: Props) {
                   <div className="grid gap-2">
                     <PostOrderButton post={post} postPackage={item} />
                     <div className="grid grid-cols-2 gap-1">
-                      <ChatButton/>
+                      <ChatButton />
                       <Button variant="secondary">So sánh</Button>
                     </div>
                   </div>
@@ -91,9 +97,7 @@ export default async function Page({ params: { id } }: Props) {
               ))}
             </Tabs>
           </div>
-          <div>
-            
-          </div>
+          <div></div>
         </div>
       </div>
     </div>

@@ -15,10 +15,12 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
   images = images ?? [''];
 
   return (
-    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl h-full bg-white rounded-lg min-h-[500px]">
+    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl h-full bg-white rounded-lg h-[500px] min-h-[500px]">
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />
-      <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
-      <Link href={`/posts/${id}`} className="space-y-2 p-2">
+      <Link href={`/posts/${id}`}>
+        <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
+      </Link>
+      <div className="space-y-2 p-2">
         <div className="flex gap-2 items-center">
           <Avatar>
             <AvatarImage className="rounded-full h-10 w-10" src={user.avatar + '.png'} alt="@shadcn" />
@@ -29,10 +31,10 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
         <h3 className="text-wrap overflow-hidden w-full text-ellipsis">{title}</h3>
         <div className="flex text-lg gap-1">
           <StarIcon className="w-6 h-6" />
-          <span className="font-bold">{calculateStar(starsCount, totalStars)}</span>
+          <span className="font-semi">{calculateStar(starsCount, totalStars)}</span>
           <span>({starsCount})</span>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

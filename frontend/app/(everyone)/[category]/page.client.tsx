@@ -27,7 +27,7 @@ export default function PageClient({ categoryId }: Props) {
         ) : isError ? (
           <div className="m-auto">Lỗi {error.message}</div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-2 lg:grid-cols-3 sm:grid-cols-1 xl:grid-cols-4"> {data?.map((item) => <PostCard key={item.id} post={item} />)}</div>
+          <div className="grid md:grid-cols-2 gap-2 lg:grid-cols-3 sm:grid-cols-1 h-fit xl:grid-cols-4"> {data?.map((item) => <PostCard key={item.id} post={item} />)}</div>
         )}
       </div>
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={20} currentSize={data ? data.length : 0} enabled={!isPending} />

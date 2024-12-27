@@ -22,13 +22,11 @@ export default function Page() {
   return (
     <div className="p-4 h-full flex justify-between flex-col overflow-hidden">
       <div className="h-full overflow-y-auto flex flex-col gap-4">
-      <div className="flex items-center ">
-      <Plus className="h-5 w-5 text-red-500" strokeWidth={5} />
-      <span className="px-4 text-3xl font-bold">Bài đăng của bạn</span>
-      <div className="flex-grow border-t border-muted"></div>
-      </div>
-        <div className="flex justify-end w-full">
-          <Link className="bg-blue-500 text-white border p-2 rounded-md" href="/new-post">
+        <div className="flex justify-between">
+          <span className="text-3xl font-bold flex-nowrap text-nowrap text-end align-bottom">Bài đăng của bạn</span>
+          <div className="flex-grow border-t border-muted"></div>
+          <Link className="bg-blue-500 flex gap-1 justify-center items-center text-white border p-2 rounded-md" href="/new-post">
+            <Plus className="size-7" strokeWidth={2} />
             Tạo bài mới
           </Link>
         </div>
@@ -36,7 +34,6 @@ export default function Page() {
         {isLoading && <span className="w-full text-center">Đang tải</span>}
         {!isLoading && data && data.length === 0 && <span className="w-full text-center">Không có kết quả</span>}
       </div>
-
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={40} currentSize={data ? data.length : 0} enabled={!isLoading} />
     </div>
   );

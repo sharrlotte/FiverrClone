@@ -19,7 +19,7 @@ export default function Page() {
   });
 
   return (
-    <div className="h-full flex gap-4 justify-between flex-col overflow-hidden mt-6">
+    <div className="h-full flex gap-4 justify-between flex-col overflow-hidden">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1">
           <History className="size-7" strokeWidth={2} />
@@ -31,7 +31,6 @@ export default function Page() {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">{data && data.map((post) => <PostCard key={post.id} post={post} />)}</div>
         {isLoading && <div className="w-full text-center">Đang tải</div>}
       </div>
-
       <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={40} currentSize={data ? data.length : 0} enabled={!isLoading} />
     </div>
   );

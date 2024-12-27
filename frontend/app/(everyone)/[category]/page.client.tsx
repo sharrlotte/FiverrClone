@@ -1,5 +1,6 @@
 'use client';
 
+import { PostCategory } from '@/api/post-category.api';
 import { getPosts } from '@/api/post.api';
 import Loading from '@/app/loading';
 import PageSelector from '@/components/common/PageSelector';
@@ -10,17 +11,18 @@ import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 type Props = {
-  categoryId: number;
+  category: PostCategory;
 };
 
-export default function PageClient({ categoryId }: Props) {
+export default function PageClient({ category: { id, name } }: Props) {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
-  const { data, isPending, isError, error } = useQuery({ queryKey: ['posts', { categoryId }], queryFn: () => getPosts({ categoryId, page, size: 20 }) });
+  const { data, isPending, isError, error } = useQuery({ queryKey: ['posts', { id }], queryFn: () => getPosts({ categoryId: id, page, size: 20 }) });
 
   return (
-    <div className="flex flex-col h-full justify-between overflow-hidden gap-4">
+    <div className="flex flex-col h-full justify-between overflow-hidden gap-2">
+      <h2>{name}</h2>
       <div className="flex h-full overflow-y-auto">
         {isPending ? ( //
           <Loading className="m-auto" />

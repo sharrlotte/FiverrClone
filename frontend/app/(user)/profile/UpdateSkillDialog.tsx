@@ -1,6 +1,6 @@
 'use client';
 
-import { getSkillCategory, getSkills, SkillCategory } from '@/api/skill-category.api';
+import { getSkills, SkillCategory } from '@/api/skill-category.api';
 import { updateSkills } from '@/api/user.api';
 import { revalidateServer } from '@/api/user.server-api';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -68,8 +68,8 @@ export function UpdateSkillDialog({ skills }: UpdateSkillDialogProps) {
       <AccordionContent>
         <div className="flex flex-wrap gap-1 ">
           {skills.map((skill) => (
-            <TooltipProvider>
-              <Tooltip key={skill.id}>
+            <TooltipProvider key={skill.id}>
+              <Tooltip>
                 <TooltipTrigger className="underline">{skill.name}</TooltipTrigger>
                 <TooltipContent>{skill.description}</TooltipContent>
               </Tooltip>

@@ -15,6 +15,7 @@ import { getSession } from '@/api/auth-server.api';
 import ShareButton from '@/app/(everyone)/posts/[id]/ShareButton';
 import env from '@/constant/env';
 import { PackageResponse, PostDetail } from '@/api/post.api';
+import { CompareButton } from './CompareButton';
 
 type Props = {
   params: {
@@ -100,6 +101,7 @@ function PackageTab({ packages, post }: PackageTabProps) {
             <div className="grid grid-cols-2 gap-1">
               <ChatButton user={user} />
               <Button variant="secondary">So sánh</Button>
+              <CompareButton />
             </div>
           </div>
         </TabsContent>

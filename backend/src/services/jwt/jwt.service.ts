@@ -18,4 +18,8 @@ export class JwtAuthService {
       accessToken: this.jwtService.sign(payload),
     };
   }
+
+  decode(token: string) {
+    return this.jwtService.decode(token) as JwtPayload;
+  }
 }

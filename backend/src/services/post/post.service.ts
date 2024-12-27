@@ -115,7 +115,7 @@ export class PostService {
     return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { createdAt: new Date(), updatedAt: new Date() } });
   }
 
-  async findAll(session: SessionDto | null, { title, page, size, sort, categoryId }: PostPaginationQueryDto): Promise<PostResponse[]> {
+  async findAll(session: SessionDto | null, { title, page, size, sort, categoryId, userId }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const sortBy: keyof Post = sort ?? 'createdAt';
 
     let q = {};
@@ -123,6 +123,14 @@ export class PostService {
     if (categoryId) {
       try {
         q = { postCategories: { some: { categoryId: parseInt(categoryId) } } };
+      } catch {
+        throw new BadRequestException('Invalid category id');
+      }
+    }
+
+    if (userId) {
+      try {
+        q = { user: { id: parseInt(userId) } };
       } catch {
         throw new BadRequestException('Invalid category id');
       }

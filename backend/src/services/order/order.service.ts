@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { OrderPaginationQueryDto, PaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
+import { OrderPaginationQueryDto } from 'src/shared/dto/pagination-query.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { SessionDto } from 'src/services/auth/dto/session.dto';
 import { OrderDetailResponse, OrderResponse } from 'src/services/order/dto/order.response';
@@ -8,10 +8,17 @@ import NotFound from 'src/error/NotFound';
 import { getDeliveryDate } from 'src/shared/utils/date.utils';
 import Conflict from 'src/error/Conflict';
 import { OrderStatus } from '@prisma/client';
+import { MailService } from 'src/mail/mail.service';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from 'src/config/configuration';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mailService: MailService,
+    private readonly configService: ConfigService<AppConfig>,
+  ) {}
 
   async create(session: SessionDto, createOrderDto: CreateOrderDto) {
     const { packageId, postId } = createOrderDto;
@@ -34,6 +41,9 @@ export class OrderService {
     const post = await this.prisma.post.findUnique({
       where: {
         id: postId,
+      },
+      include: {
+        user: true,
       },
     });
 
@@ -61,6 +71,11 @@ export class OrderService {
         deliveryTime: new Date(),
       },
     });
+
+    const { user } = post;
+    const { email } = user;
+
+    if (email) this.mailService.sendNewOrder(user, email, this.configService.get('url.frontend') + '/my-order');
 
     return result;
   }
@@ -101,6 +116,8 @@ export class OrderService {
                 id: true,
                 username: true,
                 avatar: true,
+                welcomeMessage: true,
+                about: true,
               },
             },
           },
@@ -139,6 +156,8 @@ export class OrderService {
                 id: true,
                 username: true,
                 avatar: true,
+                welcomeMessage: true,
+                about: true,
               },
             },
           },

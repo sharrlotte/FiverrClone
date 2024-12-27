@@ -1,34 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Req } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { getSession } from 'src/services/auth/auth.utils';
+import { Request } from 'express';
+import { plainToInstance } from 'class-transformer';
+import { ChatDto } from 'src/services/chat/dto/chat.dto';
 
-@Controller('chat')
+@Controller('messages')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post()
-  create(@Body() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
+  create(@Req() request: Request, @Body() { userId, content, cId }: CreateChatDto) {
+    const session = getSession(request);
+
+    return this.chatService.createMessage(session.id, userId, content, cId).then((item) => plainToInstance(ChatDto, item));
   }
 
-  @Get()
-  findAll() {
-    return this.chatService.findAll();
-  }
+  @Get(':targetUserId')
+  async getMessagesByUsers(@Req() request: Request, @Param('targetUserId') targetUserId: number, @Query('cursor') cursor?: number, @Query('limit') limit: number = 20) {
+    const session = getSession(request);
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chatService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(+id, updateChatDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.chatService.remove(+id);
+    return this.chatService.getMessagesByUsers(session.id, targetUserId, limit, cursor).then((items) => items.map((item) => plainToInstance(ChatDto, item)));
   }
 }

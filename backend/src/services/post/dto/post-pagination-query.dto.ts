@@ -20,4 +20,7 @@ export class PostPaginationQueryDto extends PaginationQueryDto {
 
   @IsOptional()
   categoryId?: string;
+
+  @IsOptional()
+  userId?: string;
 }

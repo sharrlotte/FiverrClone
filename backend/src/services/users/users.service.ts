@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
 import { OrderStatus, Prisma, User } from '@prisma/client';
@@ -147,13 +147,14 @@ export class UsersService {
     return user;
   }
 
-  async create(providerId: string, provider: AuthProvider, { username, profileUrl }: { username: string; profileUrl: string }): Promise<UserWithAuthoritiesAndRoles> {
+  async create(providerId: string, provider: AuthProvider, { username, profileUrl, email }: { username: string; profileUrl: string; email: string }): Promise<UserWithAuthoritiesAndRoles> {
     const role = await this.prisma.role.findFirstOrThrow({ where: { name: 'USER' } });
 
     const user = await this.prisma.user.create({
       data: {
         username,
         about: '',
+        email,
         avatar: profileUrl,
         createdAt: new Date(),
         roles: {
@@ -175,38 +176,62 @@ export class UsersService {
     return { ...user, authorities: [], roles: [role.name] };
   }
 
-  async get(id: number): Promise<User> {
-    const user = await this.prisma.user.findFirst({ where: { id } });
+  async get(id: number) {
+    const user = await this.prisma.user.findFirst({
+      where: { id },
+      include: {
+        userSkill: {
+          select: {
+            skill: true,
+          },
+        },
+      },
+    });
 
     if (!user) {
       throw new NotFound('id');
     }
 
-    return user;
+    return { ...user, skills: user.userSkill.map((v) => v.skill) };
   }
 
   async getProfile(id: number): Promise<UserProfileResponse> {
-    const user = await this.prisma.user.findFirst({ where: { id } });
+    const user = await this.prisma.user.findFirst({
+      where: { id },
+      include: {
+        userSkill: {
+          select: {
+            skill: true,
+          },
+        },
+      },
+    });
 
     if (!user) {
       throw new NotFound('id');
     }
 
-    return user;
+    return { ...user, skills: user.userSkill.map((v) => v.skill) };
   }
 
-  async updateProfile(id: number, session: SessionDto, updateProfileDto: UpdateProfileDto): Promise<UserProfileResponse> {
-    if (session.id !== id) {
-      throw new ForbiddenException();
-    }
-
-    const user = await this.prisma.user.update({ where: { id }, data: updateProfileDto });
+  async updateProfile(session: SessionDto, updateProfileDto: UpdateProfileDto): Promise<UserProfileResponse> {
+    const user = await this.prisma.user.update({
+      where: { id: session.id },
+      data: updateProfileDto,
+      include: {
+        userSkill: {
+          select: {
+            skill: true,
+          },
+        },
+      },
+    });
 
     if (!user) {
       throw new NotFound('id');
     }
 
-    return user;
+    return { ...user, skills: user.userSkill.map((v) => v.skill) };
   }
 
   async findAllOrder(session: SessionDto, { size, page, status }: OrderPaginationQueryDto): Promise<OrderResponse[]> {
@@ -244,6 +269,13 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar: true,
+                about: true,
+                welcomeMessage: true,
+                userSkill: {
+                  select: {
+                    skill: true,
+                  },
+                },
               },
             },
           },
@@ -256,7 +288,7 @@ export class UsersService {
     return result.map((item) => {
       const post = { ...item.post, images: item.post.postImages.map(({ link }) => link) };
 
-      return { ...item, post, user: item.post.user };
+      return { ...item, post, user: { ...item.post.user, skills: item.post.user.userSkill.map((v) => v.skill) } };
     });
   }
 }

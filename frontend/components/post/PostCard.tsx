@@ -15,7 +15,7 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
   images = images ?? [''];
 
   return (
-    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg h-[500px] min-h-[500px]">
+    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg w-full h-[500px] min-h-[500px]">
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />
       <Link href={`/posts/${id}`}>
         <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />

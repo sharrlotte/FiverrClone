@@ -17,6 +17,8 @@ model ChatRoom {
     updatedAt DateTime @db.Timestamp(6)
 
     chat Chat[]
+
+    @@unique(name: "user_map", [userId1, userId2])
 }
 
 model Chat {
@@ -25,6 +27,7 @@ model Chat {
     user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     roomId    Int
     room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    content   String
     createdAt DateTime @db.Timestamp(6)
 }
 
@@ -199,7 +202,9 @@ model User {
     about               String
     updatedAt           DateTime?             @db.Timestamp(6)
     createdAt           DateTime              @db.Timestamp(6)
+    welcomeMessage      String                @default("")
     avatar              String?
+    email               String?
     accounts            Account[]
     favoritePosts       FavoritePost[]
     posts               Post[]

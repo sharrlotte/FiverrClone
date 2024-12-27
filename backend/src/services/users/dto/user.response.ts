@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { SkillCategoryResponse } from 'src/services/skill-category/dto/skill-category-response';
 
 export class UserResponse {
   @Expose()
@@ -9,6 +10,12 @@ export class UserResponse {
 
   @Expose()
   username: string;
+
+  @Expose()
+  about: string;
+
+  @Expose()
+  welcomeMessage: string;
 }
 
 export class UserProfileResponse {
@@ -23,6 +30,9 @@ export class UserProfileResponse {
 
   @Expose()
   avatar: string | null;
+
+  @Expose()
+  skills: SkillCategoryResponse[];
 }
 
 export class UserWithRolesAndAuthorities {

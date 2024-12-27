@@ -81,6 +81,8 @@ type PackageTabProps = {
 };
 
 function PackageTab({ packages, post }: PackageTabProps) {
+  const { user } = post;
+
   return (
     <Tabs defaultValue={packages[0].title} className="min-w-[350px] space-y-2 shadow-md p-2 rounded-md bg-white border">
       <TabsList className="flex gap-2">
@@ -96,7 +98,7 @@ function PackageTab({ packages, post }: PackageTabProps) {
           <div className="grid gap-2">
             <PostOrderButton post={post} postPackage={item} />
             <div className="grid grid-cols-2 gap-1">
-              <ChatButton />
+              <ChatButton user={user} />
               <Button variant="secondary">So sánh</Button>
             </div>
           </div>

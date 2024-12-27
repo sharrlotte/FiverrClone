@@ -9,6 +9,10 @@ export interface AppConfig {
   'cloudinary.secret': string;
   'cloudinary.key': string;
   'cloudinary.cloudName': string;
+  'transport.host': string;
+  'transport.user': string;
+  'transport.password': string;
+  'transport.from': string;
 }
 
 (BigInt.prototype as any).toJSON = function () {
@@ -35,5 +39,11 @@ export default () => ({
     secret: process.env.CLOUDINARY_SECRET as string,
     key: process.env.CLOUDINARY_KEY as string,
     cloudName: process.env.CLOUDINARY_CLOUD_NAME as string,
+  },
+  transport: {
+    host: process.env.MAIL_HOST,
+    user: process.env.MAIL_USER,
+    password: process.env.MAIL_PASSWORD,
+    from: process.env.MAIL_FROM,
   },
 });

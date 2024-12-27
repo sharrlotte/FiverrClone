@@ -3,7 +3,7 @@ import { JwtAuthService } from './jwt.service';
 import { JwtStrategy } from 'src/services/jwt/jwt.strategy';
 
 @Module({
-  providers: [JwtAuthService],
-  exports: [JwtAuthService, JwtStrategy],
+  providers: [JwtAuthService, JwtStrategy],
+  exports: [JwtAuthService],
 })
-export class JwtModule { }
+export class JwtModule {}

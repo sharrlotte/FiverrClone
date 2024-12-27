@@ -40,6 +40,8 @@ export type PostDetail = {
     id: number;
     username: string;
     avatar: string;
+    about: string;
+    welcomeMessage: string;
   };
   packages: PackageResponse[];
 };

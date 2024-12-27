@@ -51,13 +51,13 @@ export class CreatePostDto {
   packages: Array<CreatePackageDto>;
 
   @IsFiles()
-  @MaxFileSize(1e6, { each: true })
+  @MaxFileSize(10e6, { each: true })
   // @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
   images: Array<MemoryStoredFile>;
 
   @IsFiles()
   @IsOptional()
-  @MaxFileSize(1e6, { each: true })
+  @MaxFileSize(10e6, { each: true })
   // @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { each: true })
   markdownImages: Array<MemoryStoredFile>;
 }

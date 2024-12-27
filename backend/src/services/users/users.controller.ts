@@ -44,21 +44,21 @@ export class UsersController {
   }
 
   @Get('/@me/posts')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findAllPost(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
     return this.postService.findAllByMe(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/favorite-posts')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findAllFavoritePost(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
     return this.postService.findAllByMeFavorite(session, query).then((items) => items.map((item) => plainToInstance(PostResponse, item)));
   }
   @Get('/@me/post-browsing-history')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findAllPostBrowsingHistory(@Query() query: PostPaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
@@ -67,7 +67,7 @@ export class UsersController {
 
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return plainToInstance(UserResponse, this.userService.get(id));
+    return plainToInstance(UserProfileResponse, this.userService.get(id));
   }
 
   @Get(':id/profile')
@@ -81,17 +81,17 @@ export class UsersController {
     return plainToInstance(UserProfileResponse, this.userService.getProfile(session.id));
   }
 
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   @Patch('@me/profile')
-  updateProfile(@Param('id', ParseIntPipe) id: number, @Req() req: Request, @Body() updateProfileDto: UpdateProfileDto) {
+  updateProfile(@Req() req: Request, @Body() updateProfileDto: UpdateProfileDto) {
     const session = getSession(req);
 
-    return plainToInstance(UserProfileResponse, this.userService.updateProfile(id, session, updateProfileDto));
+    return plainToInstance(UserProfileResponse, this.userService.updateProfile(session, updateProfileDto));
   }
 
   @Get('@me/orders')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findAll(@Query() query: PaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);

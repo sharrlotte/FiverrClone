@@ -8,9 +8,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
 
   return (
     <ProtectedRoute session={session} filter={{ role: 'USER' }}>
-      <div className="divide-y-2 h-full flex flex-col overflow-hidden px-4">
+      <div className="h-full flex flex-col overflow-hidden px-4">
         <Header />
-        <div className="p-4 h-full overflow-hidden">{children}</div>
+        <div className="h-full overflow-hidden">{children}</div>
       </div>
     </ProtectedRoute>
   );

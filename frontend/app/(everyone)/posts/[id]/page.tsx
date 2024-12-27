@@ -7,14 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Markdown from '@/components/ui/markdown';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { calculateStar } from '@/lib/utils';
-import StarIcon from '@heroicons/react/24/solid/StarIcon';
-import { LucideShare2 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { ChatButton } from './ChatButton';
 import RatingList from '../../rating/RatingList';
 import { getSession } from '@/api/auth-server.api';
+import ShareButton from '@/app/(everyone)/posts/[id]/ShareButton';
+import env from '@/constant/env';
 
 type Props = {
   params: {
@@ -24,7 +23,7 @@ type Props = {
 
 export default async function Page({ params: { id } }: Props) {
   const post = await getPost(id);
-  const { title, starsCount, totalStars, user, images, content, packages, isFavorite } = post;
+  const { title, user, images, content, packages, isFavorite } = post;
 
   const session = await getSession();
 
@@ -46,11 +45,6 @@ export default async function Page({ params: { id } }: Props) {
                 </Avatar>
                 <span>{user.username}</span>
               </div>
-              <div className="flex text-lg gap-1">
-                <StarIcon className="w-6 h-6" />
-                <span className="font-bold">{calculateStar(starsCount, totalStars)}</span>
-                <span>({starsCount})</span>
-              </div>
             </div>
             <Carousel className="w-full max-h-[400px] bg-gray-200 overflow-hidden rounded-2xl">
               <CarouselPrevious />
@@ -68,11 +62,9 @@ export default async function Page({ params: { id } }: Props) {
           <RatingList />
         </div>
         <div className="flex flex-col px-4 gap-4">
-          <div className="sticky top-4 space-y-2">
+          <div className="sticky top-0 space-y-2">
             <div className="flex justify-end items-end gap-1">
-              <Button variant="outline">
-                <LucideShare2 className="w-4 h-4"></LucideShare2>
-              </Button>
+              <ShareButton url={`${env.url.base}/posts/${id}`} />
               <FavoriteButton className="block border rounded-md p-1" postId={+id} isFavorite={isFavorite} />
             </div>
             <Tabs defaultValue={packages[0].title} className="min-w-[350px] space-y-2 shadow-md p-2 rounded-md bg-white border">

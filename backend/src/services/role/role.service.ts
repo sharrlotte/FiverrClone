@@ -34,6 +34,12 @@ const defaultRoles = [
     description: 'Admin role',
     createdAt: new Date(),
   },
+  {
+    id: 6,
+    name: 'ACCOUNT',
+    description: 'Account role',
+    createdAt: new Date(),
+  },
 ];
 
 @Injectable()

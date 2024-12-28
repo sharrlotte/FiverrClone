@@ -10,11 +10,11 @@ export default function Home() {
         <div>
           <div className="space-y-8 py-8">
             <div>
-              <h1 className="text-3xl text-black">Mới</h1>
+              <h1 className="text-3xl text-black font-semibold">Mới</h1>
               <NewServices />
             </div>
             <div>
-              <h1 className="text-3xl text-black">Đề cử</h1>
+              <h1 className="text-3xl text-black font-semibold">Đề cử</h1>
               <PopularServices />
             </div>
           </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Rubik as Font } from 'next/font/google';
+import { Nunito_Sans as Font } from 'next/font/google';
 import QueryProvider from './query-provider';
 
 import { Toaster } from '@/components/ui/toaster';
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="antialiased relative">
-      <body className={ inter.className }>
+      <body className={inter.className}>
         <Toaster />
         <NextTopLoader height={2} showSpinner={false} color="blue" />
         <SessionProvider>

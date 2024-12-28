@@ -49,7 +49,7 @@ export class CreatePackageDto {
 
   @IsNotEmpty()
   @IsInt()
-  @Min(100000)
+  @Min(10000)
   @Type(() => Number)
   price: number;
 

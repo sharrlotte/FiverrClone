@@ -3,7 +3,6 @@ import PostOrderButton from '@/app/(everyone)/posts/[id]/PostOrderButton';
 import FavoriteButton from '@/components/post/FavoriteButton';
 import PackageCard from '@/components/post/PackageCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Markdown from '@/components/ui/markdown';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -100,8 +99,7 @@ function PackageTab({ packages, post }: PackageTabProps) {
             <PostOrderButton post={post} postPackage={item} />
             <div className="grid grid-cols-2 gap-1">
               <ChatButton user={user} />
-              <Button variant="secondary">So sánh</Button>
-              <CompareButton />
+              <CompareButton packages={packages} />
             </div>
           </div>
         </TabsContent>

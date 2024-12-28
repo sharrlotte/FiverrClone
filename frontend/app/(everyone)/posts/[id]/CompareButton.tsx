@@ -1,21 +1,24 @@
-import { Button } from "@/components/ui/button"
-import CompareTable from "../../compare/compare"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-  
+import { Button } from '@/components/ui/button';
+import CompareTable from '../../compare/compare';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Package } from '@/api/post.api';
 
-export function CompareButton() {
+type CompareButtonProps = {
+  packages: Package[];
+};
+export function CompareButton({ packages }: CompareButtonProps) {
+  const isComparable = packages.length > 1;
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="secondary">So Sánh</Button>
-      </PopoverTrigger>
-      <PopoverContent className="flex w-auto h-auto justify-center items-center">
-        <CompareTable/>
-      </PopoverContent>
-    </Popover>
-  )
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="secondary" disabled={!isComparable}>
+          So Sánh
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="flex w-auto h-auto justify-center items-center max-w-[1000px]">
+        <CompareTable packages={packages} />
+      </DialogContent>
+    </Dialog>
+  );
 }

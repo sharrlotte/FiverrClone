@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Navigation from '@/app/Navigation';
 import UserSheet from '@/app/UserSheet';
 import { BellIcon } from 'lucide-react';
-import { EnvelopeIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   className?: string;
@@ -28,7 +27,6 @@ function Header({}: Props) {
         </div>
         <div className="flex gap-2 justify-center items-center">
           <BellIcon className="w-6 h-6" />
-          <EnvelopeIcon className="w-6 h-6" />
           <UserSheet />
         </div>
       </div>

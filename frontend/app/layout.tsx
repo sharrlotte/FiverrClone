@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Nunito_Sans as Font } from 'next/font/google';
+import { Roboto as Font } from 'next/font/google';
 import QueryProvider from './query-provider';
 
 import { Toaster } from '@/components/ui/toaster';

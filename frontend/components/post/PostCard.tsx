@@ -15,7 +15,7 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
   images = images ?? [''];
 
   return (
-    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg w-full h-[750px] min-h-[750px]">
+    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg w-full h-[500px] min-h-[500px]">
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />
       <Link href={`/posts/${id}`}>
         <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />
@@ -28,7 +28,7 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
           </Avatar>
           <span>{user.username}</span>
         </div>
-        <h3 className="text-wrap overflow-hidden w-full text-ellipsis">{title}</h3>
+        <h3 className="overflow-hidden w-full text-ellipsis text-nowrap">{title}</h3>
         <div className="flex text-lg gap-1">
           <StarIcon className="w-6 h-6" />
           <span className="font-semi">{calculateStar(starsCount, totalStars)}</span>

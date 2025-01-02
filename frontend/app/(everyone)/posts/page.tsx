@@ -19,8 +19,8 @@ export default function Page() {
   });
 
   return (
-    <div className="p-4 h-full flex justify-between flex-col overflow-hidden mt-6">
-      <div className="h-full overflow-y-auto flex flex-col gap-4">
+    <div className="p-4 flex justify-between flex-col overflow-hidden mt-6">
+      <div className="overflow-y-auto flex flex-col gap-4">
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(300px,100%),1fr))] gap-2">
           {data && data.map((post) => <PostCard key={post.id} post={post} />)}
           {isPending && new Array(20).fill(1).map((_, index) => <PostCardSkeleton key={index} />)}

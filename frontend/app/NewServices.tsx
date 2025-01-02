@@ -20,12 +20,12 @@ export default function NewServices() {
         <CarouselContent className="relative">
           {isPending
             ? new Array(12).fill(1).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80">
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80">
                   <PostCardSkeleton />
                 </CarouselItem>
               ))
             : data?.map((post) => (
-                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80">
+                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80">
                   <PostCard post={post} />
                 </CarouselItem>
               ))}

@@ -25,12 +25,12 @@ export default function PopularServices({ className, userId }: Props) {
         <CarouselContent className="relative">
           {isPending
             ? new Array(12).fill(1).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80 w-full">
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80 w-full">
                   <PostCardSkeleton />
                 </CarouselItem>
               ))
             : data?.map((post) => (
-                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80 w-full">
+                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80 w-full">
                   <PostCard post={post} />
                 </CarouselItem>
               ))}

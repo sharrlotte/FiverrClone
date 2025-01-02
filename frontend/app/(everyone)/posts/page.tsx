@@ -12,10 +12,11 @@ import React from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
+  const q = searchParamsSchema.parse(Object.fromEntries(params)).q;
 
   const { data, isPending } = useQuery({
-    queryKey: ['posts', page],
-    queryFn: () => getPosts({ page, size: 20 }),
+    queryKey: ['posts', page, q],
+    queryFn: () => getPosts({ page, size: 20, title: q ?? undefined }),
   });
 
   return (

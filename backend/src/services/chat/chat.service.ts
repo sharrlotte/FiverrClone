@@ -30,6 +30,8 @@ export class ChatService {
       },
     });
 
+    
+
     const result = await this.prismaService.chat.create({
       data: {
         content,

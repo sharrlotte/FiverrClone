@@ -15,7 +15,7 @@ export default function Evaluate() {
           <Button>
             <div className="flex flex-row gap-2">
               <span className="text-xl">5</span>
-              <StarIcon className="w-5 h-5 mt-1" />
+              <StarIcon className="w-5 h-5 mt-1 text-yellow-300" fill="yellow" />
             </div>
           </Button>
           <Progress className="mt-3" value={80} />
@@ -25,7 +25,7 @@ export default function Evaluate() {
           <Button>
             <div className="flex flex-row gap-2">
               <span className="text-xl">4</span>
-              <StarIcon className="w-5 h-5 mt-1" />
+              <StarIcon className="w-5 h-5 mt-1" fill="yellow" />
             </div>
           </Button>
           <Progress className="mt-3" value={20} />
@@ -35,7 +35,7 @@ export default function Evaluate() {
           <Button>
             <div className="flex flex-row gap-2">
               <span className="text-xl">3</span>
-              <StarIcon className="w-5 h-5 mt-1" />
+              <StarIcon className="w-5 h-5 mt-1" fill="yellow" />
             </div>
           </Button>
           <Progress className="mt-3" value={1} />
@@ -45,7 +45,7 @@ export default function Evaluate() {
           <Button>
             <div className="flex flex-row gap-2">
               <span className="text-xl">2</span>
-              <StarIcon className="w-5 h-5 mt-1" />
+              <StarIcon className="w-5 h-5 mt-1" fill="yellow" />
             </div>
           </Button>
           <Progress className="mt-3" value={0} />
@@ -55,7 +55,7 @@ export default function Evaluate() {
           <Button>
             <div className="flex flex-row gap-2">
               <span className="text-xl">1</span>
-              <StarIcon className="w-5 h-5 mt-1" />
+              <StarIcon className="w-5 h-5 mt-1" fill="yellow" />
             </div>
           </Button>
           <Progress className="mt-3" value={0} />

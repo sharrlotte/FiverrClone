@@ -29,3 +29,5 @@ export async function updateProfile(payload: UpdateProfileRequest) {
 
   return result.data;
 }
+
+

@@ -26,6 +26,7 @@ const links: LinkType[] = [
     links: [
       { name: 'Số Liệu', icon: <ChartBarSquareIcon className="w-6 h-6" />, href: '/admin/chart' },
       { name: 'Người Dùng', icon: <UserCircleIcon className="w-6 h-6" />, href: '/admin/users' },
+      { name: 'Vai trò', icon: <UserCircleIcon className="w-6 h-6" />, href: '/admin/roles' },
       {
         name: 'Thể Loại',
         icon: <TagIcon className="h-6 w-6" />,

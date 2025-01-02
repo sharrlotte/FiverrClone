@@ -30,7 +30,7 @@ export default function PostCard({ post: { id, title, isFavorite, user, starsCou
         </div>
         <h3 className="overflow-hidden w-full text-ellipsis text-nowrap">{title}</h3>
         <div className="flex text-lg gap-1">
-          <StarIcon className="w-6 h-6" />
+          <StarIcon className="w-6 h-6" fill="yellow" />
           <span className="font-semi">{calculateStar(starsCount, totalStars)}</span>
           <span>({starsCount})</span>
         </div>

@@ -18,8 +18,6 @@ export class CreatePostDto {
     minLength: 100,
     maxLength: 10000,
   })
-  @IsNotEmpty()
-  @MinLength(100)
   @MaxLength(10000)
   content: string;
 

@@ -23,6 +23,7 @@ export type Post = {
     username: string;
     avatar: string;
   };
+  isDeleted: boolean;
 };
 
 export type PostDetail = {
@@ -43,6 +44,7 @@ export type PostDetail = {
     about: string;
     welcomeMessage: string;
   };
+  isDeleted: boolean;
   packages: PackageResponse[];
 };
 
@@ -90,6 +92,18 @@ export async function createPost({ content, images, ...request }: CreatePostRequ
 
 export async function favoritePost(postId: number) {
   const result = await api.post(`/posts/${postId}/favorite`);
+
+  return result.data;
+}
+
+export async function disablePost(postId: number) {
+  const result = await api.delete(`/posts/${postId}`);
+
+  return result.data;
+}
+
+export async function enablePost(postId: number) {
+  const result = await api.post(`/posts/${postId}/enable`);
 
   return result.data;
 }

@@ -15,7 +15,7 @@ export default function Page() {
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['my-posts', 'posts', page],
+    queryKey: ['posts', 'my-posts', page],
     queryFn: () => getMyPost({ page, size: 40 }),
   });
 

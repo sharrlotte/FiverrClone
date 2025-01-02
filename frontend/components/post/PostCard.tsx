@@ -1,7 +1,8 @@
 import { Post } from '@/api/post.api';
+import DisableButton from '@/components/post/DisableButton';
 import FavoriteButton from '@/components/post/FavoriteButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { calculateStar } from '@/lib/utils';
+import { calculateStar, cn } from '@/lib/utils';
 import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,11 +12,12 @@ type Props = {
   post: Post;
 };
 
-export default function PostCard({ post: { id, title, isFavorite, user, starsCount, totalStars, images } }: Props) {
+export default function PostCard({ post: { id, title, isFavorite, user, starsCount, totalStars, images, isDeleted } }: Props) {
   images = images ?? [''];
 
   return (
-    <div className="flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg w-full h-[500px] min-h-[500px]">
+    <div className={cn('flex flex-col gap-2 relative overflow-hidden border shadow-md hover:shadow-xl bg-white rounded-lg w-full h-[500px] min-h-[500px]', { 'opacity-50 brightness-50': isDeleted })}>
+      <DisableButton className="absolute top-1 left-1" postId={id} isFavorite={isFavorite} isDeleted={isDeleted} />
       <FavoriteButton className="absolute top-1 right-1" postId={id} isFavorite={isFavorite} />
       <Link href={`/posts/${id}`}>
         <Image className="aspect-[3/2] w-full object-cover overflow-hidden" width={300} height={200} src={images[0]} alt={title} />

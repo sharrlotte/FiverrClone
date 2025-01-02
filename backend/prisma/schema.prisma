@@ -122,6 +122,7 @@ model Post {
     postImages            PostImage[]
     postTags              PostTag[]
     previews              Preview[]
+    isDeleted             Boolean               @default(false)
 }
 
 model PostCategory {

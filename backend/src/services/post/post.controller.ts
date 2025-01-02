@@ -61,4 +61,9 @@ export class PostController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.postService.remove(id);
   }
+
+  @Post(':id/enable')
+  enable(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.enable(id);
+  }
 }

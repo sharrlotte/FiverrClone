@@ -41,6 +41,7 @@ export class OrderService {
     const post = await this.prisma.post.findUnique({
       where: {
         id: postId,
+        isDeleted: false,
       },
       include: {
         user: true,
@@ -69,6 +70,13 @@ export class OrderService {
         revision: postPackage.revision,
         createdAt: new Date(),
         deliveryTime: new Date(),
+      },
+    });
+
+    await this.prisma.post.update({
+      where: { id: postId },
+      data: {
+        isDeleted: true,
       },
     });
 

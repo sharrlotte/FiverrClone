@@ -17,4 +17,10 @@ export class PostPaginationQueryDto extends PaginationQueryDto {
   @MaxLength(100)
   @IsEnum(postSort)
   sort?: PostSort;
+
+  @IsOptional()
+  categoryId?: string;
+
+  @IsOptional()
+  userId?: string;
 }

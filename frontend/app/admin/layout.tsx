@@ -26,6 +26,7 @@ const links: LinkType[] = [
     links: [
       { name: 'Số Liệu', icon: <ChartBarSquareIcon className="w-6 h-6" />, href: '/admin/chart' },
       { name: 'Người Dùng', icon: <UserCircleIcon className="w-6 h-6" />, href: '/admin/users' },
+      { name: 'Vai trò', icon: <UserCircleIcon className="w-6 h-6" />, href: '/admin/roles' },
       {
         name: 'Thể Loại',
         icon: <TagIcon className="h-6 w-6" />,
@@ -37,6 +38,10 @@ const links: LinkType[] = [
           {
             name: 'Loại kỹ năng',
             href: '/admin/skill-category',
+          },
+          {
+            name: 'Kỹ năng',
+            href: '/admin/skills',
           },
           {
             name: 'Nhãn',
@@ -121,7 +126,7 @@ export default async function Page({ children }: { children: ReactNode }) {
         </div>
         <div className="flex flex-col gap-2 w-full p-6 h-full overflow-hidden">
           <div className="py-2 gap-2 flex rounded-lg">
-            <Input className="block w-full h-10 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
+            <Input className="w-full h-10 p-2 overflow-hidden ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bạn đang tìm kiếm những gì ?" required />
             <UserSheet />
           </div>
           {children}

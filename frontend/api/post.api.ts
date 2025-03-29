@@ -23,6 +23,7 @@ export type Post = {
     username: string;
     avatar: string;
   };
+  isDeleted: boolean;
 };
 
 export type PostDetail = {
@@ -40,7 +41,10 @@ export type PostDetail = {
     id: number;
     username: string;
     avatar: string;
+    about: string;
+    welcomeMessage: string;
   };
+  isDeleted: boolean;
   packages: PackageResponse[];
 };
 
@@ -67,7 +71,7 @@ export async function getMyPostBrowsingHistory(request: GetPostRequest): Promise
   return result.data;
 }
 
-export async function createPost({ content, images, packages, ...request }: CreatePostRequest) {
+export async function createPost({ content, images, ...request }: CreatePostRequest) {
   const form = toFormData(
     {
       content: content.text,
@@ -75,13 +79,9 @@ export async function createPost({ content, images, packages, ...request }: Crea
     },
     new FormData(),
     {
-      dots: true,
+      indexes: true,
     },
   );
-
-  packages.forEach((packageData, index) => {
-    Object.entries(packageData).forEach(([key, value]) => form.append(`packages[${index}].${key}`, value));
-  });
 
   images.forEach((file) => form.append('images', file));
   content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));
@@ -92,6 +92,18 @@ export async function createPost({ content, images, packages, ...request }: Crea
 
 export async function favoritePost(postId: number) {
   const result = await api.post(`/posts/${postId}/favorite`);
+
+  return result.data;
+}
+
+export async function disablePost(postId: number) {
+  const result = await api.delete(`/posts/${postId}`);
+
+  return result.data;
+}
+
+export async function enablePost(postId: number) {
+  const result = await api.post(`/posts/${postId}/enable`);
 
   return result.data;
 }

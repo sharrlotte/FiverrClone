@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
 
 export class UpdateProfileDto {
   @ApiProperty({
@@ -9,14 +9,14 @@ export class UpdateProfileDto {
   @IsNotEmpty()
   @MinLength(4)
   @MaxLength(40)
+  @IsOptional()
   username: string;
 
   @ApiProperty({
     minLength: 10,
     maxLength: 100,
   })
-  @IsNotEmpty()
-  @MinLength(10)
-  @MaxLength(100)
+  @MaxLength(1000)
+  @IsOptional()
   about: string;
 }

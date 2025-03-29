@@ -36,6 +36,9 @@ export class PostResponse {
 
   @Expose()
   createdAt: Date;
+
+  @Expose()
+  isDeleted: boolean;
 }
 
 export class PostDetailResponse extends PostResponse {

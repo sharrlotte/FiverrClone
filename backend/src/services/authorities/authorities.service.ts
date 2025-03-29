@@ -25,4 +25,8 @@ export class AuthoritiesService implements OnModuleInit {
       });
     });
   }
+
+  findAll() {
+    return this.prismaService.authority.findMany();
+  }
 }

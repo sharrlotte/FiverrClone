@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function PostCardSkeleton() {
   return (
-    <div className="space-y-2 relative p-2">
+    <div className="space-y-2 relative p-2 min-h-[500px]">
       <Skeleton className="aspect-[3/2] w-full object-cover rounded-lg overflow-hidden" />
       <div className="space-y-2">
         <div>

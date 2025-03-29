@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^10.3.8",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
@@ -27,7 +28,9 @@
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/platform-socket.io": "^10.4.15",
     "@nestjs/swagger": "^7.3.1",
+    "@nestjs/websockets": "^10.4.15",
     "@types/passport": "^1.0.16",
     "@types/streamifier": "^0.1.2",
     "class-transformer": "^0.5.1",
@@ -36,17 +39,20 @@
     "cloudinary-build-url": "^0.2.4",
     "cookie-parser": "^1.4.6",
     "deep-parse-json": "^2.0.0",
+    "express": "^4.21.1",
     "express-session": "^1.18.0",
     "helmet": "^7.1.0",
     "lodash": "^4.17.21",
     "nestjs-form-data": "^1.9.7",
+    "nodemailer": "^6.9.16",
     "passport": "^0.7.0",
     "passport-github": "^1.1.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "prisma": "^5.13.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

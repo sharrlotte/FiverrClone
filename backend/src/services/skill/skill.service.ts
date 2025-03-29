@@ -14,7 +14,7 @@ export class SkillService {
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {
     const { categoryId } = createSkillDto;
 
-    const category = await this.prisma.skill.findUnique({ where: { id: categoryId } });
+    const category = await this.prisma.skillCategory.findUnique({ where: { id: categoryId } });
 
     if (!category) {
       throw new NotFound<typeof createSkillDto>('categoryId');

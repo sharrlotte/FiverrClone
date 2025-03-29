@@ -16,7 +16,7 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   @FormDataRequest()
   create(@Req() req: Request, @Body() createPostDto: CreatePostDto) {
@@ -26,14 +26,14 @@ export class PostController {
   }
 
   @Post(':id/favorite')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   favorite(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.postService.favorite(id, session);
   }
   @Post(':id/visit')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   visit(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
@@ -60,5 +60,10 @@ export class PostController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.postService.remove(id);
+  }
+
+  @Post(':id/enable')
+  enable(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.enable(id);
   }
 }

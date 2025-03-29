@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
@@ -112,19 +112,37 @@ export class PostService {
     }
   }
   async visit(id: number, session: SessionDto) {
-    return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { createdAt: new Date(), updatedAt: new Date() } });
+    return await this.prisma.postBrowsingHistory.upsert({ where: { userId_postId: { userId: session.id, postId: id }, post: { isDeleted: false } }, create: { postId: id, userId: session.id, createdAt: new Date(), updatedAt: new Date() }, update: { createdAt: new Date(), updatedAt: new Date() } });
   }
 
-  async findAll(session: SessionDto | null, { title, page, size, sort }: PostPaginationQueryDto): Promise<PostResponse[]> {
+  async findAll(session: SessionDto | null, { title, page, size, sort, categoryId, userId }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const sortBy: keyof Post = sort ?? 'createdAt';
 
+    let q = {};
+
+    if (categoryId) {
+      try {
+        q = { postCategories: { some: { categoryId: parseInt(categoryId) } } };
+      } catch {
+        throw new BadRequestException('Invalid category id');
+      }
+    }
+
+    if (userId) {
+      try {
+        q = { user: { id: parseInt(userId) } };
+      } catch {
+        throw new BadRequestException('Invalid category id');
+      }
+    }
+
     if (session) {
-      const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId: session.id } } } });
+      const result = await this.prisma.post.findMany({ where: { title: { contains: title }, ...q, isDeleted: false }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId: session.id } } } });
 
       return result.map(({ favoritePosts, postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: favoritePosts.length > 0, ...data }));
     }
 
-    const result = await this.prisma.post.findMany({ where: { title: { contains: title } }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
+    const result = await this.prisma.post.findMany({ where: { title: { contains: title }, ...q, isDeleted: false }, orderBy: { [sortBy]: 'desc' }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
     return result.map(({ postImages, ...data }) => ({ isFavorite: false, images: postImages.map((item) => item.link), ...data }));
   }
@@ -136,13 +154,13 @@ export class PostService {
   }
   async findAllByMeFavorite(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.post.findMany({ orderBy: { createdAt: 'desc' }, where: { title: { contains: title }, favoritePosts: { some: { userId } } }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
+    const result = await this.prisma.post.findMany({ orderBy: { createdAt: 'desc' }, where: { title: { contains: title }, favoritePosts: { some: { userId } }, isDeleted: false }, take: size, skip: size * (page - 1), include: { user: true, postImages: { select: { link: true } } } });
 
     return result.map(({ postImages, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: true, ...data }));
   }
   async findAllByMeBrowsingHistory(session: SessionDto, { title, page, size }: PostPaginationQueryDto): Promise<PostResponse[]> {
     const userId = session.id;
-    const result = await this.prisma.postBrowsingHistory.findMany({ orderBy: { createdAt: 'desc' }, where: { post: { title: { contains: title } } }, select: { post: { include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
+    const result = await this.prisma.postBrowsingHistory.findMany({ orderBy: { createdAt: 'desc' }, where: { post: { title: { contains: title }, isDeleted: false } }, select: { post: { include: { postImages: { select: { link: true } }, user: true, favoritePosts: { where: { userId } } } } }, take: size, skip: size * (page - 1) });
 
     return result.map(({ post: { postImages, ...post }, ...data }) => ({ images: postImages.map((item) => item.link), isFavorite: post.favoritePosts.length > 0, ...post, ...data }));
   }
@@ -179,12 +197,13 @@ export class PostService {
   }
 
   async remove(id: number) {
-    const result = await this.prisma.post.deleteMany({ where: { id } });
+    const result = await this.prisma.post.update({ where: { id }, data: { isDeleted: true } });
 
-    if (result.count === 0) {
-      throw new NotFound('id');
-    }
+    return result;
+  }
+  async enable(id: number) {
+    const result = await this.prisma.post.update({ where: { id }, data: { isDeleted: false } });
 
-    return id;
+    return result;
   }
 }

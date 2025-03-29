@@ -7,6 +7,30 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model ChatRoom {
+    id        Int      @id @default(autoincrement())
+    userId1   Int
+    user1     User     @relation(name: "chatroom1", fields: [userId1], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    userId2   Int
+    user2     User     @relation(name: "chatroom2", fields: [userId2], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    createdAt DateTime @db.Timestamp(6)
+    updatedAt DateTime @db.Timestamp(6)
+
+    chat Chat[]
+
+    @@unique(name: "user_map", [userId1, userId2])
+}
+
+model Chat {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    roomId    Int
+    room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    content   String
+    createdAt DateTime @db.Timestamp(6)
+}
+
 model Account {
     id         Int       @id @default(autoincrement())
     userId     Int
@@ -68,7 +92,7 @@ model Package {
     description  String
     revision     Int          @default(0)
     deliveryTime Int          @default(0)
-    durationType DurationType @default(Day)
+    durationType DurationType @default(HOUR)
     price        BigInt       @default(0)
     special      Json?        @db.Json
     updatedAt    DateTime?    @db.Timestamp(6)
@@ -98,6 +122,7 @@ model Post {
     postImages            PostImage[]
     postTags              PostTag[]
     previews              Preview[]
+    isDeleted             Boolean               @default(false)
 }
 
 model PostCategory {
@@ -178,7 +203,9 @@ model User {
     about               String
     updatedAt           DateTime?             @db.Timestamp(6)
     createdAt           DateTime              @db.Timestamp(6)
+    welcomeMessage      String                @default("")
     avatar              String?
+    email               String?
     accounts            Account[]
     favoritePosts       FavoritePost[]
     posts               Post[]
@@ -187,7 +214,12 @@ model User {
     roles               UserRole[]
     postBrowsingHistory PostBrowsingHistory[]
     userSkill           UserSkill[]
-    Order               Order[]
+    order               Order[]
+    chat                Chat[]
+
+    chatRoom1 ChatRoom[] @relation(name: "chatroom1")
+
+    chatRoom2 ChatRoom[] @relation(name: "chatroom2")
 }
 
 model UserAuthority {
@@ -246,7 +278,7 @@ model Order {
     revision     Int         @default(0)
     deliveryTime DateTime    @db.Time(6)
     price        BigInt      @default(0)
-    status       OrderStatus @default(Pending)
+    status       OrderStatus @default(PENDING)
     createdAt    DateTime    @db.Timestamp(6)
     post         Post        @relation(fields: [postId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     user         User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -299,17 +331,16 @@ model SkillCategory {
 }
 
 enum OrderStatus {
-    Pending
-    Accepted
-    Rejected
-    Cancelled
-    Finished
+    PENDING
+    ACCEPTED
+    REJECTED
+    CANCELLED
+    FINISHED
+    RESULT_ACCEPTED
+    RESULT_REJECTED
 }
 
 enum DurationType {
-    Hour
-    Day
-    Week
-    Month
-    Year
+    HOUR
+    DAY
 }

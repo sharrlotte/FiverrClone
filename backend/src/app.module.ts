@@ -19,6 +19,10 @@ import { OrderModule } from './services/order/order.module';
 import { PackagesModule } from './services/packages/packages.module';
 import { AuthoritiesModule } from './services/authorities/authorities.module';
 import { RoleAuthoritiesModule } from './services/role-authorities/role-authorities.module';
+import { ChatModule } from './services/chat/chat.module';
+import { ChatRoomModule } from './services/chat-room/chat-room.module';
+import { SocketModule } from './services/socket/socket.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -46,6 +50,10 @@ import { RoleAuthoritiesModule } from './services/role-authorities/role-authorit
     PackagesModule,
     AuthoritiesModule,
     RoleAuthoritiesModule,
+    ChatModule,
+    ChatRoomModule,
+    SocketModule,
+    MailModule,
     ],
   providers: [CloudinaryService],
 })

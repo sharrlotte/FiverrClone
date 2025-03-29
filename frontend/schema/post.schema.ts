@@ -19,7 +19,7 @@ export const createPackageSchema = z.object({
   revision: z.coerce.number({ message: 'Số lần phải là số' }).int().min(0, { message: 'Số lần sửa ít nhất là 0' }),
   deliveryTime: z.coerce.number({ message: 'Thời gian phải là số' }).min(1, { message: 'Thời gian phải lớn hơn 0' }),
   durationType: z.enum(durationTypes),
-  price: z.coerce.number({ message: 'Giá phải là số nguyên' }).int({ message: 'Giá phải là số nguyên' }).min(100000, { message: 'Giá phải lớn hơn 100000' }),
+  price: z.coerce.number({ message: 'Giá phải là số nguyên' }).int({ message: 'Giá phải là số nguyên' }).min(10000, { message: 'Giá phải lớn hơn 10000' }),
 });
 
 export type CreatePackageRequest = z.infer<typeof createPackageSchema>;
@@ -35,7 +35,8 @@ export const createPostSchema = z.object({
   content: z.object({
     text: z
       .string() //
-      .max(10000, { message: 'Nộ dung phải ít hơn 10000 kí tự' }),
+      .max(10000, { message: 'Nộ dung phải ít hơn 10000 kí tự' })
+      .default(''),
     images: z.array(z.any()),
   }),
 
@@ -58,6 +59,8 @@ export const getPostSchema = z.object({
   page: z.number().min(1),
   size: z.number().max(50),
   sort: z.enum(['favorites']).optional(),
+  categoryId: z.number().optional(),
+  userId: z.number().optional(),
 });
 
 export type GetPostRequest = z.infer<typeof getPostSchema>;

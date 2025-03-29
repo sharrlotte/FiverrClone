@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Rubik as Font } from 'next/font/google';
+import { Roboto as Font } from 'next/font/google';
 import QueryProvider from './query-provider';
 
 import { Toaster } from '@/components/ui/toaster';
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="antialiased">
+    <html lang="en" className="antialiased relative">
       <body className={inter.className}>
         <Toaster />
         <NextTopLoader height={2} showSpinner={false} color="blue" />

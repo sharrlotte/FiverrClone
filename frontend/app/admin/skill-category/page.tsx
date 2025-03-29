@@ -119,7 +119,7 @@ export default function Page() {
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} className="px-4">
+                      <TableHead key={header.id} className="px-2">
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     );
@@ -151,7 +151,7 @@ export default function Page() {
         <div className="flex-1 text-sm text-muted-foreground text-nowrap">
           Đã chọn {table.getFilteredSelectedRowModel().rows.length} trên {table.getFilteredRowModel().rows.length} dòng.
         </div>
-        <PageSelector className="justify-end" defaultPage={1} maxPage={100} enabled={!isPending} />
+        <PageSelector className="justify-end" defaultPage={1} maxPage={100} size={20} currentSize={data ? data.length : 0} enabled={!isPending} />
       </div>
     </div>
   );

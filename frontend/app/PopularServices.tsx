@@ -8,24 +8,29 @@ import PostCard from '@/components/post/PostCard';
 import PostCardSkeleton from '@/components/post/PostCardSkeleton';
 import Link from 'next/link';
 
-export default function PopularServices() {
+type Props = {
+  userId?: number;
+  className?: string;
+};
+
+export default function PopularServices({ className, userId }: Props) {
   const { data, isPending } = useQuery({
-    queryKey: ['posts', 'popular-service', 0],
-    queryFn: () => getPosts({ page: 1, size: 12, sort: 'favorites' }),
+    queryKey: ['posts', 'popular-service', 0, userId],
+    queryFn: () => getPosts({ page: 1, size: 12, sort: 'favorites', userId }),
   });
 
   return (
-    <div>
+    <div className={className}>
       <Carousel className="w-full">
         <CarouselContent className="relative">
           {isPending
             ? new Array(12).fill(1).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80">
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80 w-full">
                   <PostCardSkeleton />
                 </CarouselItem>
               ))
             : data?.map((post) => (
-                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full hover:opacity-80">
+                <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3 sm:basis-full xl:basis-1/4 hover:opacity-80 w-full">
                   <PostCard post={post} />
                 </CarouselItem>
               ))}

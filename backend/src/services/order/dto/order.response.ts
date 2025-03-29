@@ -32,6 +32,9 @@ export class OrderResponse {
 
   @Expose()
   status: OrderStatus;
+
+  @Expose()
+  user: UserResponse;
 }
 
 export class OrderDetailResponse extends OrderResponse {

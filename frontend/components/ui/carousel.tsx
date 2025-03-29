@@ -115,7 +115,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
         canScrollNext,
       }}
     >
-      <div ref={ref} onKeyDownCapture={handleKeyDown} className={cn('relative', className)} role="region" aria-roledescription="carousel" {...props}>
+      <div ref={ref} onKeyDownCapture={handleKeyDown} className={cn('relative rounded-lg', className)} role="region" aria-roledescription="carousel" {...props}>
         {children}
       </div>
     </CarouselContext.Provider>
@@ -127,7 +127,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
   const { carouselRef, orientation } = useCarousel();
 
   return (
-    <div ref={carouselRef} className="overflow-hidden w-full h-full">
+    <div ref={carouselRef} className="overflow-hidden w-full h-full rounded-lg">
       <div ref={ref} className={cn('flex', orientation === 'horizontal' ? '' : '-mt-4 flex-col', className)} {...props} />
     </div>
   );
@@ -137,7 +137,7 @@ CarouselContent.displayName = 'CarouselContent';
 const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => {
   const { orientation } = useCarousel();
 
-  return <div ref={ref} role="group" aria-roledescription="slide" className={cn('min-w-0 rounded-2xl overflow-hidden shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-1' : 'pt-1', className)} {...props} />;
+  return <div ref={ref} role="group" aria-roledescription="slide" className={cn('min-w-0 rounded-2xl overflow-hidden shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-2' : 'pt-2', className)} {...props} />;
 });
 CarouselItem.displayName = 'CarouselItem';
 

@@ -1,17 +1,18 @@
 import { Package } from '@/api/post.api';
-import { translateDuration } from '@/lib/utils';
+import { cn, translateDuration } from '@/lib/utils';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 type Props = {
+  className?: string;
   data: Package;
 };
 
-export default function PackageCard({ data: { title, description, price, revision, deliveryTime, durationType } }: Props) {
+export default function PackageCard({ className, data: { title, description, price, revision, deliveryTime, durationType } }: Props) {
   return (
-    <div className="border-2 rounded-md p-6 min-w-[400px] max-w-[500px] w-full bg-white">
+    <div className={cn('border-2 rounded-md p-6 min-w-[400px] max-w-[500px] w-full bg-white', className)}>
       <div className="flex gap-2 justify-between items-end font-semibold pr-1">
-        <h3>{title}</h3>
+        <span>{title}</span>
         <span>{price}VNĐ</span>
       </div>
       <div className="pt-4">{description}</div>

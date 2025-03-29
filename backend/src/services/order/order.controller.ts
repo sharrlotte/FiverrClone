@@ -14,7 +14,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   create(@Body() createOrderDto: CreateOrderDto, @Req() req: Request) {
     const session = getSession(req);
@@ -22,7 +22,7 @@ export class OrderController {
   }
 
   @Get()
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findAll(@Query() query: PaginationQueryDto, @Req() req: Request) {
     const session = getSession(req);
@@ -30,44 +30,60 @@ export class OrderController {
   }
 
   @Get(':id')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.orderService.findOne(id);
   }
   @Post(':id/cancel')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   cancel(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.orderService.cancel(session, id);
   }
   @Post(':id/reject')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   reject(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.orderService.reject(session, id);
   }
   @Post(':id/accept')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   accept(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.orderService.accept(session, id);
   }
   @Post(':id/finish')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   finish(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.orderService.finish(session, id);
   }
   @Post(':id/sellerCancel')
-  @Roles(['USER'])
+  @Roles([])
   @UseGuards(RolesGuard)
   sellerCancel(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
     const session = getSession(req);
     return this.orderService.sellerCancel(session, id);
+  }
+
+  @Post(':id/resultAccept')
+  @Roles([])
+  @UseGuards(RolesGuard)
+  resultAccept(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const session = getSession(req);
+    return this.orderService.resultAccept(session, id);
+  }
+
+  @Post(':id/resultReject')
+  @Roles([])
+  @UseGuards(RolesGuard)
+  resultReject(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const session = getSession(req);
+    return this.orderService.resultReject(session, id);
   }
 }

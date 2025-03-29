@@ -9,4 +9,7 @@ export class SkillResponse {
 
   @Expose()
   description: string;
+
+  @Expose()
+  categoryId: string;
 }

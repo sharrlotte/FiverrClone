@@ -18,7 +18,7 @@ export interface AppConfig {
 export default () => ({
   port: parseInt(process.env.PORT || '8080'),
   url: {
-    frontend: 'http://localhost:3000',
+    frontend: process.env.FRONTEND_URL as string,
   },
   auth: {
     jwt: {

@@ -14,8 +14,7 @@ export class AuthMiddleware implements NestMiddleware {
     const token = req?.headers?.authorization;
 
     if (!token) {
-      //@ts-expect-error This is not an error
-      request['user'] = null;
+      req['user'] = null;
       return next();
     }
     try {
@@ -23,8 +22,7 @@ export class AuthMiddleware implements NestMiddleware {
         secret: this.configService.get<string>('auth.jwt.secret'),
       });
 
-      //@ts-ignore
-      request['user'] = { ...payload, id: +sub };
+      req['user'] = { ...payload, id: +sub };
     } catch (error) {
       //TODO: Secure
       res.clearCookie('jwt');

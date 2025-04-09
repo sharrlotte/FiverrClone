@@ -1,6 +1,5 @@
 import NavLink from '@/app/admin/NavLink';
 import ProtectedRoute from '@/components/layout/protected-route';
-import { getSession } from '@/api/auth-server.api';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ChartBarSquareIcon, FlagIcon, Squares2X2Icon, TagIcon, UserCircleIcon } from '@heroicons/react/24/outline';
@@ -75,10 +74,8 @@ const links: LinkType[] = [
 ];
 
 export default async function Page({ children }: { children: ReactNode }) {
-  const session = await getSession();
-
   return (
-    <ProtectedRoute session={session} filter={{ any: [{ role: 'ADMIN' }, { authority: 'MANAGE_USER' }] }}>
+    <ProtectedRoute filter={{ any: [{ role: 'ADMIN' }, { authority: 'MANAGE_USER' }] }}>
       <div className="flex divide-x h-dvh overflow-hidden">
         <div className="text-nowrap min-w-64 h-full justify-between flex flex-col space-y-20 p-4 rounded-xl shadow-xl">
           <div>

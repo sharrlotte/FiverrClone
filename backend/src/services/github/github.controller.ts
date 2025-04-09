@@ -31,6 +31,6 @@ export class GithubOauthController {
     // TODO: Redirect to last page
     res.cookie('jwt', accessToken, { httpOnly: true, secure: false });
 
-    return res.redirect(`${this.configService.get('url.frontend')}`);
+    return res.redirect(`${this.configService.get('url.frontend')}?token=${accessToken}`);
   }
 }

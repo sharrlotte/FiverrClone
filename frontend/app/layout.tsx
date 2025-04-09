@@ -8,6 +8,7 @@ import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
 import { SessionProvider } from '@/context/SessionContext';
 import VerifyAccountChecker from '@/app/VerifyAccountCheck';
+import TokenExtractor from '@/app/TokenExtractor';
 
 const inter = Font({ subsets: ['latin'], weight: '400' });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className={inter.className}>
+        <TokenExtractor />
         <Toaster />
         <NextTopLoader height={2} showSpinner={false} color="blue" />
         <SessionProvider>

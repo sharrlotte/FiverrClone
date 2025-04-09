@@ -1,12 +1,13 @@
+'use client';
+
 import React, { ReactNode } from 'react';
 
 import { Filter, hasAccess } from '@/lib/utils';
-import { Session } from '@/schema/user.schema';
+import { useSession } from '@/context/SessionContext';
 
 type Props = {
   filter: Filter;
   children: ReactNode;
-  session: Session | null;
 };
 
 function NoPermission() {
@@ -17,7 +18,11 @@ function NoPermission() {
   );
 }
 
-export default function ProtectedRoute({ filter, children, session }: Props) {
+export default function ProtectedRoute({ filter, children }: Props) {
+  const { session, state } = useSession();
+
+  if (state === 'loading') return <p>Đang tải...</p>;
+
   if (!session || session.roles === undefined || session.roles === null) return <p>Đăng nhập để tếp tục</p>;
 
   const canAccess = hasAccess(session, filter);

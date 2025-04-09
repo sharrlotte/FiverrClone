@@ -1,5 +1,6 @@
-import { getAuthSession } from '@/api/auth-server.api';
-import { getProfile } from '@/api/user.server-api';
+'use client';
+
+import { getMyProfile } from '@/api/user.server-api';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -9,12 +10,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import React from 'react';
 
-export default async function page() {
-  const session = await getAuthSession();
-  const profile = await getProfile(session.id);
+export default function Page() {
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const res = await getMyProfile();
+      return res;
+    },
+  });
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex h-full overflow-auto p-4">

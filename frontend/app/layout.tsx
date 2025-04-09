@@ -9,6 +9,7 @@ import './globals.css';
 import { SessionProvider } from '@/context/SessionContext';
 import VerifyAccountChecker from '@/app/VerifyAccountCheck';
 import TokenExtractor from '@/app/TokenExtractor';
+import { Suspense } from 'react';
 
 const inter = Font({ subsets: ['latin'], weight: '400' });
 
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className={inter.className}>
-        <TokenExtractor />
+        <Suspense>
+          <TokenExtractor />
+        </Suspense>
         <Toaster />
         <NextTopLoader height={2} showSpinner={false} color="blue" />
         <SessionProvider>

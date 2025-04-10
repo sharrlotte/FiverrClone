@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthProvider } from 'src/types/auth';
 
-import { Prisma, User } from '@prisma/client';
+import { OrderStatus, Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import NotFound from 'src/error/NotFound';
 import { UserProfileResponse } from 'src/services/users/dto/user.response';
@@ -124,11 +124,12 @@ export class UsersService {
       where: {
         userId: session.id,
         status: {
-          in: status,
+          in: status ? (Array.isArray(status) ? status : [status]) : [],
         },
       },
       include: {
         package: true,
+        user: true,
         post: {
           select: {
             id: true,

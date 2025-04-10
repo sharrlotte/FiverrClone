@@ -64,13 +64,14 @@ export class OrderService {
     const result = await this.prisma.order.findMany({
       where: {
         status: {
-          in: status,
+          in: status ? (Array.isArray(status) ? status : [status]) : [],
         },
         post: {
           userId: session.id,
         },
       },
       include: {
+        user: true,
         package: true,
         post: {
           select: {

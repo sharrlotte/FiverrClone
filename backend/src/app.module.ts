@@ -46,7 +46,7 @@ import { RoleAuthoritiesModule } from './services/role-authorities/role-authorit
     PackagesModule,
     AuthoritiesModule,
     RoleAuthoritiesModule,
-    ],
+  ],
   providers: [CloudinaryService],
 })
 export class AppModule implements NestModule {

@@ -24,7 +24,7 @@ import React, { useState } from 'react';
 export default function Page() {
   const params = useSearchParams();
   const page = searchParamsSchema.parse(Object.fromEntries(params)).page;
-  const [filter, setFilter] = useState<OrderStatus[]>(['PENDING']);
+  const [filter, setFilter] = useState<OrderStatus[]>(['Pending']);
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', 'posts', page, filter],
@@ -73,17 +73,17 @@ export default function Page() {
                   <TableCell>
                     <Link className="flex gap-1 items-center" href={`/posts/${order.post.id}`}>
                       <Avatar>
-                        <AvatarImage src={order.user.avatar} />
+                        <AvatarImage src={order.post.user.avatar} />
                       </Avatar>
-                      {order.user.username}
+                      {order.post.user.username}
                       <SquareArrowOutUpRightIcon className="h-4 w-4" />
                     </Link>
                   </TableCell>
-                  <TableCell>{order.packageData.title}</TableCell>
-                  <TableCell>{order.status === 'ACCEPTED' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
+                  <TableCell>{order.package.title}</TableCell>
+                  <TableCell>{order.status === 'Accepted' ? new Date(order.deliveryTime).toLocaleString() : ''}</TableCell>
                   <TableCell>{translateOrderStatus(order.status)}</TableCell>
                   <TableCell>
-                    {(order.status === 'ACCEPTED' || order.status === 'PENDING') && (
+                    {(order.status === 'Accepted' || order.status === 'Pending') && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -92,13 +92,13 @@ export default function Page() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="space-y-2">
-                          {order.status === 'ACCEPTED' && (
+                          {order.status === 'Accepted' && (
                             <>
                               <SellerCancelOrderButton order={order} />
                               <FinishOrderButton order={order} />
                             </>
                           )}
-                          {order.status === 'PENDING' && (
+                          {order.status === 'Pending' && (
                             <>
                               <AcceptOrderButton order={order} />
                               <RejectOrderButton order={order} />

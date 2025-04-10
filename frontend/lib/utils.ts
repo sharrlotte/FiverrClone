@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
 export type Filter =
   | {
       all: Filter[];
@@ -76,19 +75,19 @@ export function translateDuration(duration: DurationType) {
 }
 export function translateOrderStatus(status: OrderStatus) {
   switch (status) {
-    case 'PENDING':
+    case 'Pending':
       return 'Đang chờ';
 
-    case 'ACCEPTED':
+    case 'Accepted':
       return 'Đã nhận';
 
-    case 'REJECTED':
+    case 'Rejected':
       return 'Đã từ chối';
 
-    case 'CANCELLED':
+    case 'Cancelled':
       return 'Đã hủy';
 
-    case 'FINISHED':
+    case 'Finished':
       return 'Đã hoàn thành';
 
     default:

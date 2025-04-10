@@ -75,7 +75,9 @@ export async function createPost({ content, images, packages, ...request }: Crea
     },
     new FormData(),
     {
-      dots: true,
+      dots: false,
+      indexes: false,
+      metaTokens: true,
     },
   );
 
@@ -86,7 +88,7 @@ export async function createPost({ content, images, packages, ...request }: Crea
   images.forEach((file) => form.append('images', file));
   content.images.forEach(({ file, url }) => form.append('markdownImages', file, url));
 
-  const result = await api.post('/posts', form);
+  const result = await api.post('/posts', form, { data: form });
   return result.data;
 }
 

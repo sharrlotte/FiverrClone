@@ -1,5 +1,6 @@
-import { getPost, visitPost } from '@/api/post.server-api';
+import { getPost } from '@/api/post.server-api';
 import PostOrderButton from '@/app/(everyone)/posts/[id]/PostOrderButton';
+import Visit from '@/app/(everyone)/posts/[id]/Visist';
 import FavoriteButton from '@/components/post/FavoriteButton';
 import PackageCard from '@/components/post/PackageCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,10 +23,10 @@ type Props = {
 export default async function Page({ params: { id } }: Props) {
   const post = await getPost(id);
   const { title, starsCount, totalStars, user, images, content, packages, isFavorite } = post;
-  visitPost(id);
 
   return (
     <div className="h-full md:px-[200px] space-y-2 overflow-y-auto w-full overflow-x-hidden mt-10 relative">
+      <Visit id={id} />
       <div className="grid grid-cols-[1fr,500px] relative">
         <div className="space-y-4 overflow-x-hidden">
           <h1 className="text-wrap">{title}</h1>

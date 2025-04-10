@@ -4,7 +4,7 @@ import { PostOrderRequest, GetPostRequest } from '@/schema/post.schema';
 
 export type PostInOrderResponse = Pick<Post, 'title' | 'id' | 'createdAt' | 'user'>;
 
-export const orderStatuses = ['PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'FINISHED'] as const;
+export const orderStatuses = ['Pending', 'Accepted', 'Rejected', 'Cancelled', 'Finished'] as const;
 
 export type OrderStatus = (typeof orderStatuses)[number];
 
@@ -12,7 +12,7 @@ export type Order = {
   id: number;
   postId: number;
   post: PostInOrderResponse;
-  packageData: Package;
+  package: Package;
   deliveryTime: number;
   status: OrderStatus;
   user: { username: string; avatar: string; id: string };
